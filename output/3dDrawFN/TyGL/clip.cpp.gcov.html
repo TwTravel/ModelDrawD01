@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - 3dDrawFN/TyGL/clip.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">3dDrawFN/TyGL</a> - clip.cpp<span style="font-size: 80%;"> (source / <a href="clip.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">100</td>
+            <td class="headerCovTableEntry">118</td>
+            <td class="headerCovTableEntryMed">84.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-12-17 03:55:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryMed">81.8 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;zgl.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : /* fill triangle profile */
+<span class="lineNum">       4 </span>            : /* #define PROFILE */
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : #define CLIP_XMIN   (1&lt;&lt;0)
+<span class="lineNum">       7 </span>            : #define CLIP_XMAX   (1&lt;&lt;1)
+<span class="lineNum">       8 </span>            : #define CLIP_YMIN   (1&lt;&lt;2)
+<span class="lineNum">       9 </span>            : #define CLIP_YMAX   (1&lt;&lt;3)
+<span class="lineNum">      10 </span>            : #define CLIP_ZMIN   (1&lt;&lt;4)
+<a name="11"><span class="lineNum">      11 </span>            : #define CLIP_ZMAX   (1&lt;&lt;5)</a>
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span><span class="lineCov">     218138 : void gl_transform_to_viewport(GLContext *c,GLVertex *v)</span>
+<span class="lineNum">      14 </span>            : {
+<span class="lineNum">      15 </span>            :   float winv;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            :   /* coordinates */
+<span class="lineNum">      18 </span><span class="lineCov">     218138 :   winv=1.0/v-&gt;pc.W;</span>
+<span class="lineNum">      19 </span><span class="lineCov">     218138 :   v-&gt;zp.x= (int) ( v-&gt;pc.X * winv * c-&gt;viewport.scale.X </span>
+<span class="lineNum">      20 </span><span class="lineCov">     218138 :                    + c-&gt;viewport.trans.X );</span>
+<span class="lineNum">      21 </span><span class="lineCov">     218138 :   v-&gt;zp.y= (int) ( v-&gt;pc.Y * winv * c-&gt;viewport.scale.Y </span>
+<span class="lineNum">      22 </span><span class="lineCov">     218138 :                    + c-&gt;viewport.trans.Y );</span>
+<span class="lineNum">      23 </span><span class="lineCov">     218138 :   v-&gt;zp.z= (int) ( v-&gt;pc.Z * winv * c-&gt;viewport.scale.Z </span>
+<span class="lineNum">      24 </span><span class="lineCov">     218138 :                    + c-&gt;viewport.trans.Z );</span>
+<span class="lineNum">      25 </span>            :   /* color */
+<span class="lineNum">      26 </span><span class="lineCov">     218138 :   if (c-&gt;lighting_enabled) {</span>
+<span class="lineNum">      27 </span><span class="lineCov">     218138 :       v-&gt;zp.r=(int)(v-&gt;color.v[0] * (ZB_POINT_RED_MAX - ZB_POINT_RED_MIN) </span>
+<span class="lineNum">      28 </span><span class="lineCov">     218138 :                     + ZB_POINT_RED_MIN);</span>
+<span class="lineNum">      29 </span><span class="lineCov">     218138 :       v-&gt;zp.g=(int)(v-&gt;color.v[1] * (ZB_POINT_GREEN_MAX - ZB_POINT_GREEN_MIN) </span>
+<span class="lineNum">      30 </span><span class="lineCov">     218138 :                     + ZB_POINT_GREEN_MIN);</span>
+<span class="lineNum">      31 </span><span class="lineCov">     218138 :       v-&gt;zp.b=(int)(v-&gt;color.v[2] * (ZB_POINT_BLUE_MAX - ZB_POINT_BLUE_MIN) </span>
+<span class="lineNum">      32 </span><span class="lineCov">     218138 :                     + ZB_POINT_BLUE_MIN);</span>
+<span class="lineNum">      33 </span>            :   } else {
+<span class="lineNum">      34 </span>            :       /* no need to convert to integer if no lighting : take current color */
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :       v-&gt;zp.r = c-&gt;longcurrent_color[0];</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :       v-&gt;zp.g = c-&gt;longcurrent_color[1];</span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :       v-&gt;zp.b = c-&gt;longcurrent_color[2];</span>
+<span class="lineNum">      38 </span>            :   }
+<span class="lineNum">      39 </span>            :   
+<span class="lineNum">      40 </span>            :   /* texture */
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span><span class="lineCov">     218138 :   if (c-&gt;texture_2d_enabled) {</span>
+<span class="lineNum">      43 </span><span class="lineCov">       9558 :     v-&gt;zp.s=(int)(v-&gt;tex_coord.X * (ZB_POINT_S_MAX - ZB_POINT_S_MIN) </span>
+<span class="lineNum">      44 </span><span class="lineCov">       9558 :                   + ZB_POINT_S_MIN);</span>
+<span class="lineNum">      45 </span><span class="lineCov">       9558 :     v-&gt;zp.t=(int)(v-&gt;tex_coord.Y * (ZB_POINT_T_MAX - ZB_POINT_T_MIN) </span>
+<span class="lineNum">      46 </span><span class="lineCov">       9558 :                   + ZB_POINT_T_MIN);</span>
+<span class="lineNum">      47 </span>            :   }
+<span class="lineNum">      48 </span><span class="lineCov">     218138 : }</span>
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :  /* triangle */
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            : /*
+<span class="lineNum">      54 </span>            :  * Clipping
+<span class="lineNum">      55 </span>            :  */
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            : /* We clip the segment [a,b] against the 6 planes of the normal volume.
+<span class="lineNum">      58 </span>            :  * We compute the point 'c' of intersection and the value of the parameter 't'
+<span class="lineNum">      59 </span>            :  * of the intersection if x=a+t(b-a). 
+<span class="lineNum">      60 </span>            :  */
+<span class="lineNum">      61 </span>            :          
+<span class="lineNum">      62 </span>            : #define clip_func(name,sign,dir,dir1,dir2) \
+<span class="lineNum">      63 </span>            : static float name(V4 *c,V4 *a,V4 *b) \
+<span class="lineNum">      64 </span>            : {\
+<span class="lineNum">      65 </span>            :   float t,dX,dY,dZ,dW,den;\
+<span class="lineNum">      66 </span>            :   dX = (b-&gt;X - a-&gt;X);\
+<span class="lineNum">      67 </span>            :   dY = (b-&gt;Y - a-&gt;Y);\
+<span class="lineNum">      68 </span>            :   dZ = (b-&gt;Z - a-&gt;Z);\
+<span class="lineNum">      69 </span>            :   dW = (b-&gt;W - a-&gt;W);\
+<span class="lineNum">      70 </span>            :   den = -(sign d ## dir) + dW;\
+<span class="lineNum">      71 </span>            :   if (den == 0) t=0;\
+<span class="lineNum">      72 </span>            :   else t = ( sign a-&gt;dir - a-&gt;W) / den;\
+<span class="lineNum">      73 </span>            :   c-&gt;dir1 = a-&gt;dir1 + t * d ## dir1;\
+<span class="lineNum">      74 </span>            :   c-&gt;dir2 = a-&gt;dir2 + t * d ## dir2;\
+<span class="lineNum">      75 </span>            :   c-&gt;W = a-&gt;W + t * dW;\
+<span class="lineNum">      76 </span>            :   c-&gt;dir = sign c-&gt;W;\
+<span class="lineNum">      77 </span>            :   return t;\
+<span class="lineNum">      78 </span>            : }
+<a name="79"><span class="lineNum">      79 </span>            : </a>
+<span class="lineNum">      80 </span>            : 
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">         72 : clip_func(clip_xmin,-,X,Y,Z)</span></a>
+<span class="lineNum">      82 </span>            : 
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">        138 : clip_func(clip_xmax,+,X,Y,Z)</span></a>
+<span class="lineNum">      84 </span>            : 
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">         40 : clip_func(clip_ymin,-,Y,X,Z)</span></a>
+<span class="lineNum">      86 </span>            : 
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">         64 : clip_func(clip_ymax,+,Y,X,Z)</span></a>
+<a name="88"><span class="lineNum">      88 </span>            : </a>
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 : clip_func(clip_zmin,-,Z,X,Y)</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 : clip_func(clip_zmax,+,Z,X,Y)</span>
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            : float (*clip_proc[6])(V4 *,V4 *,V4 *)=  {
+<span class="lineNum">      94 </span>            :     clip_xmin,clip_xmax,
+<span class="lineNum">      95 </span>            :     clip_ymin,clip_ymax,
+<span class="lineNum">      96 </span>            :     clip_zmin,clip_zmax
+<a name="97"><span class="lineNum">      97 </span>            : };</a>
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span><span class="lineCov">        314 : static inline void updateTmp(GLContext *c,</span>
+<span class="lineNum">     100 </span>            :                              GLVertex *q,GLVertex *p0,GLVertex *p1,float t)
+<span class="lineNum">     101 </span>            : {
+<span class="lineNum">     102 </span><span class="lineCov">        314 :   if (c-&gt;current_shade_model == GL_SMOOTH) {</span>
+<span class="lineNum">     103 </span><span class="lineCov">        314 :     q-&gt;color.v[0]=p0-&gt;color.v[0] + (p1-&gt;color.v[0]-p0-&gt;color.v[0])*t;</span>
+<span class="lineNum">     104 </span><span class="lineCov">        314 :     q-&gt;color.v[1]=p0-&gt;color.v[1] + (p1-&gt;color.v[1]-p0-&gt;color.v[1])*t;</span>
+<span class="lineNum">     105 </span><span class="lineCov">        314 :     q-&gt;color.v[2]=p0-&gt;color.v[2] + (p1-&gt;color.v[2]-p0-&gt;color.v[2])*t;</span>
+<span class="lineNum">     106 </span>            :   } else {
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :     q-&gt;color.v[0]=p0-&gt;color.v[0];</span>
+<span class="lineNum">     108 </span><span class="lineNoCov">          0 :     q-&gt;color.v[1]=p0-&gt;color.v[1];</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :     q-&gt;color.v[2]=p0-&gt;color.v[2];</span>
+<span class="lineNum">     110 </span>            :   }
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span><span class="lineCov">        314 :   if (c-&gt;texture_2d_enabled) {</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :     q-&gt;tex_coord.X=p0-&gt;tex_coord.X + (p1-&gt;tex_coord.X-p0-&gt;tex_coord.X)*t;</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :     q-&gt;tex_coord.Y=p0-&gt;tex_coord.Y + (p1-&gt;tex_coord.Y-p0-&gt;tex_coord.Y)*t;</span>
+<span class="lineNum">     115 </span>            :   }
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span><span class="lineCov">        314 :   q-&gt;clip_code=gl_clipcode(q-&gt;pc.X,q-&gt;pc.Y,q-&gt;pc.Z,q-&gt;pc.W);</span>
+<span class="lineNum">     118 </span><span class="lineCov">        314 :   if (q-&gt;clip_code==0)</span>
+<span class="lineNum">     119 </span><span class="lineCov">        170 :     gl_transform_to_viewport(c,q);</span>
+<span class="lineNum">     120 </span><span class="lineCov">        314 : }</span>
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            : static void gl_draw_triangle_clip(GLContext *c,
+<a name="123"><span class="lineNum">     123 </span>            :                                   GLVertex *p0,GLVertex *p1,GLVertex *p2,int clip_bit);</a>
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span><span class="lineCov">      72816 : void gl_draw_triangle(GLContext *c,</span>
+<span class="lineNum">     126 </span>            :                       GLVertex *p0,GLVertex *p1,GLVertex *p2)
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span>            :   int co,c_and,cc[3],front;
+<span class="lineNum">     129 </span>            :   float norm;
+<span class="lineNum">     130 </span>            :   
+<span class="lineNum">     131 </span><span class="lineCov">      72816 :   cc[0]=p0-&gt;clip_code;</span>
+<span class="lineNum">     132 </span><span class="lineCov">      72816 :   cc[1]=p1-&gt;clip_code;</span>
+<span class="lineNum">     133 </span><span class="lineCov">      72816 :   cc[2]=p2-&gt;clip_code;</span>
+<span class="lineNum">     134 </span>            :   
+<span class="lineNum">     135 </span><span class="lineCov">      72816 :   co=cc[0] | cc[1] | cc[2];</span>
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :   /* we handle the non clipped case here to go faster */
+<span class="lineNum">     138 </span><span class="lineCov">      72816 :   if (co==0) {</span>
+<span class="lineNum">     139 </span>            :     
+<span class="lineNum">     140 </span><span class="lineCov">      72750 :       norm=(float)(p1-&gt;zp.x-p0-&gt;zp.x)*(float)(p2-&gt;zp.y-p0-&gt;zp.y)-</span>
+<span class="lineNum">     141 </span><span class="lineCov">      72750 :         (float)(p2-&gt;zp.x-p0-&gt;zp.x)*(float)(p1-&gt;zp.y-p0-&gt;zp.y);</span>
+<span class="lineNum">     142 </span>            :       
+<span class="lineNum">     143 </span><span class="lineCov">      77943 :       if (norm == 0) return;</span>
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineCov">      67557 :       front = norm &lt; 0.0;</span>
+<span class="lineNum">     146 </span><span class="lineCov">      67557 :       front = front ^ c-&gt;current_front_face;</span>
+<span class="lineNum">     147 </span>            :   
+<span class="lineNum">     148 </span>            :       /* back face culling */
+<span class="lineNum">     149 </span><span class="lineCov">      67557 :       if (c-&gt;cull_face_enabled) {</span>
+<span class="lineNum">     150 </span>            :         /* most used case first */
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :         if (c-&gt;current_cull_face == GL_BACK) {</span>
+<span class="lineNum">     152 </span><span class="lineNoCov">          0 :           if (front == 0) return;</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :           c-&gt;draw_triangle_front(c,p0,p1,p2);</span>
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :         } else if (c-&gt;current_cull_face == GL_FRONT) {</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :           if (front != 0) return;</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :           c-&gt;draw_triangle_back(c,p0,p1,p2);</span>
+<span class="lineNum">     157 </span>            :         } else {
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :           return;</span>
+<span class="lineNum">     159 </span>            :         }
+<span class="lineNum">     160 </span>            :       } else {
+<span class="lineNum">     161 </span>            :         /* no culling */
+<span class="lineNum">     162 </span><span class="lineCov">      67557 :         if (front) {</span>
+<span class="lineNum">     163 </span><span class="lineCov">      34301 :           c-&gt;draw_triangle_front(c,p0,p1,p2);</span>
+<span class="lineNum">     164 </span>            :         } else {
+<span class="lineNum">     165 </span><span class="lineCov">      33256 :           c-&gt;draw_triangle_back(c,p0,p1,p2);</span>
+<span class="lineNum">     166 </span>            :         }
+<span class="lineNum">     167 </span>            :       }
+<span class="lineNum">     168 </span>            :   } else {
+<span class="lineNum">     169 </span><span class="lineCov">         66 :     c_and=cc[0] &amp; cc[1] &amp; cc[2];</span>
+<span class="lineNum">     170 </span><span class="lineCov">         66 :     if (c_and==0) {</span>
+<span class="lineNum">     171 </span><span class="lineCov">         54 :       gl_draw_triangle_clip(c,p0,p1,p2,0);</span>
+<span class="lineNum">     172 </span>            :     }
+<span class="lineNum">     173 </span>            :   }
+<a name="174"><span class="lineNum">     174 </span>            : }</a>
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span><span class="lineCov">        270 : static void gl_draw_triangle_clip(GLContext *c,</span>
+<span class="lineNum">     177 </span>            :                                   GLVertex *p0,GLVertex *p1,GLVertex *p2,int clip_bit)
+<span class="lineNum">     178 </span>            : {
+<span class="lineNum">     179 </span>            :   int co,c_and,co1,cc[3],edge_flag_tmp,clip_mask;
+<span class="lineNum">     180 </span>            :   GLVertex tmp1,tmp2,*q[3];
+<span class="lineNum">     181 </span>            :   float tt;
+<span class="lineNum">     182 </span>            :   
+<span class="lineNum">     183 </span><span class="lineCov">        270 :   cc[0]=p0-&gt;clip_code;</span>
+<span class="lineNum">     184 </span><span class="lineCov">        270 :   cc[1]=p1-&gt;clip_code;</span>
+<span class="lineNum">     185 </span><span class="lineCov">        270 :   cc[2]=p2-&gt;clip_code;</span>
+<span class="lineNum">     186 </span>            :   
+<span class="lineNum">     187 </span><span class="lineCov">        270 :   co=cc[0] | cc[1] | cc[2];</span>
+<span class="lineNum">     188 </span><span class="lineCov">        270 :   if (co == 0) {</span>
+<span class="lineNum">     189 </span><span class="lineCov">        112 :     gl_draw_triangle(c,p0,p1,p2);</span>
+<span class="lineNum">     190 </span>            :   } else {
+<span class="lineNum">     191 </span><span class="lineCov">        158 :     c_and=cc[0] &amp; cc[1] &amp; cc[2];</span>
+<span class="lineNum">     192 </span>            :     /* the triangle is completely outside */
+<span class="lineNum">     193 </span><span class="lineCov">        159 :     if (c_and!=0) return;</span>
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            :     /* find the next direction to clip */
+<span class="lineNum">     196 </span><span class="lineCov">        263 :     while (clip_bit &lt; 6 &amp;&amp; (co &amp; (1 &lt;&lt; clip_bit)) == 0)  {</span>
+<span class="lineNum">     197 </span><span class="lineCov">         53 :       clip_bit++;</span>
+<span class="lineNum">     198 </span>            :     }
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :     /* this test can be true only in case of rounding errors */
+<span class="lineNum">     201 </span><span class="lineCov">        157 :     if (clip_bit == 6) {</span>
+<span class="lineNum">     202 </span>            : #if 0
+<span class="lineNum">     203 </span>            :       printf(&quot;Error:\n&quot;);
+<span class="lineNum">     204 </span>            :       printf(&quot;%f %f %f %f\n&quot;,p0-&gt;pc.X,p0-&gt;pc.Y,p0-&gt;pc.Z,p0-&gt;pc.W);
+<span class="lineNum">     205 </span>            :       printf(&quot;%f %f %f %f\n&quot;,p1-&gt;pc.X,p1-&gt;pc.Y,p1-&gt;pc.Z,p1-&gt;pc.W);
+<span class="lineNum">     206 </span>            :       printf(&quot;%f %f %f %f\n&quot;,p2-&gt;pc.X,p2-&gt;pc.Y,p2-&gt;pc.Z,p2-&gt;pc.W);
+<span class="lineNum">     207 </span>            : #endif
+<span class="lineNum">     208 </span><span class="lineNoCov">          0 :       return;</span>
+<span class="lineNum">     209 </span>            :     }
+<span class="lineNum">     210 </span>            :   
+<span class="lineNum">     211 </span><span class="lineCov">        157 :     clip_mask = 1 &lt;&lt; clip_bit;</span>
+<span class="lineNum">     212 </span><span class="lineCov">        157 :     co1=(cc[0] ^ cc[1] ^ cc[2]) &amp; clip_mask;</span>
+<span class="lineNum">     213 </span>            :     
+<span class="lineNum">     214 </span><span class="lineCov">        157 :     if (co1)  { </span>
+<span class="lineNum">     215 </span>            :       /* one point outside */
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span><span class="lineCov">         59 :       if (cc[0] &amp; clip_mask) { q[0]=p0; q[1]=p1; q[2]=p2; }</span>
+<span class="lineNum">     218 </span><span class="lineCov">         19 :       else if (cc[1] &amp; clip_mask) { q[0]=p1; q[1]=p2; q[2]=p0; }</span>
+<span class="lineNum">     219 </span><span class="lineCov">         18 :       else { q[0]=p2; q[1]=p0; q[2]=p1; }</span>
+<span class="lineNum">     220 </span>            :       
+<span class="lineNum">     221 </span><span class="lineCov">         59 :       tt=clip_proc[clip_bit](&amp;tmp1.pc,&amp;q[0]-&gt;pc,&amp;q[1]-&gt;pc);</span>
+<span class="lineNum">     222 </span><span class="lineCov">         59 :       updateTmp(c,&amp;tmp1,q[0],q[1],tt);</span>
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span><span class="lineCov">         59 :       tt=clip_proc[clip_bit](&amp;tmp2.pc,&amp;q[0]-&gt;pc,&amp;q[2]-&gt;pc);</span>
+<span class="lineNum">     225 </span><span class="lineCov">         59 :       updateTmp(c,&amp;tmp2,q[0],q[2],tt);</span>
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span><span class="lineCov">         59 :       tmp1.edge_flag=q[0]-&gt;edge_flag;</span>
+<span class="lineNum">     228 </span><span class="lineCov">         59 :       edge_flag_tmp=q[2]-&gt;edge_flag;</span>
+<span class="lineNum">     229 </span><span class="lineCov">         59 :       q[2]-&gt;edge_flag=0;</span>
+<span class="lineNum">     230 </span><span class="lineCov">         59 :       gl_draw_triangle_clip(c,&amp;tmp1,q[1],q[2],clip_bit+1);</span>
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span><span class="lineCov">         59 :       tmp2.edge_flag=1;</span>
+<span class="lineNum">     233 </span><span class="lineCov">         59 :       tmp1.edge_flag=0;</span>
+<span class="lineNum">     234 </span><span class="lineCov">         59 :       q[2]-&gt;edge_flag=edge_flag_tmp;</span>
+<span class="lineNum">     235 </span><span class="lineCov">         59 :       gl_draw_triangle_clip(c,&amp;tmp2,&amp;tmp1,q[2],clip_bit+1);</span>
+<span class="lineNum">     236 </span>            :     } else {
+<span class="lineNum">     237 </span>            :       /* two points outside */
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span><span class="lineCov">         98 :       if ((cc[0] &amp; clip_mask)==0) { q[0]=p0; q[1]=p1; q[2]=p2; }</span>
+<span class="lineNum">     240 </span><span class="lineCov">         58 :       else if ((cc[1] &amp; clip_mask)==0) { q[0]=p1; q[1]=p2; q[2]=p0; } </span>
+<span class="lineNum">     241 </span><span class="lineCov">         30 :       else { q[0]=p2; q[1]=p0; q[2]=p1; }</span>
+<span class="lineNum">     242 </span>            :       
+<span class="lineNum">     243 </span><span class="lineCov">         98 :       tt=clip_proc[clip_bit](&amp;tmp1.pc,&amp;q[0]-&gt;pc,&amp;q[1]-&gt;pc);</span>
+<span class="lineNum">     244 </span><span class="lineCov">         98 :       updateTmp(c,&amp;tmp1,q[0],q[1],tt);</span>
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span><span class="lineCov">         98 :       tt=clip_proc[clip_bit](&amp;tmp2.pc,&amp;q[0]-&gt;pc,&amp;q[2]-&gt;pc);</span>
+<span class="lineNum">     247 </span><span class="lineCov">         98 :       updateTmp(c,&amp;tmp2,q[0],q[2],tt);</span>
+<span class="lineNum">     248 </span>            :       
+<span class="lineNum">     249 </span><span class="lineCov">         98 :       tmp1.edge_flag=1;</span>
+<span class="lineNum">     250 </span><span class="lineCov">         98 :       tmp2.edge_flag=q[2]-&gt;edge_flag;</span>
+<span class="lineNum">     251 </span><span class="lineCov">         98 :       gl_draw_triangle_clip(c,q[0],&amp;tmp1,&amp;tmp2,clip_bit+1);</span>
+<span class="lineNum">     252 </span>            :     }
+<span class="lineNum">     253 </span>            :   }
+<span class="lineNum">     254 </span>            : }
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span>            :  
+<a name="258"><span class="lineNum">     258 </span>            :  </a>
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span><span class="lineCov">      67557 : void gl_draw_triangle_fill(GLContext *c,</span>
+<span class="lineNum">     261 </span>            :                            GLVertex *p0,GLVertex *p1,GLVertex *p2)
+<span class="lineNum">     262 </span>            : {
+<span class="lineNum">     263 </span>            :  
+<span class="lineNum">     264 </span>            :     
+<span class="lineNum">     265 </span><span class="lineCov">      67557 :   if (c-&gt;texture_2d_enabled) {</span>
+<span class="lineNum">     266 </span>            :  
+<span class="lineNum">     267 </span><span class="lineCov">       3179 :     ZB_setTexture(c-&gt;zb,(PIXEL *)c-&gt;current_texture-&gt;images[0].pixmap);</span>
+<span class="lineNum">     268 </span><span class="lineCov">       3179 :     ZB_fillTriangleMappingPerspective(c-&gt;zb,&amp;p0-&gt;zp,&amp;p1-&gt;zp,&amp;p2-&gt;zp);</span>
+<span class="lineNum">     269 </span><span class="lineCov">      64378 :   } else if (c-&gt;current_shade_model == GL_SMOOTH) {</span>
+<span class="lineNum">     270 </span><span class="lineCov">      64378 :     ZB_fillTriangleSmooth(c-&gt;zb,&amp;p0-&gt;zp,&amp;p1-&gt;zp,&amp;p2-&gt;zp);</span>
+<span class="lineNum">     271 </span>            :   } 
+<span class="lineNum">     272 </span><span class="lineCov">      67557 : }</span>
+<span class="lineNum">     273 </span>            : 
+<span class="lineNum">     274 </span>            :  
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span>            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

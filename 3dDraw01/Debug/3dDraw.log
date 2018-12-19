@@ -1,0 +1,17 @@
+﻿Build started 2018/12/19 星期三 20:00:49.
+Project "F:\tzwang\graphics\raytest\rdev\3dDrawFN\3dDraw.vcxproj" on node 2 (build target(s)).
+InitializeBuildStatus:
+  Creating "Debug\3dDraw.unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  All outputs are up-to-date.
+Link:
+  All outputs are up-to-date.
+  3dDraw.vcxproj -> F:\tzwang\graphics\raytest\rdev\3dDrawFN\Debug\3dDraw.exe
+FinalizeBuildStatus:
+  Deleting file "Debug\3dDraw.unsuccessfulbuild".
+  Touching "Debug\3dDraw.lastbuildstate".
+Done Building Project "F:\tzwang\graphics\raytest\rdev\3dDrawFN\3dDraw.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.68

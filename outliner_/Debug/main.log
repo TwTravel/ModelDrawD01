@@ -1,0 +1,67 @@
+﻿生成启动时间为 2018/12/20 2:29:49。
+项目“E:\graphdev\ModelDrawD01\OutLiner\outliner_1\outliner_\main.vcxproj”在节点 2 上(rebuild 个目标)。
+_PrepareForClean:
+  正在删除文件“.\Debug\main.lastbuildstate”。
+InitializeBuildStatus:
+  正在创建“.\Debug\main.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+  main.cpp
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(74): warning C4101: “t”: 未引用的局部变量
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(112): warning C4101: “t”: 未引用的局部变量
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(127): warning C4101: “t”: 未引用的局部变量
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(127): warning C4101: “j”: 未引用的局部变量
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(149): warning C4101: “i”: 未引用的局部变量
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(167): warning C4996: 'open': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _open. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(312) : 参见“open”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(168): warning C4996: 'write': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _write. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(318) : 参见“write”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(169): warning C4996: 'write': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _write. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(318) : 参见“write”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(170): warning C4996: 'write': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _write. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(318) : 参见“write”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(171): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(302) : 参见“close”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(176): warning C4996: 'open': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _open. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(312) : 参见“open”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(177): warning C4996: 'read': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _read. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(313) : 参见“read”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(178): warning C4996: 'read': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _read. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(313) : 参见“read”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(189): warning C4996: 'read': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _read. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(313) : 参见“read”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(190): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\io.h(302) : 参见“close”的声明
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\c24bitmap.h(207): warning C4101: “t”: 未引用的局部变量
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(177): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(383): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(405): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(431): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(555): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(671): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(789): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(822): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(950): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(1063): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(1073): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\Calculator.h(1090): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\ThresholdingIterator.h(164): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\outliner\outliner_1\outliner_\ThresholdingIterator.h(179): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+main.cpp(28): warning C4305: “参数”: 从“double”到“float”截断
+main.cpp(65): warning C4018: “<”: 有符号/无符号不匹配
+main.cpp(72): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+main.cpp(73): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+main.cpp(74): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+Link:
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\main.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\main.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\graphdev\ModelDrawD01\OutLiner\outliner_1\outliner_\Debug\main.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\main.lib" /MACHINE:X86 .\Debug\main.obj
+  main.vcxproj -> E:\graphdev\ModelDrawD01\OutLiner\outliner_1\outliner_\.\Debug\main.exe
+Manifest:
+  c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"E:\graphdev\ModelDrawD01\OutLiner\outliner_1\outliner_\.\Debug\main.exe.manifest" /manifest .\Debug\main.exe.intermediate.manifest
+FinalizeBuildStatus:
+  正在删除文件“.\Debug\main.unsuccessfulbuild”。
+  正在对“.\Debug\main.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\graphdev\ModelDrawD01\OutLiner\outliner_1\outliner_\main.vcxproj”(rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:01:05.79

@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - 3dDrawFN/include/zgl.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">3dDrawFN/include</a> - zgl.h<span style="font-size: 80%;"> (source / <a href="zgl.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-12-17 03:55:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #ifndef _tgl_zgl_h_</a>
+<span class="lineNum">       2 </span>            : #define _tgl_zgl_h_
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : #include &lt;stdlib.h&gt;
+<span class="lineNum">       6 </span>            : #include &lt;stdio.h&gt;
+<span class="lineNum">       7 </span>            : #include &lt;math.h&gt;
+<span class="lineNum">       8 </span>            : #include &lt;assert.h&gt;
+<span class="lineNum">       9 </span>            : #include &quot;gl.h&quot;
+<span class="lineNum">      10 </span>            : #include &quot;zbuffer.h&quot;
+<span class="lineNum">      11 </span>            : #include &quot;zmath.h&quot;
+<span class="lineNum">      12 </span>            : #include &quot;zfeatures.h&quot;
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #define DEBUG
+<span class="lineNum">      15 </span>            : /* #define NDEBUG */
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : enum {
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : //#define ADD_OP(a,b,c) OP_ ## a ,
+<span class="lineNum">      20 </span>            : /*
+<span class="lineNum">      21 </span>            : #include &quot;opinfo.h&quot;*/
+<span class="lineNum">      22 </span>            : //#define ADD_OP(a,b,c) glop ## a ,
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : OP_Color, 
+<span class="lineNum">      25 </span>            : OP_TexCoord, 
+<span class="lineNum">      26 </span>            : OP_EdgeFlag, 
+<span class="lineNum">      27 </span>            : OP_Normal, 
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : OP_Begin, 
+<span class="lineNum">      30 </span>            : OP_Vertex, 
+<span class="lineNum">      31 </span>            : OP_End, 
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : OP_EnableDisable, 
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : OP_MatrixMode, 
+<span class="lineNum">      36 </span>            : OP_LoadMatrix, 
+<span class="lineNum">      37 </span>            : OP_LoadIdentity, 
+<span class="lineNum">      38 </span>            : OP_MultMatrix, 
+<span class="lineNum">      39 </span>            : OP_PushMatrix, 
+<span class="lineNum">      40 </span>            : OP_PopMatrix, 
+<span class="lineNum">      41 </span>            : OP_Rotate, 
+<span class="lineNum">      42 </span>            : OP_Translate, 
+<span class="lineNum">      43 </span>            : OP_Scale, 
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : OP_Viewport, 
+<span class="lineNum">      46 </span>            : OP_Frustum, 
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            : OP_Material, 
+<span class="lineNum">      49 </span>            : OP_ColorMaterial, 
+<span class="lineNum">      50 </span>            : OP_Light, 
+<span class="lineNum">      51 </span>            : OP_LightModel, 
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :  
+<span class="lineNum">      54 </span>            : //OP_InitNames, 
+<span class="lineNum">      55 </span>            :  
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            : OP_TexImage2D, 
+<span class="lineNum">      58 </span>            : OP_BindTexture, 
+<span class="lineNum">      59 </span>            : OP_TexEnv, 
+<span class="lineNum">      60 </span>            : OP_TexParameter, 
+<span class="lineNum">      61 </span>            : OP_PixelStore, 
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : //OP_ShadeModel, 
+<span class="lineNum">      64 </span>            : //OP_CullFace, 
+<span class="lineNum">      65 </span>            : //OP_FrontFace, 
+<span class="lineNum">      66 </span>            : //OP_PolygonMode, 
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            : OP_CallList, 
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : /* special opcodes */
+<span class="lineNum">      71 </span>            : OP_EndList, 
+<span class="lineNum">      72 </span>            : OP_NextBuffer, 
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :  
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            : };
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            : /* initially # of allocated GLVertexes (will grow when necessary) */
+<span class="lineNum">      80 </span>            : #define POLYGON_MAX_VERTEX 16
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            : /* Max # of specular light pow buffers */
+<span class="lineNum">      83 </span>            : #define MAX_SPECULAR_BUFFERS 8
+<span class="lineNum">      84 </span>            : /* # of entries in specular buffer */
+<span class="lineNum">      85 </span>            : #define SPECULAR_BUFFER_SIZE 1024
+<span class="lineNum">      86 </span>            : /* specular buffer granularity */
+<span class="lineNum">      87 </span>            : #define SPECULAR_BUFFER_RESOLUTION 1024
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : #define MAX_MODELVIEW_STACK_DEPTH  32
+<span class="lineNum">      91 </span>            : #define MAX_PROJECTION_STACK_DEPTH 8
+<span class="lineNum">      92 </span>            : #define MAX_TEXTURE_STACK_DEPTH    8
+<span class="lineNum">      93 </span>            : #define MAX_NAME_STACK_DEPTH       64
+<span class="lineNum">      94 </span>            : #define MAX_TEXTURE_LEVELS         11
+<span class="lineNum">      95 </span>            : #define MAX_LIGHTS                 16
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            : #define VERTEX_HASH_SIZE 1031
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            : #define MAX_DISPLAY_LISTS 1024
+<span class="lineNum">     100 </span>            : #define OP_BUFFER_MAX_SIZE 512
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            : #define TGL_OFFSET_FILL    0x1
+<span class="lineNum">     103 </span>            : #define TGL_OFFSET_LINE    0x2
+<span class="lineNum">     104 </span>            : #define TGL_OFFSET_POINT   0x4
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : typedef struct GLSpecBuf {
+<span class="lineNum">     107 </span>            :   int shininess_i;
+<span class="lineNum">     108 </span>            :   int last_used;
+<span class="lineNum">     109 </span>            :   float buf[SPECULAR_BUFFER_SIZE+1];
+<span class="lineNum">     110 </span>            :   struct GLSpecBuf *next;
+<span class="lineNum">     111 </span>            : } GLSpecBuf;
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            : typedef struct GLLight {
+<span class="lineNum">     114 </span>            :   V4 ambient;
+<span class="lineNum">     115 </span>            :   V4 diffuse;
+<span class="lineNum">     116 </span>            :   V4 specular;
+<span class="lineNum">     117 </span>            :   V4 position;  
+<span class="lineNum">     118 </span>            :   V3 spot_direction;
+<span class="lineNum">     119 </span>            :   float spot_exponent;
+<span class="lineNum">     120 </span>            :   float spot_cutoff;
+<span class="lineNum">     121 </span>            :   float attenuation[3];
+<span class="lineNum">     122 </span>            :   /* precomputed values */
+<span class="lineNum">     123 </span>            :   float cos_spot_cutoff;
+<span class="lineNum">     124 </span>            :   V3 norm_spot_direction;
+<span class="lineNum">     125 </span>            :   V3 norm_position;
+<span class="lineNum">     126 </span>            :   /* we use a linked list to know which are the enabled lights */
+<span class="lineNum">     127 </span>            :   int enabled;
+<span class="lineNum">     128 </span>            :   struct GLLight *next,*prev;
+<span class="lineNum">     129 </span>            : } GLLight;
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : typedef struct GLMaterial {
+<span class="lineNum">     132 </span>            :   V4 emission;
+<span class="lineNum">     133 </span>            :   V4 ambient;
+<span class="lineNum">     134 </span>            :   V4 diffuse;
+<span class="lineNum">     135 </span>            :   V4 specular;
+<span class="lineNum">     136 </span>            :   float shininess;
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            :   /* computed values */
+<span class="lineNum">     139 </span>            :   int shininess_i;
+<span class="lineNum">     140 </span>            :   int do_specular;  
+<span class="lineNum">     141 </span>            : } GLMaterial;
+<span class="lineNum">     142 </span>            : 
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : typedef struct GLViewport {
+<span class="lineNum">     145 </span>            :   int xmin,ymin,xsize,ysize;
+<span class="lineNum">     146 </span>            :   V3 scale;
+<span class="lineNum">     147 </span>            :   V3 trans;
+<span class="lineNum">     148 </span>            :   int updated;
+<span class="lineNum">     149 </span>            : } GLViewport;
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : typedef union {
+<span class="lineNum">     152 </span>            :   int op;
+<span class="lineNum">     153 </span>            :   float f;
+<span class="lineNum">     154 </span>            :   int i;
+<span class="lineNum">     155 </span>            :   unsigned int ui;
+<span class="lineNum">     156 </span>            :   void *p;
+<span class="lineNum">     157 </span>            : } GLParam;
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span>            : typedef struct GLParamBuffer {
+<span class="lineNum">     160 </span>            :   GLParam ops[OP_BUFFER_MAX_SIZE];
+<span class="lineNum">     161 </span>            :   struct GLParamBuffer *next;
+<span class="lineNum">     162 </span>            : } GLParamBuffer;
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            : typedef struct GLList {
+<span class="lineNum">     165 </span>            :   GLParamBuffer *first_op_buffer;
+<span class="lineNum">     166 </span>            :   /* TODO: extensions for an hash table or a better allocating scheme */
+<span class="lineNum">     167 </span>            : } GLList;
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span>            : typedef struct GLVertex {
+<span class="lineNum">     170 </span>            :   int edge_flag;
+<span class="lineNum">     171 </span>            :   V3 normal;
+<span class="lineNum">     172 </span>            :   V4 coord;
+<span class="lineNum">     173 </span>            :   V4 tex_coord;
+<span class="lineNum">     174 </span>            :   V4 color;
+<span class="lineNum">     175 </span>            :   
+<span class="lineNum">     176 </span>            :   /* computed values */
+<span class="lineNum">     177 </span>            :   V4 ec;                /* eye coordinates */
+<span class="lineNum">     178 </span>            :   V4 pc;                /* coordinates in the normalized volume */
+<span class="lineNum">     179 </span>            :   int clip_code;        /* clip code */
+<span class="lineNum">     180 </span>            :   ZBufferPoint zp;      /* integer coordinates for the rasterization */
+<span class="lineNum">     181 </span>            : } GLVertex;
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span>            : typedef struct GLImage {
+<span class="lineNum">     184 </span>            :   void *pixmap;
+<span class="lineNum">     185 </span>            :   int xsize,ysize;
+<span class="lineNum">     186 </span>            : } GLImage;
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            : /* textures */
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span>            : #define TEXTURE_HASH_TABLE_SIZE 256
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            : typedef struct GLTexture {
+<span class="lineNum">     193 </span>            :   GLImage images[MAX_TEXTURE_LEVELS];
+<span class="lineNum">     194 </span>            :   int handle;
+<span class="lineNum">     195 </span>            :   struct GLTexture *next,*prev;
+<span class="lineNum">     196 </span>            : } GLTexture;
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span>            : /* shared state */
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            : typedef struct GLSharedState {
+<span class="lineNum">     202 </span>            :   GLList **lists;
+<span class="lineNum">     203 </span>            :   GLTexture **texture_hash_table;
+<span class="lineNum">     204 </span>            : } GLSharedState;
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            : struct GLContext;
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span>            : typedef void (*gl_draw_triangle_func)(struct GLContext *c,
+<span class="lineNum">     209 </span>            :                                       GLVertex *p0,GLVertex *p1,GLVertex *p2);
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            : /* display context */
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            : typedef struct GLContext {
+<span class="lineNum">     214 </span>            :   /* Z buffer */
+<span class="lineNum">     215 </span>            :   ZBuffer *zb;
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span>            :   /* lights */
+<span class="lineNum">     218 </span>            :   GLLight lights[MAX_LIGHTS];
+<span class="lineNum">     219 </span>            :   GLLight *first_light;
+<span class="lineNum">     220 </span>            :   V4 ambient_light_model;
+<span class="lineNum">     221 </span>            :   int local_light_model;
+<span class="lineNum">     222 </span>            :   int lighting_enabled;
+<span class="lineNum">     223 </span>            :   int light_model_two_side;
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            :   /* materials */
+<span class="lineNum">     226 </span>            :   GLMaterial materials[2];
+<span class="lineNum">     227 </span>            :   int color_material_enabled;
+<span class="lineNum">     228 </span>            :   int current_color_material_mode;
+<span class="lineNum">     229 </span>            :   int current_color_material_type;
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span>            :   /* textures */
+<span class="lineNum">     232 </span>            :   GLTexture *current_texture;
+<span class="lineNum">     233 </span>            :   int texture_2d_enabled;
+<span class="lineNum">     234 </span>            : 
+<span class="lineNum">     235 </span>            :   /* shared state */
+<span class="lineNum">     236 </span>            :   GLSharedState shared_state;
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span>            :   /* current list */
+<span class="lineNum">     239 </span>            :   GLParamBuffer *current_op_buffer;
+<span class="lineNum">     240 </span>            :   int current_op_buffer_index;
+<span class="lineNum">     241 </span>            :   int exec_flag,compile_flag,print_flag;
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span>            :   /* matrix */
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span>            :   int matrix_mode;
+<span class="lineNum">     246 </span>            :   M4 *matrix_stack[3];
+<span class="lineNum">     247 </span>            :   M4 *matrix_stack_ptr[3];
+<span class="lineNum">     248 </span>            :   int matrix_stack_depth_max[3];
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            :   M4 matrix_model_view_inv;
+<span class="lineNum">     251 </span>            :   M4 matrix_model_projection;
+<span class="lineNum">     252 </span>            :   int matrix_model_projection_updated;
+<span class="lineNum">     253 </span>            :   int matrix_model_projection_no_w_transform; 
+<span class="lineNum">     254 </span>            :   int apply_texture_matrix;
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            :   /* viewport */
+<span class="lineNum">     257 </span>            :   GLViewport viewport;
+<span class="lineNum">     258 </span>            : 
+<span class="lineNum">     259 </span>            :   /* current state */
+<span class="lineNum">     260 </span>            :   int polygon_mode_back;
+<span class="lineNum">     261 </span>            :   int polygon_mode_front;
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span>            :   int current_front_face;
+<span class="lineNum">     264 </span>            :   int current_shade_model;
+<span class="lineNum">     265 </span>            :   int current_cull_face;
+<span class="lineNum">     266 </span>            :   int cull_face_enabled;
+<span class="lineNum">     267 </span>            :   int normalize_enabled;
+<span class="lineNum">     268 </span>            :   gl_draw_triangle_func draw_triangle_front,draw_triangle_back;
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            :   /* selection */
+<span class="lineNum">     271 </span>            :   int render_mode;
+<span class="lineNum">     272 </span>            :   unsigned int *select_buffer;
+<span class="lineNum">     273 </span>            :   int select_size;
+<span class="lineNum">     274 </span>            :   unsigned int *select_ptr,*select_hit;
+<span class="lineNum">     275 </span>            :   int select_overflow;
+<span class="lineNum">     276 </span>            :   int select_hits;
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span>            :   /* names */
+<span class="lineNum">     279 </span>            :   unsigned int name_stack[MAX_NAME_STACK_DEPTH];
+<span class="lineNum">     280 </span>            :   int name_stack_size;
+<span class="lineNum">     281 </span>            : 
+<span class="lineNum">     282 </span>            :   /* clear */
+<span class="lineNum">     283 </span>            :   float clear_depth;
+<span class="lineNum">     284 </span>            :   V4 clear_color;
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span>            :   /* current vertex state */
+<span class="lineNum">     287 </span>            :   V4 current_color;
+<span class="lineNum">     288 </span>            :   unsigned int longcurrent_color[3]; /* precomputed integer color */
+<span class="lineNum">     289 </span>            :   V4 current_normal;
+<span class="lineNum">     290 </span>            :   V4 current_tex_coord;
+<span class="lineNum">     291 </span>            :   int current_edge_flag;
+<span class="lineNum">     292 </span>            : 
+<span class="lineNum">     293 </span>            :   /* glBegin / glEnd */
+<span class="lineNum">     294 </span>            :   int in_begin;
+<span class="lineNum">     295 </span>            :   int begin_type;
+<span class="lineNum">     296 </span>            :   int vertex_n,vertex_cnt;
+<span class="lineNum">     297 </span>            :   int vertex_max;
+<span class="lineNum">     298 </span>            :   GLVertex *vertex;
+<span class="lineNum">     299 </span>            : 
+<span class="lineNum">     300 </span>            :   /* opengl 1.1 arrays  */
+<span class="lineNum">     301 </span>            :   float *vertex_array;
+<span class="lineNum">     302 </span>            :   int vertex_array_size;
+<span class="lineNum">     303 </span>            :   int vertex_array_stride;
+<span class="lineNum">     304 </span>            :   float *normal_array;
+<span class="lineNum">     305 </span>            :   int normal_array_stride;
+<span class="lineNum">     306 </span>            :   float *color_array;
+<span class="lineNum">     307 </span>            :   int color_array_size;
+<span class="lineNum">     308 </span>            :   int color_array_stride;
+<span class="lineNum">     309 </span>            :   float *texcoord_array;
+<span class="lineNum">     310 </span>            :   int texcoord_array_size;
+<span class="lineNum">     311 </span>            :   int texcoord_array_stride;
+<span class="lineNum">     312 </span>            :   int client_states;
+<span class="lineNum">     313 </span>            :   
+<span class="lineNum">     314 </span>            :   /* opengl 1.1 polygon offset */
+<span class="lineNum">     315 </span>            :   float offset_factor;
+<span class="lineNum">     316 </span>            :   float offset_units;
+<span class="lineNum">     317 </span>            :   int offset_states;
+<span class="lineNum">     318 </span>            :   
+<span class="lineNum">     319 </span>            :   /* specular buffer. could probably be shared between contexts, 
+<span class="lineNum">     320 </span>            :     but that wouldn't be 100% thread safe */
+<span class="lineNum">     321 </span>            :   GLSpecBuf *specbuf_first;
+<span class="lineNum">     322 </span>            :   int specbuf_used_counter;
+<span class="lineNum">     323 </span>            :   int specbuf_num_buffers;
+<span class="lineNum">     324 </span>            : 
+<span class="lineNum">     325 </span>            :   /* opaque structure for user's use */
+<span class="lineNum">     326 </span>            :   void *opaque;
+<span class="lineNum">     327 </span>            :   /* resize viewport function */
+<span class="lineNum">     328 </span>            :   int (*gl_resize_viewport)(struct GLContext *c,int *xsize,int *ysize);
+<span class="lineNum">     329 </span>            : 
+<span class="lineNum">     330 </span>            :   /* depth test */
+<span class="lineNum">     331 </span>            :   int depth_test;
+<span class="lineNum">     332 </span>            : } GLContext;
+<span class="lineNum">     333 </span>            : 
+<span class="lineNum">     334 </span>            : extern GLContext *gl_ctx;
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span>            : void glRunFunc(GLParam *p);
+<span class="lineNum">     337 </span>            : 
+<span class="lineNum">     338 </span>            : /* clip.c */
+<span class="lineNum">     339 </span>            : void gl_transform_to_viewport(GLContext *c,GLVertex *v);
+<span class="lineNum">     340 </span>            : void gl_draw_triangle(GLContext *c,GLVertex *p0,GLVertex *p1,GLVertex *p2);
+<span class="lineNum">     341 </span>            : void gl_draw_line(GLContext *c,GLVertex *p0,GLVertex *p1);
+<span class="lineNum">     342 </span>            : void gl_draw_point(GLContext *c,GLVertex *p0);
+<span class="lineNum">     343 </span>            : 
+<span class="lineNum">     344 </span>            : void gl_draw_triangle_point(GLContext *c,
+<span class="lineNum">     345 </span>            :                             GLVertex *p0,GLVertex *p1,GLVertex *p2);
+<span class="lineNum">     346 </span>            : //void gl_draw_triangle_line(GLContext *c,
+<span class="lineNum">     347 </span>            :  //                          GLVertex *p0,GLVertex *p1,GLVertex *p2);
+<span class="lineNum">     348 </span>            : void gl_draw_triangle_fill(GLContext *c,
+<span class="lineNum">     349 </span>            :                            GLVertex *p0,GLVertex *p1,GLVertex *p2);
+<span class="lineNum">     350 </span>            : void gl_draw_triangle_select(GLContext *c,
+<span class="lineNum">     351 </span>            :                              GLVertex *p0,GLVertex *p1,GLVertex *p2);
+<span class="lineNum">     352 </span>            : 
+<span class="lineNum">     353 </span>            : /* matrix.c */
+<span class="lineNum">     354 </span>            : void gl_print_matrix(const float *m);
+<span class="lineNum">     355 </span>            : /*
+<span class="lineNum">     356 </span>            : void glopLoadIdentity(GLContext *c,GLParam *p);
+<span class="lineNum">     357 </span>            : void glopTranslate(GLContext *c,GLParam *p);*/
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            : /* light.c */
+<span class="lineNum">     360 </span>            : void gl_add_select(GLContext *c,unsigned int zmin,unsigned int zmax);
+<span class="lineNum">     361 </span>            : void gl_enable_disable_light(GLContext *c,int light,int v);
+<span class="lineNum">     362 </span>            : void gl_shade_vertex(GLContext *c,GLVertex *v);
+<span class="lineNum">     363 </span>            : 
+<span class="lineNum">     364 </span>            : void glInitTextures(GLContext *c);
+<span class="lineNum">     365 </span>            : void glEndTextures(GLContext *c);
+<span class="lineNum">     366 </span>            : GLTexture *alloc_texture(GLContext *c,int h);
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span>            : /* image_util.c */
+<span class="lineNum">     369 </span>            : void gl_convertRGB_to_5R6G5B(unsigned short *pixmap,unsigned char *rgb,
+<span class="lineNum">     370 </span>            :                              int xsize,int ysize);
+<span class="lineNum">     371 </span>            : void gl_convertRGB_to_8A8R8G8B(unsigned int *pixmap, unsigned char *rgb,
+<span class="lineNum">     372 </span>            :                                int xsize, int ysize);
+<span class="lineNum">     373 </span>            : void gl_resizeImage(unsigned char *dest,int xsize_dest,int ysize_dest,
+<span class="lineNum">     374 </span>            :                     unsigned char *src,int xsize_src,int ysize_src);
+<span class="lineNum">     375 </span>            : void gl_resizeImageNoInterpolate(unsigned char *dest,int xsize_dest,int ysize_dest,
+<span class="lineNum">     376 </span>            :                                  unsigned char *src,int xsize_src,int ysize_src);
+<span class="lineNum">     377 </span>            : 
+<span class="lineNum">     378 </span>            : GLContext *gl_get_context(void);
+<span class="lineNum">     379 </span>            : 
+<span class="lineNum">     380 </span>            : void gl_fatal_error(char *format, ...);
+<span class="lineNum">     381 </span>            : 
+<span class="lineNum">     382 </span>            : 
+<span class="lineNum">     383 </span>            : /* specular buffer &quot;api&quot; */
+<span class="lineNum">     384 </span>            : GLSpecBuf *specbuf_get_buffer(GLContext *c, const int shininess_i, 
+<span class="lineNum">     385 </span>            :                               const float shininess);
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            : #ifdef __BEOS__
+<span class="lineNum">     388 </span>            : void dprintf(const char *, ...);
+<span class="lineNum">     389 </span>            : 
+<span class="lineNum">     390 </span>            : #else /* !BEOS */
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span>            : #ifdef DEBUG
+<span class="lineNum">     393 </span>            : 
+<span class="lineNum">     394 </span>            : //#define dprintf(format, args...)  \
+<span class="lineNum">     395 </span>            : //  fprintf(stderr,&quot;In '%s': &quot; format &quot;\n&quot;,__FUNCTION__, ##args);
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span>            : #else
+<span class="lineNum">     398 </span>            : 
+<span class="lineNum">     399 </span>            : #define dprintf(format, args...)
+<span class="lineNum">     400 </span>            : 
+<span class="lineNum">     401 </span>            : #endif
+<span class="lineNum">     402 </span>            : #endif /* !BEOS */
+<span class="lineNum">     403 </span>            : 
+<span class="lineNum">     404 </span>            : /* glopXXX functions */
+<span class="lineNum">     405 </span>            : 
+<span class="lineNum">     406 </span>            : #define ADD_OP(a,b,c) void glop ## a (GLContext *,GLParam *);
+<span class="lineNum">     407 </span>            : #include &quot;opinfo.h&quot;
+<span class="lineNum">     408 </span>            : 
+<span class="lineNum">     409 </span>            : /* this clip epsilon is needed to avoid some rounding errors after
+<span class="lineNum">     410 </span>            :    several clipping stages */
+<span class="lineNum">     411 </span>            : 
+<a name="412"><span class="lineNum">     412 </span>            : #define CLIP_EPSILON (1E-5)</a>
+<span class="lineNum">     413 </span>            : 
+<span class="lineNum">     414 </span><span class="lineCov">     218360 : static inline int gl_clipcode(float x,float y,float z,float w1)</span>
+<span class="lineNum">     415 </span>            : {
+<span class="lineNum">     416 </span>            :   float w;
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span><span class="lineCov">     218360 :   w=w1 * (1.0 + CLIP_EPSILON);</span>
+<span class="lineNum">     419 </span><span class="lineCov">     436720 :   return (x&lt;-w) |</span>
+<span class="lineNum">     420 </span><span class="lineCov">     436720 :     ((x&gt;w)&lt;&lt;1) |</span>
+<span class="lineNum">     421 </span><span class="lineCov">     436720 :     ((y&lt;-w)&lt;&lt;2) |</span>
+<span class="lineNum">     422 </span><span class="lineCov">     436720 :     ((y&gt;w)&lt;&lt;3) |</span>
+<span class="lineNum">     423 </span><span class="lineCov">     218360 :     ((z&lt;-w)&lt;&lt;4) | </span>
+<span class="lineNum">     424 </span><span class="lineCov">     218360 :     ((z&gt;w)&lt;&lt;5) ;</span>
+<span class="lineNum">     425 </span>            : }
+<span class="lineNum">     426 </span>            : 
+<span class="lineNum">     427 </span>            : 
+<span class="lineNum">     428 </span>            : //===================================
+<span class="lineNum">     429 </span>            : #include &quot;glx.h&quot;
+<span class="lineNum">     430 </span>            : //#include &lt;sys/ipc.h&gt;
+<span class="lineNum">     431 </span>            : //#include &lt;sys/shm.h&gt;
+<span class="lineNum">     432 </span>            : //#include &lt;X11/extensions/XShm.h&gt;
+<span class="lineNum">     433 </span>            : 
+<span class="lineNum">     434 </span>            : typedef struct {
+<span class="lineNum">     435 </span>            :   GLContext *gl_context;
+<span class="lineNum">     436 </span>            :   //Display *display;
+<span class="lineNum">     437 </span>            :   //XVisualInfo visual_info;
+<span class="lineNum">     438 </span>            :   int xsize,ysize;
+<span class="lineNum">     439 </span>            :   //XImage *ximage;
+<span class="lineNum">     440 </span>            :   int image_w, image_h;
+<span class="lineNum">     441 </span>            :   
+<span class="lineNum">     442 </span>            :   //GC gc;
+<span class="lineNum">     443 </span>            :   //Colormap cmap;
+<span class="lineNum">     444 </span>            :   //Drawable drawable;
+<span class="lineNum">     445 </span>            :   int do_convert; /* true if must do convertion to X11 format */
+<span class="lineNum">     446 </span>            :   /* shared memory */
+<span class="lineNum">     447 </span>            :   int shm_use;
+<span class="lineNum">     448 </span>            :   //XShmSegmentInfo *shm_info;
+<span class="lineNum">     449 </span>            :   int CompletionType;
+<span class="lineNum">     450 </span>            : } TinyGLXContext;
+<span class="lineNum">     451 </span>            : 
+<span class="lineNum">     452 </span>            : #endif /* _tgl_zgl_h_ */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
