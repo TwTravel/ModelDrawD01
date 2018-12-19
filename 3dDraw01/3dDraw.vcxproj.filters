@@ -75,6 +75,9 @@
     <ClInclude Include="include\ztriangle.h">
       <Filter>头文件\TyGl</Filter>
     </ClInclude>
+    <ClInclude Include="include\texture.h">
+      <Filter>头文件\TyGl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3DS.cpp">
@@ -105,9 +108,6 @@
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
     <ClCompile Include="TyGL\light.cpp">
-      <Filter>源文件\TyGl</Filter>
-    </ClCompile>
-    <ClCompile Include="TyGL\list.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
     <ClCompile Include="TyGL\matrix.cpp">

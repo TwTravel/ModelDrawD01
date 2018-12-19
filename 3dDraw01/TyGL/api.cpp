@@ -500,7 +500,7 @@ void glPixelStorei(int pname,int param)
 
 /* Special Functions */
 
-void glCallList(unsigned int list)
+/*void glCallList(unsigned int list)
 {
   GLParam p[2];
 
@@ -508,7 +508,7 @@ void glCallList(unsigned int list)
   p[1].i=list;
 
   glRunFunc(p);
-}
+}*/
 
 void glFlush(void)
 {

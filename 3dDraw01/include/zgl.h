@@ -60,16 +60,6 @@ OP_TexEnv,
 OP_TexParameter, 
 OP_PixelStore, 
 
-//OP_ShadeModel, 
-//OP_CullFace, 
-//OP_FrontFace, 
-//OP_PolygonMode, 
-
-OP_CallList, 
-
-/* special opcodes */
-OP_EndList, 
-OP_NextBuffer, 
 
  
 
@@ -186,6 +176,23 @@ typedef struct GLImage {
 } GLImage;
 
 
+//=========================================================
+/* textures */
+
+#define TEXTURE_HASH_TABLE_SIZE 256
+
+typedef struct GLTexture {
+  GLImage images[MAX_TEXTURE_LEVELS];
+  int handle;
+  struct GLTexture *next,*prev;
+} GLTexture;
+
+typedef struct GLSharedState {
+  GLList **lists;
+  GLTexture **texture_hash_table;
+} GLSharedState;
+
+ //GLTexture *current_texture;
 
 
 /* shared state */
@@ -221,11 +228,11 @@ typedef struct GLContext {
   int current_color_material_type;
 
   /* textures */
-
+  GLTexture *current_texture;
   int texture_2d_enabled;
 
   /* shared state */
- // GLSharedState shared_state;
+  GLSharedState shared_state;
 
   /* current list */
   GLParamBuffer *current_op_buffer;
@@ -441,4 +448,84 @@ typedef struct {
   int CompletionType;
 } TinyGLXContext;
 
+static void (*op_table_func[])(GLContext *,GLParam *)=
+{
+//#define ADD_OP(a,b,c) glop ## a ,
+
+glopColor, 
+glopTexCoord, 
+glopEdgeFlag, 
+glopNormal, 
+
+glopBegin, 
+glopVertex, 
+glopEnd, 
+
+glopEnableDisable, 
+
+glopMatrixMode, 
+glopLoadMatrix, 
+glopLoadIdentity, 
+glopMultMatrix, 
+glopPushMatrix, 
+glopPopMatrix, 
+glopRotate, 
+glopTranslate, 
+glopScale, 
+
+glopViewport, 
+glopFrustum, 
+
+glopMaterial, 
+glopColorMaterial, 
+glopLight, 
+glopLightModel, 
+
+ 
+
+glopTexImage2D, 
+glopBindTexture, 
+glopTexEnv, 
+glopTexParameter, 
+glopPixelStore, 
+
+//glopShadeModel, 
+//glopCullFace, 
+//glopFrontFace, 
+//glopPolygonMode, 
+
+//glopCallList, 
+
+/* special opcodes */
+//glopEndList, 
+//glopNextBuffer, 
+
+ 
+
+/* opengl 1.1 polygon offset */
+};
+
+/*static int op_table_size[]=
+{
+#define ADD_OP(a,b,c) b + 1 ,
+
+#include "opinfo.h"
+};*/
+
+
+ inline GLContext*gl_get_context(void)
+{
+  return gl_ctx;
+}
+
+ 
+
+ inline void glRunFunc(GLParam *p)
+{
+  GLContext *c=gl_get_context();
+  int op;
+
+  op=p[0].op;
+  op_table_func[op](c,p);
+}
 #endif /* _tgl_zgl_h_ */

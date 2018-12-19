@@ -73,6 +73,7 @@
     <ClInclude Include="include\opinfo.h" />
     <ClInclude Include="include\oscontext.h" />
     <ClInclude Include="include\specbuf.h" />
+    <ClInclude Include="include\texture.h" />
     <ClInclude Include="include\ui.h" />
     <ClInclude Include="include\zbuffer.h" />
     <ClInclude Include="include\zfeatures.h" />
@@ -93,7 +94,6 @@
     <ClCompile Include="TyGL\init.cpp" />
     <ClCompile Include="TyGL\kh_project.cpp" />
     <ClCompile Include="TyGL\light.cpp" />
-    <ClCompile Include="TyGL\list.cpp" />
     <ClCompile Include="TyGL\matrix.cpp" />
     <ClCompile Include="TyGL\memory.cpp" />
     <ClCompile Include="TyGL\misc.cpp" />

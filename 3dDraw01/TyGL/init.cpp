@@ -1,5 +1,5 @@
 #include "zgl.h"
-
+#include "texture.h"
 GLContext *gl_ctx;
 
 

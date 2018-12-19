@@ -7,17 +7,7 @@
 #include "zgl.h"
 #include <string.h>
 
-/* textures */
 
-#define TEXTURE_HASH_TABLE_SIZE 256
-
-typedef struct GLTexture {
-  GLImage images[MAX_TEXTURE_LEVELS];
-  int handle;
-  struct GLTexture *next,*prev;
-} GLTexture;
-
- GLTexture *current_texture;
 
 static inline GLTexture *find_texture(GLContext *c,int h)
 {
@@ -74,7 +64,7 @@ GLTexture inline *alloc_texture(GLContext *c,int h)
 }
 
 
-void  inline glInitTextures(GLContext *c)
+inline void  glInitTextures(GLContext *c)
 {
   /* textures */
 
@@ -82,7 +72,7 @@ void  inline glInitTextures(GLContext *c)
   c->current_texture=find_texture(c,0);
 }
 
-void  inline glGenTextures(int n, unsigned int *textures)
+  inline  void glGenTextures(int n, unsigned int *textures)
 {
   GLContext *c=gl_get_context();
   int max,i;
@@ -103,7 +93,7 @@ void  inline glGenTextures(int n, unsigned int *textures)
 }
 
 
-void  inline glDeleteTextures(int n, const unsigned int *textures)
+inline void  glDeleteTextures(int n, const unsigned int *textures)
 {
   GLContext *c=gl_get_context();
   int i;
@@ -121,7 +111,7 @@ void  inline glDeleteTextures(int n, const unsigned int *textures)
 }
 
 
-void  inline glopBindTexture(GLContext *c,GLParam *p)
+inline void  glopBindTexture(GLContext *c,GLParam *p)
 {
   int target=p[1].i;
   int texture=p[2].i;
@@ -184,7 +174,7 @@ void inline  glopTexImage2D(GLContext *c,GLParam *p)
 
 
 /* TODO: not all tests are done */
-void  inline glopTexEnv(GLContext *c,GLParam *p)
+inline void  glopTexEnv(GLContext *c,GLParam *p)
 {
   int target=p[1].i;
   int pname=p[2].i;
@@ -201,7 +191,7 @@ void  inline glopTexEnv(GLContext *c,GLParam *p)
 }
 
 /* TODO: not all tests are done */
-void  inline glopTexParameter(GLContext *c,GLParam *p)
+inline void  glopTexParameter(GLContext *c,GLParam *p)
 {
   int target=p[1].i;
   int pname=p[2].i;
@@ -220,7 +210,7 @@ void  inline glopTexParameter(GLContext *c,GLParam *p)
   }
 }
 
-void  inline glopPixelStore(GLContext *c,GLParam *p)
+inline void  glopPixelStore(GLContext *c,GLParam *p)
 {
   int pname=p[1].i;
   int param=p[2].i;

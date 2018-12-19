@@ -10,6 +10,7 @@
 #define FILE_NAME  "FACE.3DS"
 #include "x11imp.h"
 #include "readstl.h"
+#include "texture.h"
 
 typedef unsigned int UINT;
 unsigned int g_Texture[MAX_TEXTURES] = {0};

@@ -49,12 +49,12 @@ ADD_OP(CullFace,1,"%C")
 ADD_OP(FrontFace,1,"%C")
 ADD_OP(PolygonMode,2,"%C %C")
 
-ADD_OP(CallList,1,"%d")
-ADD_OP(Hint,2,"%C %C")
+//ADD_OP(CallList,1,"%d")
+//ADD_OP(Hint,2,"%C %C")
 
 /* special opcodes */
-ADD_OP(EndList,0,"")
-ADD_OP(NextBuffer,1,"%p")
+//ADD_OP(EndList,0,"")
+//ADD_OP(NextBuffer,1,"%p")
 
 /* opengl 1.1 arrays */
 ADD_OP(ArrayElement, 1, "%d")
