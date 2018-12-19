@@ -48,11 +48,11 @@ void tkSwapBuffers()
   TinyGLXContext *ctx = (TinyGLXContext *) ctx1;
    
   int i,xsize,ysize;
-  unsigned int palette[ZB_NB_COLORS];
-  unsigned char color_indexes[ZB_NB_COLORS];
+  //unsigned int palette[ZB_NB_COLORS];
+  //unsigned char color_indexes[ZB_NB_COLORS];
   ZBuffer *zb;
   //XColor xcolor;
-  unsigned long pixel[ZB_NB_COLORS],tmp_plane;
+ // unsigned long pixel[ZB_NB_COLORS],tmp_plane;
   
   if (ctx->gl_context == NULL) {
     // create the TinyGL context 
@@ -73,12 +73,12 @@ void tkSwapBuffers()
     ctx->shm_use=1; 
 
      {
-        int mode,bpp;
+        int mode(0),bpp;
         // RGB 16/24/32 
         bpp = 24;//bits_per_pixel(ctx->display,&ctx->visual_info);
         switch(bpp) {
         case 24:
-            mode = ZB_MODE_RGB24;
+          //  mode = ZB_MODE_RGB24;
             ctx->do_convert = (TGL_FEATURE_RENDER_BITS != 16);
             break;
          

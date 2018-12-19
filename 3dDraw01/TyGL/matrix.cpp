@@ -57,7 +57,7 @@ void glopLoadMatrix(GLContext *c,GLParam *p)
 void glopLoadIdentity(GLContext *c,GLParam *p)
 {
 
-  gl_M4_Id(c->matrix_stack_ptr[c->matrix_mode]);
+  M4::gl_M4_Id(c->matrix_stack_ptr[c->matrix_mode]);
 
   gl_matrix_update(c);
 }
@@ -78,7 +78,7 @@ void glopMultMatrix(GLContext *c,GLParam *p)
     q+=4;
   }
 
-  gl_M4_MulLeft(c->matrix_stack_ptr[c->matrix_mode],&m);
+  M4::gl_M4_MulLeft(c->matrix_stack_ptr[c->matrix_mode],&m);
 
   gl_matrix_update(c);
 }
@@ -94,7 +94,7 @@ void glopPushMatrix(GLContext *c,GLParam *p)
 
   m=++c->matrix_stack_ptr[n];
   
-  gl_M4_Move(&m[0],&m[-1]);
+  M4::gl_M4_Move(&m[0],&m[-1]);
 
   gl_matrix_update(c);
 }
@@ -126,19 +126,19 @@ void glopRotate(GLContext *c,GLParam *p)
 
   switch(dir_code) {
   case 0:
-    gl_M4_Id(&m);
+    M4::gl_M4_Id(&m);
     break;
   case 4:
     if (u[0] < 0) angle=-angle;
-    gl_M4_Rotate(&m,angle,0);
+    M4::gl_M4_Rotate(&m,angle,0);
     break;
   case 2:
     if (u[1] < 0) angle=-angle;
-    gl_M4_Rotate(&m,angle,1);
+    M4::gl_M4_Rotate(&m,angle,1);
     break;
   case 1:
     if (u[2] < 0) angle=-angle;
-    gl_M4_Rotate(&m,angle,2);
+    M4::gl_M4_Rotate(&m,angle,2);
     break;
   default:
     {
@@ -174,7 +174,7 @@ void glopRotate(GLContext *c,GLParam *p)
     }
   }
 
-  gl_M4_MulLeft(c->matrix_stack_ptr[c->matrix_mode],&m);
+  M4::gl_M4_MulLeft(c->matrix_stack_ptr[c->matrix_mode],&m);
 
   gl_matrix_update(c);
 }
@@ -234,7 +234,7 @@ void glopFrustum(GLContext *c,GLParam *p)
   r[8]= 0; r[9]=0; r[10]=C; r[11]=D;
   r[12]= 0; r[13]=0; r[14]=-1; r[15]=0;
 
-  gl_M4_MulLeft(c->matrix_stack_ptr[c->matrix_mode],&m);
+  M4::gl_M4_MulLeft(c->matrix_stack_ptr[c->matrix_mode],&m);
 
   gl_matrix_update(c);
 }

@@ -125,16 +125,10 @@
     <ClCompile Include="TyGL\specbuf.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
-    <ClCompile Include="TyGL\texture.cpp">
-      <Filter>源文件\TyGl</Filter>
-    </ClCompile>
     <ClCompile Include="TyGL\vertex.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
     <ClCompile Include="TyGL\zbuffer.cpp">
-      <Filter>源文件\TyGl</Filter>
-    </ClCompile>
-    <ClCompile Include="TyGL\zmath.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
     <ClCompile Include="TyGL\ztriangle.cpp">

@@ -41,7 +41,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>include;TyGL;C:\test02\3dDraw\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;TyGL;.\include</AdditionalIncludeDirectories>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
     </ClCompile>
     <Link>
@@ -99,10 +99,8 @@
     <ClCompile Include="TyGL\misc.cpp" />
     <ClCompile Include="TyGL\msghandling.cpp" />
     <ClCompile Include="TyGL\specbuf.cpp" />
-    <ClCompile Include="TyGL\texture.cpp" />
     <ClCompile Include="TyGL\vertex.cpp" />
     <ClCompile Include="TyGL\zbuffer.cpp" />
-    <ClCompile Include="TyGL\zmath.cpp" />
     <ClCompile Include="TyGL\ztriangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

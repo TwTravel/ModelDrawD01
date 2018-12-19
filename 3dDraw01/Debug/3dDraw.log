@@ -1,17 +1,320 @@
-﻿Build started 2018/12/19 星期三 20:00:49.
-Project "F:\tzwang\graphics\raytest\rdev\3dDrawFN\3dDraw.vcxproj" on node 2 (build target(s)).
+﻿生成启动时间为 2018/12/20 5:57:41。
+项目“E:\graphdev\ModelDrawD01\3dDraw01\3dDraw.vcxproj”在节点 2 上(build 个目标)。
 InitializeBuildStatus:
-  Creating "Debug\3dDraw.unsuccessfulbuild" because "AlwaysCreate" was specified.
+  正在对“Debug\3dDraw.unsuccessfulbuild”执行 Touch 任务。
 ClCompile:
-  All outputs are up-to-date.
-Link:
-  All outputs are up-to-date.
-  3dDraw.vcxproj -> F:\tzwang\graphics\raytest\rdev\3dDrawFN\Debug\3dDraw.exe
-FinalizeBuildStatus:
-  Deleting file "Debug\3dDraw.unsuccessfulbuild".
-  Touching "Debug\3dDraw.lastbuildstate".
-Done Building Project "F:\tzwang\graphics\raytest\rdev\3dDrawFN\3dDraw.vcxproj" (build target(s)).
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ITyGL /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /Zp1 /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt TyGL\api.cpp TyGL\clip.cpp TyGL\error.cpp TyGL\glx.cpp TyGL\image_util.cpp TyGL\init.cpp TyGL\light.cpp TyGL\list.cpp TyGL\matrix.cpp TyGL\memory.cpp TyGL\misc.cpp TyGL\specbuf.cpp TyGL\vertex.cpp main.cpp
+  main.cpp
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(402): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(403): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(413): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(414): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(415): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(423): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(424): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(506): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+e:\graphdev\modeldrawd01\3ddraw01\c24bitmap.h(518): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(147): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(208): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(208): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(209): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(209): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(211): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(211): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(212): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(212): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(214): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(214): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(215): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(215): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(262): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(268): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(268): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(268): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(306): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(421): warning C4305: “+=”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(431): warning C4305: “+=”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\main.cpp(442): warning C4305: “+=”: 从“double”到“float”截断
+  vertex.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(60): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(64): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(65): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(66): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(68): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(69): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(70): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(125): warning C4065: switch 语句包含“default”但是未包含“case”标签
+e:\graphdev\modeldrawd01\3ddraw01\tygl\vertex.cpp(132): warning C4065: switch 语句包含“default”但是未包含“case”标签
+  specbuf.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  misc.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  memory.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  matrix.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\matrix.cpp(119): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\matrix.cpp(224): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\matrix.cpp(225): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\matrix.cpp(229): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  list.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\list.cpp(84): error C2039: “shared_state”: 不是“GLContext”的成员
+          e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(205) : 参见“GLContext”的声明
+e:\graphdev\modeldrawd01\3ddraw01\tygl\list.cpp(84): error C2228: “.lists”的左边必须有类/结构/联合
+e:\graphdev\modeldrawd01\3ddraw01\tygl\list.cpp(104): error C2039: “shared_state”: 不是“GLContext”的成员
+          e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(205) : 参见“GLContext”的声明
+e:\graphdev\modeldrawd01\3ddraw01\tygl\list.cpp(104): error C2228: “.lists”的左边必须有类/结构/联合
+e:\graphdev\modeldrawd01\3ddraw01\tygl\list.cpp(120): error C2039: “shared_state”: 不是“GLContext”的成员
+          e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(205) : 参见“GLContext”的声明
+e:\graphdev\modeldrawd01\3ddraw01\tygl\list.cpp(120): error C2228: “.lists”的左边必须有类/结构/联合
+  light.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\light.cpp(46): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\light.cpp(123): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\light.cpp(278): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  init.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(8): error C2065: “GLSharedState”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(8): error C2065: “s”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(8): error C2039: “shared_state”: 不是“GLContext”的成员
+          e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(205) : 参见“GLContext”的声明
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(9): error C2065: “s”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(9): error C2227: “->lists”的左边必须指向类/结构/联合/泛型类型
+          类型是“'unknown-type'”
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(10): error C2065: “s”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(10): error C2227: “->texture_hash_table”的左边必须指向类/结构/联合/泛型类型
+          类型是“'unknown-type'”
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(11): error C2059: 语法错误:“)”
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(18): error C2065: “GLSharedState”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(18): error C2065: “s”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(18): error C2039: “shared_state”: 不是“GLContext”的成员
+          e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(205) : 参见“GLContext”的声明
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(24): error C2065: “s”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(24): error C2227: “->lists”的左边必须指向类/结构/联合/泛型类型
+          类型是“'unknown-type'”
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(26): error C2065: “s”: 未声明的标识符
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(26): error C2227: “->texture_hash_table”的左边必须指向类/结构/联合/泛型类型
+          类型是“'unknown-type'”
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(83): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(83): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(83): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(93): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(93): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddraw01\tygl\init.cpp(93): warning C4305: “参数”: 从“double”到“float”截断
+  image_util.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  glx.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(402): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(403): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(413): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(414): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(415): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(423): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(424): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\include\c256bitmap.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  error.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  clip.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\clip.cpp(18): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\clip.cpp(267): error C2039: “current_texture”: 不是“GLContext”的成员
+          e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(205) : 参见“GLContext”的声明
+e:\graphdev\modeldrawd01\3ddraw01\tygl\clip.cpp(267): error C2227: “->images”的左边必须指向类/结构/联合/泛型类型
+e:\graphdev\modeldrawd01\3ddraw01\tygl\clip.cpp(267): error C2228: “.pixmap”的左边必须有类/结构/联合
+  api.cpp
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(224): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C2146: 语法错误: 缺少“;”(在标识符“shared_state”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(228): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C2143: 语法错误 : 缺少“;”(在“*”的前面)
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(358): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+e:\graphdev\modeldrawd01\3ddraw01\include\zgl.h(410): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\api.cpp(306): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\api.cpp(307): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\api.cpp(308): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\api.cpp(309): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\api.cpp(310): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddraw01\tygl\api.cpp(311): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码...
+已完成生成项目“E:\graphdev\ModelDrawD01\3dDraw01\3dDraw.vcxproj”(build 个目标)的操作 - 失败。
 
-Build succeeded.
+生成失败。
 
-Time Elapsed 00:00:03.68
+已用时间 00:00:12.50

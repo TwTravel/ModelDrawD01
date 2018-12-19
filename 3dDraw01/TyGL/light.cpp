@@ -92,7 +92,7 @@ void glopLight(GLContext *c,GLParam *p)
   case GL_POSITION:
     {
       V4 pos;
-      gl_M4_MulV4(&pos,c->matrix_stack_ptr[0],&v);
+      M4::gl_M4_MulV4(&pos,c->matrix_stack_ptr[0],&v);
 
       l->position=pos;
 

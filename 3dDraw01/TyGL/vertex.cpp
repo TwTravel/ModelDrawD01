@@ -87,12 +87,12 @@ void glopBegin(GLContext * c, GLParam * p)
 
 	if (c->lighting_enabled) {
 	    /* precompute inverse modelview */
-	    gl_M4_Inv(&tmp, c->matrix_stack_ptr[0]);
-	    gl_M4_Transpose(&c->matrix_model_view_inv, &tmp);
+	    M4::gl_M4_Inv(&tmp, c->matrix_stack_ptr[0]);
+	    M4::gl_M4_Transpose(&c->matrix_model_view_inv, &tmp);
 	} else {
 	    float *m = &c->matrix_model_projection.m[0][0];
 	    /* precompute projection matrix */
-	    gl_M4_Mul(&c->matrix_model_projection,
+	    M4::gl_M4_Mul(&c->matrix_model_projection,
 		      c->matrix_stack_ptr[1],
 		      c->matrix_stack_ptr[0]);
 	    /* test to accelerate computation */
@@ -102,7 +102,7 @@ void glopBegin(GLContext * c, GLParam * p)
 	}
 
 	/* test if the texture matrix is not Identity */
-	c->apply_texture_matrix = !gl_M4_IsId(c->matrix_stack_ptr[2]);
+	c->apply_texture_matrix = !M4::gl_M4_IsId(c->matrix_stack_ptr[2]);
 
 	c->matrix_model_projection_updated = 0;
     }
@@ -243,7 +243,7 @@ void glopVertex(GLContext * c, GLParam * p)
 
     if (c->texture_2d_enabled) {
 	if (c->apply_texture_matrix) {
-	    gl_M4_MulV4(&v->tex_coord, c->matrix_stack_ptr[2], &c->current_tex_coord);
+	    M4::gl_M4_MulV4(&v->tex_coord, c->matrix_stack_ptr[2], &c->current_tex_coord);
 	} else {
 	    v->tex_coord = c->current_tex_coord;
 	}

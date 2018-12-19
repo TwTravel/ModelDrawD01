@@ -185,23 +185,15 @@ typedef struct GLImage {
   int xsize,ysize;
 } GLImage;
 
-/* textures */
 
-#define TEXTURE_HASH_TABLE_SIZE 256
-
-typedef struct GLTexture {
-  GLImage images[MAX_TEXTURE_LEVELS];
-  int handle;
-  struct GLTexture *next,*prev;
-} GLTexture;
 
 
 /* shared state */
 
-typedef struct GLSharedState {
+/*typedef struct GLSharedState {
   GLList **lists;
   GLTexture **texture_hash_table;
-} GLSharedState;
+} GLSharedState;*/
 
 struct GLContext;
 
@@ -229,11 +221,11 @@ typedef struct GLContext {
   int current_color_material_type;
 
   /* textures */
-  GLTexture *current_texture;
+
   int texture_2d_enabled;
 
   /* shared state */
-  GLSharedState shared_state;
+ // GLSharedState shared_state;
 
   /* current list */
   GLParamBuffer *current_op_buffer;
@@ -363,7 +355,7 @@ void gl_shade_vertex(GLContext *c,GLVertex *v);
 
 void glInitTextures(GLContext *c);
 void glEndTextures(GLContext *c);
-GLTexture *alloc_texture(GLContext *c,int h);
+//GLTexture *alloc_texture(GLContext *c,int h);
 
 /* image_util.c */
 void gl_convertRGB_to_5R6G5B(unsigned short *pixmap,unsigned char *rgb,
