@@ -1,0 +1,325 @@
+﻿生成启动时间为 2018/12/17 3:48:25。
+项目“C:\test02\3dDraw\3dDraw.vcxproj”在节点 2 上(rebuild 个目标)。
+_PrepareForClean:
+  正在删除文件“Debug\3dDraw.lastbuildstate”。
+InitializeBuildStatus:
+  正在对“Debug\3dDraw.unsuccessfulbuild”执行 Touch 任务。
+ClCompile:
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ITyGL /IC:\test02\3dDraw\include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /Zp1 /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt 3DS.cpp main.cpp TyGL\api.cpp TyGL\clip.cpp TyGL\error.cpp TyGL\glu.cpp TyGL\glx.cpp TyGL\image_util.cpp TyGL\init.cpp TyGL\kh_project.cpp TyGL\light.cpp TyGL\list.cpp TyGL\matrix.cpp TyGL\memory.cpp TyGL\misc.cpp TyGL\msghandling.cpp TyGL\specbuf.cpp TyGL\texture.cpp TyGL\vertex.cpp TyGL\zbuffer.cpp TyGL\zdither.cpp TyGL\zmath.cpp TyGL\ztriangle.cpp
+  ztriangle.cpp
+c:\test02\3ddraw\tygl\ztriangle.cpp(76): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(77): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(79): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(80): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(85): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(93): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(94): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(98): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(99): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(103): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(104): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(108): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(109): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(368): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(369): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(371): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(372): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(377): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(385): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(386): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(526): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(542): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\ztriangle.cpp(336): warning C4101: “drdy”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(342): warning C4101: “dtdl_min”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(341): warning C4101: “dsdy”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(337): warning C4101: “dgdx”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(342): warning C4101: “dtdy”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(336): warning C4101: “r1”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(337): warning C4101: “dgdy”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(341): warning C4101: “dsdl_max”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(336): warning C4101: “drdl_min”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(337): warning C4101: “dgdl_min”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(341): warning C4101: “dsdl_min”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(338): warning C4101: “dbdl_min”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(338): warning C4101: “dbdx”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(337): warning C4101: “dgdl_max”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(342): warning C4101: “dtdl_max”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(341): warning C4101: “s1”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(338): warning C4101: “dbdl_max”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(337): warning C4101: “g1”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(342): warning C4101: “t1”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(336): warning C4101: “drdx”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(341): warning C4101: “dsdx”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(338): warning C4101: “dbdy”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(342): warning C4101: “dtdx”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(336): warning C4101: “drdl_max”: 未引用的局部变量
+c:\test02\3ddraw\tygl\ztriangle.cpp(338): warning C4101: “b1”: 未引用的局部变量
+  zmath.cpp
+  zdither.cpp
+  zbuffer.cpp
+  vertex.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(60): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(64): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(65): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(66): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(68): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(69): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(70): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\vertex.cpp(125): warning C4065: switch 语句包含“default”但是未包含“case”标签
+c:\test02\3ddraw\tygl\vertex.cpp(132): warning C4065: switch 语句包含“default”但是未包含“case”标签
+  texture.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  specbuf.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  msghandling.cpp
+  misc.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  memory.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  matrix.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\matrix.cpp(119): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\matrix.cpp(224): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\matrix.cpp(225): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\matrix.cpp(229): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  list.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  light.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\light.cpp(46): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+c:\test02\3ddraw\tygl\light.cpp(123): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\light.cpp(278): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  kh_project.cpp
+c:\test02\3ddraw\tygl\kh_project.cpp(65): warning C4244: “=”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\kh_project.cpp(66): warning C4244: “=”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\kh_project.cpp(67): warning C4244: “=”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\kh_project.cpp(69): warning C4244: “=”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\kh_project.cpp(70): warning C4244: “=”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\kh_project.cpp(71): warning C4244: “=”: 从“GLdouble”转换到“float”，可能丢失数据
+  init.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\init.cpp(83): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(83): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(83): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(92): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(93): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(93): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\tygl\init.cpp(93): warning C4305: “参数”: 从“double”到“float”截断
+  image_util.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  glx.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\test02\3ddraw\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(402): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(403): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(413): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(414): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(415): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(423): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(424): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\include\c24bitmap.h(506): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\include\c24bitmap.h(518): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\include\c256bitmap.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\test02\3ddraw\include\c256bitmap.h(96): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\include\c256bitmap.h(107): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+  glu.cpp
+c:\test02\3ddraw\tygl\glu.cpp(27): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(27): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(27): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(32): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(32): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(32): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(45): warning C4244: “/=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(46): warning C4244: “/=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(47): warning C4244: “/=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(82): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(83): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(91): warning C4244: “=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(94): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(95): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(96): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(97): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(106): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(106): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(109): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(109): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(114): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(114): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(117): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(117): warning C4244: “参数”: 从“GLdouble”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(119): warning C4244: “+=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(144): warning C4244: “=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(148): warning C4244: “=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(150): warning C4244: “=”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(157): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(157): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(158): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(158): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(160): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(160): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(186): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(187): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(195): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(205): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(206): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(223): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(247): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\glu.cpp(251): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  error.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  clip.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\clip.cpp(18): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码...
+  正在编译...
+  api.cpp
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\api.cpp(306): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\api.cpp(307): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\api.cpp(308): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\api.cpp(309): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\api.cpp(310): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\tygl\api.cpp(311): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  main.cpp
+c:\test02\3ddraw\main.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\test02\3ddraw\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(208): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(209): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(210): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(402): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(403): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(406): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(413): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(414): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(415): warning C4244: “=”: 从“double”转换到“BYTE”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(423): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(424): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(427): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+c:\test02\3ddraw\c24bitmap.h(506): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\c24bitmap.h(518): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\include\zgl.h(418): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\include\x11imp.h(55): warning C4101: “tmp_plane”: 未引用的局部变量
+c:\test02\3ddraw\include\x11imp.h(55): warning C4101: “pixel”: 未引用的局部变量
+c:\test02\3ddraw\include\x11imp.h(50): warning C4101: “i”: 未引用的局部变量
+c:\test02\3ddraw\include\x11imp.h(52): warning C4101: “color_indexes”: 未引用的局部变量
+c:\test02\3ddraw\include\x11imp.h(51): warning C4101: “palette”: 未引用的局部变量
+c:\test02\3ddraw\include\x11imp.h(202): warning C4101: “buf”: 未引用的局部变量
+c:\test02\3ddraw\include\x11imp.h(201): warning C4101: “k”: 未引用的局部变量
+c:\test02\3ddraw\readstl.h(282): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\main.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(144): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(147): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(208): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(208): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(209): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(209): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(211): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(211): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(212): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(212): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(214): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(214): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(215): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(215): warning C4305: “初始化”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(241): warning C4101: “Emission”: 未引用的局部变量
+c:\test02\3ddraw\main.cpp(262): warning C4018: “<”: 有符号/无符号不匹配
+c:\test02\3ddraw\main.cpp(268): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(268): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(268): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\test02\3ddraw\main.cpp(256): warning C4101: “i”: 未引用的局部变量
+c:\test02\3ddraw\main.cpp(306): warning C4305: “参数”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(288): warning C4101: “i”: 未引用的局部变量
+c:\test02\3ddraw\main.cpp(421): warning C4305: “+=”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(431): warning C4305: “+=”: 从“double”到“float”截断
+c:\test02\3ddraw\main.cpp(442): warning C4305: “+=”: 从“double”到“float”截断
+  3DS.cpp
+c:\test02\3ddraw\3ds.cpp(24): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
+c:\test02\3ddraw\3ds.cpp(29): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : 参见“sprintf”的声明
+c:\test02\3ddraw\3ds.cpp(43): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : 参见“sprintf”的声明
+  正在生成代码...
+Link:
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\test02\3dDraw\Debug\3dDraw.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\3dDraw.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\test02\3dDraw\Debug\3dDraw.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\test02\3dDraw\Debug\3dDraw.lib" /MACHINE:X86 Debug\3DS.obj
+  Debug\main.obj
+  Debug\api.obj
+  Debug\clip.obj
+  Debug\error.obj
+  Debug\glu.obj
+  Debug\glx.obj
+  Debug\image_util.obj
+  Debug\init.obj
+  Debug\kh_project.obj
+  Debug\light.obj
+  Debug\list.obj
+  Debug\matrix.obj
+  Debug\memory.obj
+  Debug\misc.obj
+  Debug\msghandling.obj
+  Debug\specbuf.obj
+  Debug\texture.obj
+  Debug\vertex.obj
+  Debug\zbuffer.obj
+  Debug\zdither.obj
+  Debug\zmath.obj
+  Debug\ztriangle.obj
+  3dDraw.vcxproj -> C:\test02\3dDraw\Debug\3dDraw.exe
+Manifest:
+  c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\test02\3dDraw\Debug\3dDraw.exe;#1" /manifest Debug\3dDraw.exe.intermediate.manifest
+FinalizeBuildStatus:
+  正在删除文件“Debug\3dDraw.unsuccessfulbuild”。
+  正在对“Debug\3dDraw.lastbuildstate”执行 Touch 任务。
+已完成生成项目“C:\test02\3dDraw\3dDraw.vcxproj”(rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:03.58

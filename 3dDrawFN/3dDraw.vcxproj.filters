@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\TyGl">
+      <UniqueIdentifier>{29147cdf-9f31-4ef7-83f9-841bec90a353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\TyGl">
+      <UniqueIdentifier>{4a81e7d1-8d9e-4972-a9fd-635765e4378b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\c24bitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\c256bitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\msghandling.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nglx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\opinfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\oscontext.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\specbuf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TyGL\ztriangle.h">
+      <Filter>源文件\TyGl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zbuffer.h">
+      <Filter>头文件\TyGl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zfeatures.h">
+      <Filter>头文件\TyGl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zgl.h">
+      <Filter>头文件\TyGl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zmath.h">
+      <Filter>头文件\TyGl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ztriangle.h">
+      <Filter>头文件\TyGl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="3DS.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\api.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\clip.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\error.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\glu.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\glx.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\image_util.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\init.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\kh_project.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\light.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\list.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\matrix.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\memory.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\misc.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\msghandling.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\specbuf.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\texture.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\vertex.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\zbuffer.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\zdither.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\zmath.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="TyGL\ztriangle.cpp">
+      <Filter>源文件\TyGl</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

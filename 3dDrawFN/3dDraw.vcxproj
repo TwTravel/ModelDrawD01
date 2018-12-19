@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B00F02C4-E3C4-4100-BBD4-535169E7370B}</ProjectGuid>
+    <RootNamespace>My3dDraw</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>include;TyGL;C:\test02\3dDraw\include</AdditionalIncludeDirectories>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\c24bitmap.h" />
+    <ClInclude Include="include\c256bitmap.h" />
+    <ClInclude Include="include\gl.h" />
+    <ClInclude Include="include\glu.h" />
+    <ClInclude Include="include\GLView.h" />
+    <ClInclude Include="include\glx.h" />
+    <ClInclude Include="include\msghandling.h" />
+    <ClInclude Include="include\nglx.h" />
+    <ClInclude Include="include\opinfo.h" />
+    <ClInclude Include="include\oscontext.h" />
+    <ClInclude Include="include\specbuf.h" />
+    <ClInclude Include="include\ui.h" />
+    <ClInclude Include="include\zbuffer.h" />
+    <ClInclude Include="include\zfeatures.h" />
+    <ClInclude Include="include\zgl.h" />
+    <ClInclude Include="include\zmath.h" />
+    <ClInclude Include="include\ztriangle.h" />
+    <ClInclude Include="TyGL\ztriangle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="3DS.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="TyGL\api.cpp" />
+    <ClCompile Include="TyGL\clip.cpp" />
+    <ClCompile Include="TyGL\error.cpp" />
+    <ClCompile Include="TyGL\glu.cpp" />
+    <ClCompile Include="TyGL\glx.cpp" />
+    <ClCompile Include="TyGL\image_util.cpp" />
+    <ClCompile Include="TyGL\init.cpp" />
+    <ClCompile Include="TyGL\kh_project.cpp" />
+    <ClCompile Include="TyGL\light.cpp" />
+    <ClCompile Include="TyGL\list.cpp" />
+    <ClCompile Include="TyGL\matrix.cpp" />
+    <ClCompile Include="TyGL\memory.cpp" />
+    <ClCompile Include="TyGL\misc.cpp" />
+    <ClCompile Include="TyGL\msghandling.cpp" />
+    <ClCompile Include="TyGL\specbuf.cpp" />
+    <ClCompile Include="TyGL\texture.cpp" />
+    <ClCompile Include="TyGL\vertex.cpp" />
+    <ClCompile Include="TyGL\zbuffer.cpp" />
+    <ClCompile Include="TyGL\zdither.cpp" />
+    <ClCompile Include="TyGL\zmath.cpp" />
+    <ClCompile Include="TyGL\ztriangle.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
