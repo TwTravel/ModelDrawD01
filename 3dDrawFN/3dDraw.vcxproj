@@ -102,7 +102,6 @@
     <ClCompile Include="TyGL\texture.cpp" />
     <ClCompile Include="TyGL\vertex.cpp" />
     <ClCompile Include="TyGL\zbuffer.cpp" />
-    <ClCompile Include="TyGL\zdither.cpp" />
     <ClCompile Include="TyGL\zmath.cpp" />
     <ClCompile Include="TyGL\ztriangle.cpp" />
   </ItemGroup>

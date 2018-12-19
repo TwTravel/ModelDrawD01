@@ -30,12 +30,12 @@
 #define ZB_POINT_BLUE_MIN ( (1<<9) )
 #define ZB_POINT_BLUE_MAX ( (1<<16)-(1<<9) )
 
-/* display modes */
-#define ZB_MODE_5R6G5B  1  /* true color 16 bits */
-#define ZB_MODE_INDEX   2  /* color index 8 bits */
-#define ZB_MODE_RGBA    3  /* 32 bit rgba mode */
-#define ZB_MODE_RGB24   4  /* 24 bit rgb mode */
-#define ZB_NB_COLORS    225 /* number of colors for 8 bit display */
+// display modes */
+#define ZB_MODE_5R6G5B  1   // true color 16 bits
+#define ZB_MODE_INDEX   2   // color index 8 bits 
+#define ZB_MODE_RGBA    3   // 32 bit rgba mode 
+#define ZB_MODE_RGB24   4   // 24 bit rgb mode 
+#define ZB_NB_COLORS    225 // number of colors for 8 bit display 
 
  
  

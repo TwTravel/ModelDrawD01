@@ -717,7 +717,7 @@ PROTO_GL3(Normal)
 PROTO_GL1(TexCoord)
 PROTO_GL2(TexCoord)
 PROTO_GL3(TexCoord)
-PROTO_GL4(TexCoord)
+PROTO_GL4(TexCoord)/**/
 
 void glEdgeFlag(int flag);
 

@@ -134,9 +134,6 @@
     <ClCompile Include="TyGL\zbuffer.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
-    <ClCompile Include="TyGL\zdither.cpp">
-      <Filter>源文件\TyGl</Filter>
-    </ClCompile>
     <ClCompile Include="TyGL\zmath.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
