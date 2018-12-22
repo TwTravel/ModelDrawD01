@@ -108,7 +108,11 @@ public:
 	int FillRect;
 	C24PixVal BrushColor;
 	C24PixVal GetPenColor(int x,int y);
-
+    double tempX,tempY;
+	void inline MoveTo(int x1,int y1 ){ tempX = x1; tempY = y1;};
+	void inline LineTo(int x2,int y2 ){ DrawLine(tempX,tempY, x2, y2); tempX = x2; tempY = y2;};
+	int LineToDist(int x2,int y2){ return sqrt( (x2-tempX)* (x2-tempX)+ (y2-tempY)*(y2-tempY));}
+	//void inline DrawLine(int x1,int y1,int x2,int y2);
 	void SetColor(int val)
 	{
 		if(val==1)
