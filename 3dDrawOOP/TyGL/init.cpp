@@ -1,6 +1,7 @@
 #include "zgl.h"
 #include "texture.h"
-GLContext *gl_ctx;
+
+GLContext *gl_ctx(0);
 
 
 void initSharedState(GLContext *c)

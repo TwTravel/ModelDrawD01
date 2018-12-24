@@ -214,7 +214,7 @@ typedef void (*gl_draw_triangle_func)(struct GLContext *c,
 typedef struct GLContext {
   /* Z buffer */
   ZBuffer *zb;
-
+  int image_w,  image_h;
   /* lights */
   GLLight lights[MAX_LIGHTS];
   GLLight *first_light;
@@ -426,7 +426,7 @@ void dprintf(const char *, ...);
 //#include <sys/shm.h>
 //#include <X11/extensions/XShm.h>
 
-typedef struct {
+/*typedef struct {
   GLContext *gl_context;
   //Display *display;
   //XVisualInfo visual_info;
@@ -437,12 +437,12 @@ typedef struct {
   //GC gc;
   //Colormap cmap;
   //Drawable drawable;
-  int do_convert; /* true if must do convertion to X11 format */
-  /* shared memory */
+  int do_convert; // true if must do convertion to X11 format 
+ 
   int shm_use;
   //XShmSegmentInfo *shm_info;
   int CompletionType;
-} TinyGLXContext;
+} TinyGLXContext;*/
 
 static void (*op_table_func[])(GLContext *,GLParam *)=
 {
@@ -485,28 +485,9 @@ glopTexEnv,
 glopTexParameter, 
 glopPixelStore, 
 
-//glopShadeModel, 
-//glopCullFace, 
-//glopFrontFace, 
-//glopPolygonMode, 
-
-//glopCallList, 
-
-/* special opcodes */
-//glopEndList, 
-//glopNextBuffer, 
-
- 
-
-/* opengl 1.1 polygon offset */
 };
 
-/*static int op_table_size[]=
-{
-#define ADD_OP(a,b,c) b + 1 ,
-
-#include "opinfo.h"
-};*/
+ 
 
 
  inline GLContext*gl_get_context(void)

@@ -96,7 +96,6 @@
     <ClCompile Include="TyGL\kh_project.cpp" />
     <ClCompile Include="TyGL\light.cpp" />
     <ClCompile Include="TyGL\matrix.cpp" />
-    <ClCompile Include="TyGL\memory.cpp" />
     <ClCompile Include="TyGL\misc.cpp" />
     <ClCompile Include="TyGL\msghandling.cpp" />
     <ClCompile Include="TyGL\specbuf.cpp" />

@@ -107,9 +107,6 @@
     <ClCompile Include="TyGL\matrix.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
-    <ClCompile Include="TyGL\memory.cpp">
-      <Filter>源文件\TyGl</Filter>
-    </ClCompile>
     <ClCompile Include="TyGL\misc.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>

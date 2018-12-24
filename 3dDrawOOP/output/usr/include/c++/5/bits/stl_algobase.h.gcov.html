@@ -32,17 +32,17 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">22</td>
-            <td class="headerCovTableEntry">36</td>
-            <td class="headerCovTableEntryLo">61.1 %</td>
+            <td class="headerCovTableEntry">47</td>
+            <td class="headerCovTableEntryLo">46.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2018-12-23 01:27:50</td>
+            <td class="headerValue">2018-12-25 06:05:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntry">31</td>
-            <td class="headerCovTableEntryLo">61.3 %</td>
+            <td class="headerCovTableEntry">39</td>
+            <td class="headerCovTableEntryLo">48.7 %</td>
           </tr>
           <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -278,13 +278,13 @@
 <span class="lineNum">     216 </span>            :   template&lt;typename _Tp&gt;
 <a name="217"><span class="lineNum">     217 </span>            :     _GLIBCXX14_CONSTEXPR</a>
 <span class="lineNum">     218 </span>            :     inline const _Tp&amp;
-<span class="lineNum">     219 </span><span class="lineCov">         20 :     max(const _Tp&amp; __a, const _Tp&amp; __b)</span>
+<span class="lineNum">     219 </span><span class="lineCov">         23 :     max(const _Tp&amp; __a, const _Tp&amp; __b)</span>
 <span class="lineNum">     220 </span>            :     {
 <span class="lineNum">     221 </span>            :       // concept requirements
 <span class="lineNum">     222 </span>            :       __glibcxx_function_requires(_LessThanComparableConcept&lt;_Tp&gt;)
 <span class="lineNum">     223 </span>            :       //return  __a &lt; __b ? __b : __a;
-<span class="lineNum">     224 </span><span class="lineCov">         20 :       if (__a &lt; __b)</span>
-<span class="lineNum">     225 </span><span class="lineCov">          3 :         return __b;</span>
+<span class="lineNum">     224 </span><span class="lineCov">         23 :       if (__a &lt; __b)</span>
+<span class="lineNum">     225 </span><span class="lineCov">          6 :         return __b;</span>
 <span class="lineNum">     226 </span><span class="lineCov">         17 :       return __a;</span>
 <span class="lineNum">     227 </span>            :     }
 <span class="lineNum">     228 </span>            : 
@@ -602,14 +602,14 @@
 <span class="lineNum">     540 </span>            :   template&lt;&gt;
 <span class="lineNum">     541 </span>            :     struct __copy_move_backward&lt;false, false, random_access_iterator_tag&gt;
 <span class="lineNum">     542 </span>            :     {
-<span class="lineNum">     543 </span>            :       template&lt;typename _BI1, typename _BI2&gt;
+<a name="543"><span class="lineNum">     543 </span>            :       template&lt;typename _BI1, typename _BI2&gt;</a>
 <span class="lineNum">     544 </span>            :         static _BI2
-<span class="lineNum">     545 </span>            :         __copy_move_b(_BI1 __first, _BI1 __last, _BI2 __result)
+<span class="lineNum">     545 </span><span class="lineNoCov">          0 :         __copy_move_b(_BI1 __first, _BI1 __last, _BI2 __result)</span>
 <span class="lineNum">     546 </span>            :         {
 <span class="lineNum">     547 </span>            :           typename iterator_traits&lt;_BI1&gt;::difference_type __n;
-<span class="lineNum">     548 </span>            :           for (__n = __last - __first; __n &gt; 0; --__n)
-<span class="lineNum">     549 </span>            :             *--__result = *--__last;
-<span class="lineNum">     550 </span>            :           return __result;
+<span class="lineNum">     548 </span><span class="lineNoCov">          0 :           for (__n = __last - __first; __n &gt; 0; --__n)</span>
+<span class="lineNum">     549 </span><span class="lineNoCov">          0 :             *--__result = *--__last;</span>
+<span class="lineNum">     550 </span><span class="lineNoCov">          0 :           return __result;</span>
 <span class="lineNum">     551 </span>            :         }
 <span class="lineNum">     552 </span>            :     };
 <span class="lineNum">     553 </span>            : 
@@ -754,14 +754,14 @@
 <span class="lineNum">     692 </span>            : #endif
 <span class="lineNum">     693 </span>            : 
 <span class="lineNum">     694 </span>            :   template&lt;typename _ForwardIterator, typename _Tp&gt;
-<span class="lineNum">     695 </span>            :     inline typename
+<a name="695"><span class="lineNum">     695 </span>            :     inline typename</a>
 <span class="lineNum">     696 </span>            :     __gnu_cxx::__enable_if&lt;!__is_scalar&lt;_Tp&gt;::__value, void&gt;::__type
-<span class="lineNum">     697 </span>            :     __fill_a(_ForwardIterator __first, _ForwardIterator __last,
+<span class="lineNum">     697 </span><span class="lineNoCov">          0 :     __fill_a(_ForwardIterator __first, _ForwardIterator __last,</span>
 <span class="lineNum">     698 </span>            :              const _Tp&amp; __value)
 <span class="lineNum">     699 </span>            :     {
-<span class="lineNum">     700 </span>            :       for (; __first != __last; ++__first)
-<span class="lineNum">     701 </span>            :         *__first = __value;
-<span class="lineNum">     702 </span>            :     }
+<span class="lineNum">     700 </span><span class="lineNoCov">          0 :       for (; __first != __last; ++__first)</span>
+<span class="lineNum">     701 </span><span class="lineNoCov">          0 :         *__first = __value;</span>
+<span class="lineNum">     702 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     703 </span>            :     
 <span class="lineNum">     704 </span>            :   template&lt;typename _ForwardIterator, typename _Tp&gt;
 <span class="lineNum">     705 </span>            :     inline typename
@@ -797,18 +797,18 @@
 <span class="lineNum">     735 </span>            :    *  types filling contiguous areas of memory, this becomes an inline call
 <span class="lineNum">     736 </span>            :    *  to @c memset or @c wmemset.
 <span class="lineNum">     737 </span>            :   */
-<span class="lineNum">     738 </span>            :   template&lt;typename _ForwardIterator, typename _Tp&gt;
+<a name="738"><span class="lineNum">     738 </span>            :   template&lt;typename _ForwardIterator, typename _Tp&gt;</a>
 <span class="lineNum">     739 </span>            :     inline void
-<span class="lineNum">     740 </span>            :     fill(_ForwardIterator __first, _ForwardIterator __last, const _Tp&amp; __value)
+<span class="lineNum">     740 </span><span class="lineNoCov">          0 :     fill(_ForwardIterator __first, _ForwardIterator __last, const _Tp&amp; __value)</span>
 <span class="lineNum">     741 </span>            :     {
 <span class="lineNum">     742 </span>            :       // concept requirements
 <span class="lineNum">     743 </span>            :       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept&lt;
 <span class="lineNum">     744 </span>            :                                   _ForwardIterator&gt;)
 <span class="lineNum">     745 </span>            :       __glibcxx_requires_valid_range(__first, __last);
 <span class="lineNum">     746 </span>            : 
-<span class="lineNum">     747 </span>            :       std::__fill_a(std::__niter_base(__first), std::__niter_base(__last),
+<span class="lineNum">     747 </span><span class="lineNoCov">          0 :       std::__fill_a(std::__niter_base(__first), std::__niter_base(__last),</span>
 <span class="lineNum">     748 </span>            :                     __value);
-<span class="lineNum">     749 </span>            :     }
+<span class="lineNum">     749 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">     750 </span>            : 
 <span class="lineNum">     751 </span>            :   template&lt;typename _OutputIterator, typename _Size, typename _Tp&gt;
 <span class="lineNum">     752 </span>            :     inline typename

@@ -20,7 +20,7 @@
 
 
 
-GLXContext glXCreateContext( //Display *dpy, XVisualInfo *vis,
+/*GLXContext glXCreateContext( //Display *dpy, XVisualInfo *vis,
                              GLXContext shareList, bool direct )
 {
   TinyGLXContext *ctx;
@@ -32,7 +32,7 @@ GLXContext glXCreateContext( //Display *dpy, XVisualInfo *vis,
   ctx->gl_context=NULL;
   //khdev ctx->visual_info=*vis;
   return (GLXContext) ctx;
-}
+}*/
 
 
 
@@ -40,20 +40,22 @@ GLXContext glXCreateContext( //Display *dpy, XVisualInfo *vis,
 void glXSwapBuffers( )
 {
   GLContext *gl_context;
-  TinyGLXContext *ctx;
+ // TinyGLXContext *ctx;
 
   /* retrieve the current GLXContext */
   gl_context=gl_get_context();
-  ctx=(TinyGLXContext *)gl_context->opaque;
+ //ctx=(TinyGLXContext *)gl_context->opaque;
+  //  GLContext *gl_context;
+
 
   C24BitMap  CPic;
-  CPic.FormatF(ctx->image_w, ctx->image_h);
-  ZBuffer * zb = ctx->gl_context->zb;
-  for(int i=0;i< ctx->image_h ;i++)
+  CPic.FormatF(gl_context->image_w, gl_context->image_h);
+  ZBuffer * zb =  gl_context->zb;
+  for(int i=0;i< gl_context->image_h ;i++)
      {
       char* ptr = (char*)zb->pbuf;
       ptr = &ptr[zb->linesize*i]; 
-      for(int j=0; j<ctx->image_w;j++)
+      for(int j=0; j<gl_context->image_w;j++)
       {
         C24PixVal Pix = get_pix_color(CPic, j, i);
 		//ptr++;

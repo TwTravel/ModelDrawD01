@@ -8,7 +8,7 @@
 typedef void *NGLXContext;
 typedef GR_DRAW_ID NGLXDrawable;
 
-extern NGLXContext nglXCreateContext( NGLXContext shareList, int flags );
+//extern NGLXContext nglXCreateContext( NGLXContext shareList, int flags );
 
 extern void nglXDestroyContext( NGLXContext ctx );
 

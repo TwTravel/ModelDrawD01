@@ -42,69 +42,37 @@ void tkSwapBuffers()
     glXSwapBuffers();
 }
 
- bool glXMakeDrawOk(    GLXContext ctx1, int width, int height)
+ bool glXMakeDrawOk(  int width, int height)
 {
   
-  TinyGLXContext *ctx = (TinyGLXContext *) ctx1;
-   
-  int i,xsize,ysize;
-  //unsigned int palette[ZB_NB_COLORS];
-  //unsigned char color_indexes[ZB_NB_COLORS];
-  ZBuffer *zb;
-  //XColor xcolor;
- // unsigned long pixel[ZB_NB_COLORS],tmp_plane;
   
-  if (ctx->gl_context == NULL) {
-    // create the TinyGL context 
-
-   // ctx->display=dpy;
-    //ctx->drawable=drawable;
-
-    //XGetWindowAttributes(ctx->display,drawable,&attr);
-    
-	
-    xsize= width;
-    ysize= height;
-
-    //if (attr.depth != ctx->visual_info.depth) return False;
-
-    // ximage structure 
-    //ctx->ximage=NULL;
-    ctx->shm_use=1; 
-
-     {
-        int mode(0),bpp;
+ GLContext * gl_context=gl_get_context();
+   
+  ZBuffer *zb;
+  
+  
+  if ( gl_context == NULL) {
+    int mode(0);
+   // int mode(0),bpp;
         // RGB 16/24/32 
-        bpp = 24;//bits_per_pixel(ctx->display,&ctx->visual_info);
-        switch(bpp) {
-        case 24:
-          //  mode = ZB_MODE_RGB24;
-            ctx->do_convert = (TGL_FEATURE_RENDER_BITS != 16);
-            break;
-         
-        }
-        zb=ZB_open(xsize,ysize,mode,0,NULL,NULL,NULL);
+    // bpp = 24;//bits_per_pixel(ctx->display,&ctx->visual_info);
+ 
+        zb=ZB_open(width,height,mode,0,NULL,NULL,NULL);
         if (zb == NULL) {
             fprintf(stderr, "Error while initializing Z buffer\n");
             exit(1);
         }
-    }
-
-    // create a gc 
-    //ctx->gc = XCreateGC(ctx->display, drawable, 0, 0);
-    ctx->image_w = width;
-	ctx->image_h = height;
-    // initialisation of the TinyGL interpreter 
+      
     glInit(zb);
-    ctx->gl_context=gl_get_context();
-    ctx->gl_context->opaque=(void *) ctx;
-    ctx->gl_context->gl_resize_viewport= NULL;//glX_resize_viewport;
 
-    // set the viewport : we force a call to glX_resize_viewport 
-    ctx->gl_context->viewport.xsize=-1;
-    ctx->gl_context->viewport.ysize=-1;
+	gl_context=gl_get_context();
+    gl_context->image_w = width;
+	gl_context->image_h = height;
+    gl_context->gl_resize_viewport= NULL;  
+    gl_context->viewport.xsize=-1;
+    gl_context->viewport.ysize=-1;
 
-    glViewport(0, 0, xsize, ysize);
+    glViewport(0, 0, width,height);
   }
 
   return true;
@@ -188,7 +156,7 @@ void tkSwapBuffers()
   return True;
 }*/
 
-GLXContext glXCreateContext(  GLXContext shareList, bool direct );
+//GLXContext glXCreateContext(  GLXContext shareList, bool direct );
 
 int ui_loop(int argc, char **argv, const char *name)
 {
@@ -196,7 +164,7 @@ int ui_loop(int argc, char **argv, const char *name)
   //Colormap cmap;
   //XSetWindowAttributes swa;
   //XSizeHints hint;
-  GLXContext cx;
+ // GLXContext cx;
   //XEvent event;
   int k, width, height;
   char buf[80];
@@ -209,7 +177,7 @@ int ui_loop(int argc, char **argv, const char *name)
  // vi = NULL;//glXChooseVisual(dpy, DefaultScreen(dpy), attributeList);
       
    
-  cx = glXCreateContext( 0, GL_TRUE);
+//  cx = glXCreateContext( 0, GL_TRUE);
 
   
   //cmap = XCreateColormap(dpy, RootWindow(dpy, vi->screen),
@@ -238,7 +206,7 @@ int ui_loop(int argc, char **argv, const char *name)
   /* connect the context to the window */
   //glXMakeCurrent(dpy, win, cx);
   
-   glXMakeDrawOk(   cx,  width,  height);
+   glXMakeDrawOk(   width,  height);
 
    init();
    reshape(width, height);
