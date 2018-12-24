@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - 3dDraw01/include/zmath.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">3dDraw01/include</a> - zmath.h<span style="font-size: 80%;"> (source / <a href="zmath.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">89</td>
+            <td class="headerCovTableEntry">117</td>
+            <td class="headerCovTableEntryMed">76.1 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2018-12-23 01:27:50</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryMed">78.6 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #ifndef __ZMATH__</a>
+<span class="lineNum">       2 </span>            : #define __ZMATH__
+<span class="lineNum">       3 </span>            : #include &lt;string.h&gt;
+<span class="lineNum">       4 </span>            : /* Matrix &amp; Vertex */
+<span class="lineNum">       5 </span>            :  
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            :  
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #define X v[0]
+<span class="lineNum">      11 </span>            : #define Y v[1]
+<span class="lineNum">      12 </span>            : #define Z v[2]
+<span class="lineNum">      13 </span>            : #define W v[3]
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : typedef struct {
+<span class="lineNum">      16 </span>            :          float v[3];
+<span class="lineNum">      17 </span>            : } V3;
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span>            : typedef struct {
+<span class="lineNum">      20 </span>            :          float v[4];
+<span class="lineNum">      21 </span>            : } V4;
+<span class="lineNum">      22 </span>            :         
+<span class="lineNum">      23 </span>            : void gl_MoveV3(V3 *a,V3 *b);
+<span class="lineNum">      24 </span>            : //void gl_MulM3V3(V3 *a,M4 *b,V3 *c);
+<span class="lineNum">      25 </span>            : int  gl_V3_Norm(V3 *a);
+<span class="lineNum">      26 </span>            : V3 gl_V3_New(float x,float y,float z);
+<span class="lineNum">      27 </span>            : V4 gl_V4_New(float x,float y,float z,float w);
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            : class M4
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span>            : 
+<a name="33"><span class="lineNum">      33 </span>            : public:</a>
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span><span class="lineCov">         46 : M4(){};</span>
+<span class="lineNum">      36 </span>            : float m[4][4];
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : static inline void gl_M4_Id(M4 *a);
+<span class="lineNum">      39 </span>            : static inline int gl_M4_IsId(M4 *a);
+<span class="lineNum">      40 </span>            : static inline void gl_M4_Move(M4 *a,M4 *b);
+<span class="lineNum">      41 </span>            : static inline void gl_MulM4V3(V3 *a,M4 *b,V3 *c);
+<span class="lineNum">      42 </span>            : static inline void gl_M4_MulV4(V4 * a,M4 *b,V4 * c);
+<span class="lineNum">      43 </span>            : static inline void gl_M4_InvOrtho(M4 *a,M4 b);
+<span class="lineNum">      44 </span>            : static inline void gl_M4_Inv(M4 *a,M4 *b);
+<span class="lineNum">      45 </span>            : static inline void gl_M4_Mul(M4 *c,M4 *a,M4 *b);
+<span class="lineNum">      46 </span>            : static inline void gl_M4_MulLeft(M4 *c,M4 *a);
+<span class="lineNum">      47 </span>            : static inline void gl_M4_Transpose(M4 *a,M4 *b);
+<span class="lineNum">      48 </span>            : static inline void gl_M4_Rotate(M4 *c,float t,int u);
+<span class="lineNum">      49 </span>            : //void gl_MulM4V3(V3 *a,M4 *b,V3 *c);
+<span class="lineNum">      50 </span>            : //void gl_M4_MulV4(V4 *a,M4 *b,V4 *c);
+<span class="lineNum">      51 </span>            : } ;
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            : void inline gl_MoveV3(V3 *a,V3 *b)
+<span class="lineNum">      54 </span>            : {
+<span class="lineNum">      55 </span>            :         memcpy(a,b,sizeof(V3));
+<a name="56"><span class="lineNum">      56 </span>            : }</a>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">          3 : int inline gl_V3_Norm(V3 *a)</span>
+<span class="lineNum">      59 </span>            : {
+<span class="lineNum">      60 </span>            :         float n;
+<span class="lineNum">      61 </span><span class="lineCov">          3 :         n=sqrt(a-&gt;X*a-&gt;X+a-&gt;Y*a-&gt;Y+a-&gt;Z*a-&gt;Z);</span>
+<span class="lineNum">      62 </span><span class="lineCov">          3 :         if (n==0) return 1;</span>
+<span class="lineNum">      63 </span><span class="lineCov">          3 :         a-&gt;X/=n;</span>
+<span class="lineNum">      64 </span><span class="lineCov">          3 :         a-&gt;Y/=n;</span>
+<span class="lineNum">      65 </span><span class="lineCov">          3 :         a-&gt;Z/=n;</span>
+<span class="lineNum">      66 </span><span class="lineCov">          3 :         return 0;</span>
+<a name="67"><span class="lineNum">      67 </span>            : }</a>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span><span class="lineCov">         48 : V3  inline gl_V3_New(float x,float y,float z)</span>
+<span class="lineNum">      70 </span>            : {
+<span class="lineNum">      71 </span>            :          V3 a;
+<span class="lineNum">      72 </span><span class="lineCov">         48 :          a.X=x;</span>
+<span class="lineNum">      73 </span><span class="lineCov">         48 :          a.Y=y;</span>
+<span class="lineNum">      74 </span><span class="lineCov">         48 :          a.Z=z;</span>
+<span class="lineNum">      75 </span><span class="lineCov">         48 :          return a;</span>
+<a name="76"><span class="lineNum">      76 </span>            : }</a>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span><span class="lineCov">         73 : V4 inline gl_V4_New(float x,float y,float z,float w)</span>
+<span class="lineNum">      79 </span>            : {
+<span class="lineNum">      80 </span>            :   V4 a;
+<span class="lineNum">      81 </span><span class="lineCov">         73 :   a.X=x;</span>
+<span class="lineNum">      82 </span><span class="lineCov">         73 :   a.Y=y;</span>
+<span class="lineNum">      83 </span><span class="lineCov">         73 :   a.Z=z;</span>
+<span class="lineNum">      84 </span><span class="lineCov">         73 :   a.W=w;</span>
+<span class="lineNum">      85 </span><span class="lineCov">         73 :   return a;</span>
+<span class="lineNum">      86 </span>            : }
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : //int gl_Matrix_Inv(float *r,float *m,int n);
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : 
+<a name="91"><span class="lineNum">      91 </span>            : /* ******* Gestion des matrices 4x4 ****** */</a>
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span><span class="lineCov">          8 : void M4::gl_M4_Id(M4 *a)</span>
+<span class="lineNum">      94 </span>            : {
+<span class="lineNum">      95 </span>            :         int i,j;
+<span class="lineNum">      96 </span><span class="lineCov">         40 :         for(i=0;i&lt;4;i++)</span>
+<span class="lineNum">      97 </span><span class="lineCov">        160 :         for(j=0;j&lt;4;j++) </span>
+<span class="lineNum">      98 </span><span class="lineCov">        128 :         if (i==j) a-&gt;m[i][j]=1.0; else a-&gt;m[i][j]=0.0;</span>
+<a name="99"><span class="lineNum">      99 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineCov">          2 : int M4::gl_M4_IsId(M4 *a)</span>
+<span class="lineNum">     102 </span>            : {
+<span class="lineNum">     103 </span>            :         int i,j;
+<span class="lineNum">     104 </span><span class="lineCov">         10 :         for(i=0;i&lt;4;i++)</span>
+<span class="lineNum">     105 </span><span class="lineCov">         40 :     for(j=0;j&lt;4;j++) {</span>
+<span class="lineNum">     106 </span><span class="lineCov">         32 :       if (i==j) { </span>
+<span class="lineNum">     107 </span><span class="lineCov">          8 :         if (a-&gt;m[i][j] != 1.0) return 0;</span>
+<span class="lineNum">     108 </span><span class="lineCov">         24 :       } else if (a-&gt;m[i][j] != 0.0) return 0;</span>
+<span class="lineNum">     109 </span>            :     }
+<span class="lineNum">     110 </span><span class="lineCov">          2 :   return 1;</span>
+<a name="111"><span class="lineNum">     111 </span>            : }</a>
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 : void M4::gl_M4_Mul(M4 *c,M4 *a,M4 *b)</span>
+<span class="lineNum">     114 </span>            : {
+<span class="lineNum">     115 </span>            :   int i,j,k;
+<span class="lineNum">     116 </span>            :   float s;
+<span class="lineNum">     117 </span><span class="lineNoCov">          0 :   for(i=0;i&lt;4;i++)</span>
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :     for(j=0;j&lt;4;j++) {</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :       s=0.0;</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :       for(k=0;k&lt;4;k++) s+=a-&gt;m[i][k]*b-&gt;m[k][j];</span>
+<span class="lineNum">     121 </span><span class="lineNoCov">          0 :       c-&gt;m[i][j]=s;</span>
+<span class="lineNum">     122 </span>            :     }
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 : }</span>
+<a name="124"><span class="lineNum">     124 </span>            : </a>
+<span class="lineNum">     125 </span>            : /* c=c*a */
+<span class="lineNum">     126 </span><span class="lineCov">          4 : void M4::gl_M4_MulLeft(M4 *c,M4 *b)</span>
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span>            :   int i,j,k;
+<span class="lineNum">     129 </span>            :   float s;
+<span class="lineNum">     130 </span><span class="lineCov">          4 :   M4 a;</span>
+<span class="lineNum">     131 </span>            : 
+<span class="lineNum">     132 </span>            :   /*memcpy(&amp;a, c, 16*sizeof(float));
+<span class="lineNum">     133 </span>            :   */
+<span class="lineNum">     134 </span><span class="lineCov">          4 :   a=*c;</span>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">         20 :   for(i=0;i&lt;4;i++)</span>
+<span class="lineNum">     137 </span><span class="lineCov">         80 :     for(j=0;j&lt;4;j++) {</span>
+<span class="lineNum">     138 </span><span class="lineCov">         64 :       s=0.0;</span>
+<span class="lineNum">     139 </span><span class="lineCov">         64 :       for(k=0;k&lt;4;k++) s+=a.m[i][k]*b-&gt;m[k][j];</span>
+<span class="lineNum">     140 </span><span class="lineCov">         64 :       c-&gt;m[i][j]=s;</span>
+<span class="lineNum">     141 </span>            :     }
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">          4 : }</span></a>
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span><span class="lineNoCov">          0 : void M4::gl_M4_Move(M4 *a,M4 *b)</span>
+<span class="lineNum">     145 </span>            : {
+<span class="lineNum">     146 </span><span class="lineNoCov">          0 :         memcpy(a,b,sizeof(M4));</span>
+<span class="lineNum">     147 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            : void M4::gl_MulM4V3(V3 *a,M4 *b,V3 *c)
+<span class="lineNum">     151 </span>            : {
+<span class="lineNum">     152 </span>            :          a-&gt;X=b-&gt;m[0][0]*c-&gt;X+b-&gt;m[0][1]*c-&gt;Y+b-&gt;m[0][2]*c-&gt;Z+b-&gt;m[0][3];
+<span class="lineNum">     153 </span>            :          a-&gt;Y=b-&gt;m[1][0]*c-&gt;X+b-&gt;m[1][1]*c-&gt;Y+b-&gt;m[1][2]*c-&gt;Z+b-&gt;m[1][3];
+<span class="lineNum">     154 </span>            :          a-&gt;Z=b-&gt;m[2][0]*c-&gt;X+b-&gt;m[2][1]*c-&gt;Y+b-&gt;m[2][2]*c-&gt;Z+b-&gt;m[2][3];
+<span class="lineNum">     155 </span>            : }
+<span class="lineNum">     156 </span>            : 
+<a name="157"><span class="lineNum">     157 </span>            :  </a>
+<span class="lineNum">     158 </span>            : 
+<span class="lineNum">     159 </span><span class="lineCov">          3 : void M4::gl_M4_MulV4(V4 *a,M4 *b,V4 *c)</span>
+<span class="lineNum">     160 </span>            : {
+<span class="lineNum">     161 </span><span class="lineCov">          3 :          a-&gt;X=b-&gt;m[0][0]*c-&gt;X+b-&gt;m[0][1]*c-&gt;Y+b-&gt;m[0][2]*c-&gt;Z+b-&gt;m[0][3]*c-&gt;W;</span>
+<span class="lineNum">     162 </span><span class="lineCov">          3 :          a-&gt;Y=b-&gt;m[1][0]*c-&gt;X+b-&gt;m[1][1]*c-&gt;Y+b-&gt;m[1][2]*c-&gt;Z+b-&gt;m[1][3]*c-&gt;W;</span>
+<span class="lineNum">     163 </span><span class="lineCov">          3 :          a-&gt;Z=b-&gt;m[2][0]*c-&gt;X+b-&gt;m[2][1]*c-&gt;Y+b-&gt;m[2][2]*c-&gt;Z+b-&gt;m[2][3]*c-&gt;W;</span>
+<span class="lineNum">     164 </span><span class="lineCov">          3 :          a-&gt;W=b-&gt;m[3][0]*c-&gt;X+b-&gt;m[3][1]*c-&gt;Y+b-&gt;m[3][2]*c-&gt;Z+b-&gt;m[3][3]*c-&gt;W;</span>
+<span class="lineNum">     165 </span><span class="lineCov">          3 : }</span>
+<a name="166"><span class="lineNum">     166 </span>            :         </a>
+<span class="lineNum">     167 </span>            : /* transposition of a 4x4 matrix */
+<span class="lineNum">     168 </span><span class="lineCov">          2 : void M4::gl_M4_Transpose(M4 *a,M4 *b)</span>
+<span class="lineNum">     169 </span>            : {
+<span class="lineNum">     170 </span><span class="lineCov">          2 :   a-&gt;m[0][0]=b-&gt;m[0][0]; </span>
+<span class="lineNum">     171 </span><span class="lineCov">          2 :   a-&gt;m[0][1]=b-&gt;m[1][0]; </span>
+<span class="lineNum">     172 </span><span class="lineCov">          2 :   a-&gt;m[0][2]=b-&gt;m[2][0]; </span>
+<span class="lineNum">     173 </span><span class="lineCov">          2 :   a-&gt;m[0][3]=b-&gt;m[3][0]; </span>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">          2 :   a-&gt;m[1][0]=b-&gt;m[0][1]; </span>
+<span class="lineNum">     176 </span><span class="lineCov">          2 :   a-&gt;m[1][1]=b-&gt;m[1][1]; </span>
+<span class="lineNum">     177 </span><span class="lineCov">          2 :   a-&gt;m[1][2]=b-&gt;m[2][1]; </span>
+<span class="lineNum">     178 </span><span class="lineCov">          2 :   a-&gt;m[1][3]=b-&gt;m[3][1]; </span>
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span><span class="lineCov">          2 :   a-&gt;m[2][0]=b-&gt;m[0][2]; </span>
+<span class="lineNum">     181 </span><span class="lineCov">          2 :   a-&gt;m[2][1]=b-&gt;m[1][2]; </span>
+<span class="lineNum">     182 </span><span class="lineCov">          2 :   a-&gt;m[2][2]=b-&gt;m[2][2]; </span>
+<span class="lineNum">     183 </span><span class="lineCov">          2 :   a-&gt;m[2][3]=b-&gt;m[3][2]; </span>
+<span class="lineNum">     184 </span>            : 
+<span class="lineNum">     185 </span><span class="lineCov">          2 :   a-&gt;m[3][0]=b-&gt;m[0][3]; </span>
+<span class="lineNum">     186 </span><span class="lineCov">          2 :   a-&gt;m[3][1]=b-&gt;m[1][3]; </span>
+<span class="lineNum">     187 </span><span class="lineCov">          2 :   a-&gt;m[3][2]=b-&gt;m[2][3]; </span>
+<span class="lineNum">     188 </span><span class="lineCov">          2 :   a-&gt;m[3][3]=b-&gt;m[3][3]; </span>
+<span class="lineNum">     189 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            : /* inversion of an orthogonal matrix of type Y=M.X+P */ 
+<span class="lineNum">     192 </span>            : void M4::gl_M4_InvOrtho(M4 *a,M4 b)
+<span class="lineNum">     193 </span>            : {
+<span class="lineNum">     194 </span>            :         int i,j;
+<span class="lineNum">     195 </span>            :         float s;
+<span class="lineNum">     196 </span>            :         for(i=0;i&lt;3;i++)
+<span class="lineNum">     197 </span>            :         for(j=0;j&lt;3;j++) a-&gt;m[i][j]=b.m[j][i];
+<span class="lineNum">     198 </span>            :         a-&gt;m[3][0]=0.0; a-&gt;m[3][1]=0.0; a-&gt;m[3][2]=0.0; a-&gt;m[3][3]=1.0;
+<span class="lineNum">     199 </span>            :         for(i=0;i&lt;3;i++) {
+<span class="lineNum">     200 </span>            :                 s=0;
+<span class="lineNum">     201 </span>            :                 for(j=0;j&lt;3;j++) s-=b.m[j][i]*b.m[j][3];
+<span class="lineNum">     202 </span>            :                 a-&gt;m[i][3]=s;
+<span class="lineNum">     203 </span>            :         }
+<span class="lineNum">     204 </span>            : }
+<span class="lineNum">     205 </span>            : 
+<span class="lineNum">     206 </span>            : /* Inversion of a general nxn matrix.
+<a name="207"><span class="lineNum">     207 </span>            :    Note : m is destroyed */</a>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span><span class="lineCov">          2 : int inline Matrix_Inv(float *r,float *m,int n)</span>
+<span class="lineNum">     210 </span>            : {
+<span class="lineNum">     211 </span>            :          int i,j,k,l;
+<span class="lineNum">     212 </span>            :          float max,tmp,t;
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span>            :          /* identitée dans r */
+<span class="lineNum">     215 </span><span class="lineCov">          2 :          for(i=0;i&lt;n*n;i++) r[i]=0;</span>
+<span class="lineNum">     216 </span><span class="lineCov">          2 :          for(i=0;i&lt;n;i++) r[i*n+i]=1;</span>
+<span class="lineNum">     217 </span>            :          
+<span class="lineNum">     218 </span><span class="lineCov">         10 :          for(j=0;j&lt;n;j++) {</span>
+<span class="lineNum">     219 </span>            :                         
+<span class="lineNum">     220 </span>            :                         /* recherche du nombre de plus grand module sur la colonne j */
+<span class="lineNum">     221 </span><span class="lineCov">          8 :                         max=m[j*n+j];</span>
+<span class="lineNum">     222 </span><span class="lineCov">          8 :                         k=j;</span>
+<span class="lineNum">     223 </span><span class="lineCov">         20 :                         for(i=j+1;i&lt;n;i++)</span>
+<span class="lineNum">     224 </span><span class="lineCov">         12 :                                 if (fabs(m[i*n+j])&gt;fabs(max)) {</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :                                          k=i;</span>
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :                                          max=m[i*n+j];</span>
+<span class="lineNum">     227 </span>            :                                 }
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span>            :       /* non intersible matrix */
+<span class="lineNum">     230 </span><span class="lineCov">          8 :       if (max==0) return 1;</span>
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span>            :                         
+<span class="lineNum">     233 </span>            :                         /* permutation des lignes j et k */
+<span class="lineNum">     234 </span><span class="lineCov">          8 :                         if (k!=j) {</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :                                  for(i=0;i&lt;n;i++) {</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :                                                 tmp=m[j*n+i];</span>
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :                                                 m[j*n+i]=m[k*n+i];</span>
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :                                                 m[k*n+i]=tmp;</span>
+<span class="lineNum">     239 </span>            :                                                 
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :                                                 tmp=r[j*n+i];</span>
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :                                                 r[j*n+i]=r[k*n+i];</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :                                                 r[k*n+i]=tmp;</span>
+<span class="lineNum">     243 </span>            :                                  }
+<span class="lineNum">     244 </span>            :                         }
+<span class="lineNum">     245 </span>            :                         
+<span class="lineNum">     246 </span>            :                         /* multiplication de la ligne j par 1/max */
+<span class="lineNum">     247 </span><span class="lineCov">          8 :                         max=1/max;</span>
+<span class="lineNum">     248 </span><span class="lineCov">         40 :                         for(i=0;i&lt;n;i++) {</span>
+<span class="lineNum">     249 </span><span class="lineCov">         32 :                                  m[j*n+i]*=max;</span>
+<span class="lineNum">     250 </span><span class="lineCov">         32 :                                  r[j*n+i]*=max;</span>
+<span class="lineNum">     251 </span>            :                         }
+<span class="lineNum">     252 </span>            :                         
+<span class="lineNum">     253 </span>            :                         
+<span class="lineNum">     254 </span><span class="lineCov">         40 :                         for(l=0;l&lt;n;l++) if (l!=j) {</span>
+<span class="lineNum">     255 </span><span class="lineCov">         24 :                                  t=m[l*n+j];</span>
+<span class="lineNum">     256 </span><span class="lineCov">        120 :                                  for(i=0;i&lt;n;i++) {</span>
+<span class="lineNum">     257 </span><span class="lineCov">         96 :                                                 m[l*n+i]-=m[j*n+i]*t;</span>
+<span class="lineNum">     258 </span><span class="lineCov">         96 :                                                 r[l*n+i]-=r[j*n+i]*t;</span>
+<span class="lineNum">     259 </span>            :                                  }
+<span class="lineNum">     260 </span>            :                         }
+<span class="lineNum">     261 </span>            :          }
+<span class="lineNum">     262 </span>            : 
+<span class="lineNum">     263 </span><span class="lineCov">          2 :          return 0;</span>
+<span class="lineNum">     264 </span>            : }
+<span class="lineNum">     265 </span>            : 
+<span class="lineNum">     266 </span>            : 
+<a name="267"><span class="lineNum">     267 </span>            : /* inversion of a 4x4 matrix */</a>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span><span class="lineCov">          2 : void M4::gl_M4_Inv(M4 *a,M4 *b)</span>
+<span class="lineNum">     270 </span>            : {
+<span class="lineNum">     271 </span><span class="lineCov">          2 :   M4 tmp;</span>
+<span class="lineNum">     272 </span><span class="lineCov">          2 :   memcpy(&amp;tmp, b, 16*sizeof(float));</span>
+<span class="lineNum">     273 </span>            :   /*tmp=*b;*/
+<span class="lineNum">     274 </span><span class="lineCov">          2 :   Matrix_Inv(&amp;a-&gt;m[0][0],&amp;tmp.m[0][0],4);</span>
+<a name="275"><span class="lineNum">     275 </span><span class="lineCov">          2 : }</span></a>
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 : void M4::gl_M4_Rotate(M4 *a,float t,int u)</span>
+<span class="lineNum">     278 </span>            : {
+<span class="lineNum">     279 </span>            :          float s,c;
+<span class="lineNum">     280 </span>            :          int v,w;
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :    if ((v=u+1)&gt;2) v=0;</span>
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :          if ((w=v+1)&gt;2) w=0;</span>
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :          s=sin(t);</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :          c=cos(t);</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :          gl_M4_Id(a);</span>
+<span class="lineNum">     286 </span><span class="lineNoCov">          0 :          a-&gt;m[v][v]=c;       a-&gt;m[v][w]=-s;</span>
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :          a-&gt;m[w][v]=s;       a-&gt;m[w][w]=c;</span>
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">     289 </span>            :         
+<span class="lineNum">     290 </span>            :                                                                                                                                                                                                                 
+<span class="lineNum">     291 </span>            : /* vector arithmetic */
+<span class="lineNum">     292 </span>            : 
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            : #endif  __ZMATH__
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
