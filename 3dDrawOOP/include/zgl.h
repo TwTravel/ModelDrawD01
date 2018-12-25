@@ -9,7 +9,7 @@
 #include "gl.h"
 #include "zbuffer.h"
 #include "zmath.h"
-#include "zfeatures.h"
+ 
 #include <vector>
 
 using namespace std;
@@ -142,15 +142,6 @@ typedef struct GLSharedState {
   GLTexture **texture_hash_table;
 } GLSharedState;
 
- //GLTexture *current_texture;
-
-
-/* shared state */
-
-/*typedef struct GLSharedState {
-  GLList **lists;
-  GLTexture **texture_hash_table;
-} GLSharedState;*/
 
 struct GLContext;
 

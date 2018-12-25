@@ -36,13 +36,7 @@
     <ClInclude Include="include\GLView.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\glx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\msghandling.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\nglx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\oscontext.h">
@@ -57,16 +51,10 @@
     <ClInclude Include="include\zbuffer.h">
       <Filter>头文件\TyGl</Filter>
     </ClInclude>
-    <ClInclude Include="include\zfeatures.h">
-      <Filter>头文件\TyGl</Filter>
-    </ClInclude>
     <ClInclude Include="include\zgl.h">
       <Filter>头文件\TyGl</Filter>
     </ClInclude>
     <ClInclude Include="include\zmath.h">
-      <Filter>头文件\TyGl</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ztriangle.h">
       <Filter>头文件\TyGl</Filter>
     </ClInclude>
     <ClInclude Include="include\texture.h">
@@ -102,9 +90,6 @@
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
     <ClCompile Include="TyGL\matrix.cpp">
-      <Filter>源文件\TyGl</Filter>
-    </ClCompile>
-    <ClCompile Include="TyGL\misc.cpp">
       <Filter>源文件\TyGl</Filter>
     </ClCompile>
     <ClCompile Include="TyGL\msghandling.cpp">

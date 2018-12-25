@@ -1,8 +1,6 @@
  
 #include <math.h>
 #include "gl.h"
-#include "glu.h"
-//#include "gluint.h"
 
 //typedef GLInt  int;
 

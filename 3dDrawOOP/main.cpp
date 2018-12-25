@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gl.h"										
-#include "glu.h"
 //#include "glut.h"
 #include <math.h>
 #include "3DS.h"
@@ -157,6 +156,8 @@ void RenderScene()
     //glutSwapBuffers();
 }
 
+void gluPerspective( GLdouble fovy, GLdouble aspect,
+		     GLdouble zNear, GLdouble zFar );
 void reshape(int width, int height)		
 {
 	if (height==0)										

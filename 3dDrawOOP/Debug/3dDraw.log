@@ -1,11 +1,11 @@
-﻿生成启动时间为 2018/12/26 3:11:37。
+﻿生成启动时间为 2018/12/26 4:33:00。
 项目“E:\graphdev\ModelDrawD01\3dDrawOOP\3dDraw.vcxproj”在节点 2 上(rebuild 个目标)。
 _PrepareForClean:
   正在删除文件“Debug\3dDraw.lastbuildstate”。
 InitializeBuildStatus:
-  正在创建“Debug\3dDraw.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+  正在对“Debug\3dDraw.unsuccessfulbuild”执行 Touch 任务。
 ClCompile:
-  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ITyGL /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /Zp1 /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt 3DS.cpp main.cpp TyGL\api.cpp TyGL\clip.cpp TyGL\error.cpp TyGL\glx.cpp TyGL\image_util.cpp TyGL\init.cpp TyGL\kh_project.cpp TyGL\light.cpp TyGL\matrix.cpp TyGL\misc.cpp TyGL\msghandling.cpp TyGL\specbuf.cpp TyGL\vertex.cpp TyGL\zbuffer.cpp TyGL\ztriangle.cpp
+  c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ITyGL /I.\include /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /Zp1 /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt 3DS.cpp main.cpp TyGL\api.cpp TyGL\clip.cpp TyGL\error.cpp TyGL\glx.cpp TyGL\image_util.cpp TyGL\init.cpp TyGL\kh_project.cpp TyGL\light.cpp TyGL\matrix.cpp TyGL\msghandling.cpp TyGL\specbuf.cpp TyGL\vertex.cpp TyGL\zbuffer.cpp TyGL\ztriangle.cpp
   ztriangle.cpp
 e:\graphdev\modeldrawd01\3ddrawoop\tygl\ztriangle.cpp(76): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
 e:\graphdev\modeldrawd01\3ddrawoop\tygl\ztriangle.cpp(77): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
@@ -65,7 +65,6 @@ e:\graphdev\modeldrawd01\3ddrawoop\tygl\vertex.cpp(39): warning C4244: “=”: 
 e:\graphdev\modeldrawd01\3ddrawoop\tygl\vertex.cpp(40): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
   specbuf.cpp
   msghandling.cpp
-  misc.cpp
   matrix.cpp
   light.cpp
 e:\graphdev\modeldrawd01\3ddrawoop\tygl\light.cpp(46): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
@@ -182,40 +181,40 @@ e:\graphdev\modeldrawd01\3ddrawoop\c24bitmap.h(506): warning C4996: 'fopen': Thi
           c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
 e:\graphdev\modeldrawd01\3ddrawoop\c24bitmap.h(518): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
-e:\graphdev\modeldrawd01\3ddrawoop\include\x11imp.h(170): warning C4101: “buf”: 未引用的局部变量
-e:\graphdev\modeldrawd01\3ddrawoop\include\x11imp.h(169): warning C4101: “k”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\include\x11imp.h(152): warning C4101: “buf”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\include\x11imp.h(151): warning C4101: “k”: 未引用的局部变量
 e:\graphdev\modeldrawd01\3ddrawoop\readstl.h(282): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(145): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(145): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(145): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(148): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(210): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(210): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(211): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(211): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(212): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(212): warning C4305: “初始化”: 从“double”到“float”截断
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(213): warning C4305: “初始化”: 从“double”到“float”截断
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(213): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(214): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(214): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(215): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(215): warning C4305: “初始化”: 从“double”到“float”截断
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(216): warning C4305: “初始化”: 从“double”到“float”截断
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(216): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(217): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(217): warning C4305: “初始化”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(243): warning C4101: “Emission”: 未引用的局部变量
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(264): warning C4018: “<”: 有符号/无符号不匹配
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(270): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(270): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(270): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(274): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(274): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(274): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(258): warning C4101: “i”: 未引用的局部变量
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(308): warning C4305: “参数”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(290): warning C4101: “i”: 未引用的局部变量
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(423): warning C4305: “+=”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(433): warning C4305: “+=”: 从“double”到“float”截断
-e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(444): warning C4305: “+=”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(218): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(218): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(219): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(219): warning C4305: “初始化”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(245): warning C4101: “Emission”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(266): warning C4018: “<”: 有符号/无符号不匹配
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(272): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(276): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(276): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(276): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(260): warning C4101: “i”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(310): warning C4305: “参数”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(292): warning C4101: “i”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(425): warning C4305: “+=”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(435): warning C4305: “+=”: 从“double”到“float”截断
+e:\graphdev\modeldrawd01\3ddrawoop\main.cpp(446): warning C4305: “+=”: 从“double”到“float”截断
   3DS.cpp
 e:\graphdev\modeldrawd01\3ddrawoop\3ds.cpp(24): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : 参见“fopen”的声明
@@ -236,7 +235,6 @@ Link:
   Debug\kh_project.obj
   Debug\light.obj
   Debug\matrix.obj
-  Debug\misc.obj
   Debug\msghandling.obj
   Debug\specbuf.obj
   Debug\vertex.obj
@@ -252,4 +250,4 @@ FinalizeBuildStatus:
 
 生成成功。
 
-已用时间 00:00:16.60
+已用时间 00:00:13.96

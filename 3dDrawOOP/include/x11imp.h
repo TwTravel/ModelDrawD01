@@ -3,20 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 
-//#include <X11/Xlib.h>
-//#include <X11/Xutil.h>
-//#include <X11/keysym.h>
-
-#include "glx.h" 
+ 
 #include "gl.h"
 #include "ui.h"
 
-
-//#include <sys/ipc.h>
-//#include <sys/shm.h>
-//#include <X11/extensions/XShm.h>
-//#include <X11/Xlib.h>
-//#include <X11/Xutil.h>
+ 
 
 #include "zgl.h"
 
@@ -25,16 +16,7 @@
 #  define M_PI 3.14159265
 #endif
 
-//#include "c24bitmap.h"
-//#include "c256bitmap.h"
-
-
-
-static int attributeList[] = { GLX_RGBA, GLX_DOUBLEBUFFER, NULL };
-
-
-//Display *dpy;
-//Window win;
+ 
 void glXSwapBuffers( );
 
 void tkSwapBuffers()

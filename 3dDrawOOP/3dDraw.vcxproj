@@ -70,18 +70,14 @@
     <ClInclude Include="include\gl.h" />
     <ClInclude Include="include\glu.h" />
     <ClInclude Include="include\GLView.h" />
-    <ClInclude Include="include\glx.h" />
     <ClInclude Include="include\msghandling.h" />
-    <ClInclude Include="include\nglx.h" />
     <ClInclude Include="include\oscontext.h" />
     <ClInclude Include="include\specbuf.h" />
     <ClInclude Include="include\texture.h" />
     <ClInclude Include="include\ui.h" />
     <ClInclude Include="include\zbuffer.h" />
-    <ClInclude Include="include\zfeatures.h" />
     <ClInclude Include="include\zgl.h" />
     <ClInclude Include="include\zmath.h" />
-    <ClInclude Include="include\ztriangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3DS.cpp" />
@@ -95,7 +91,6 @@
     <ClCompile Include="TyGL\kh_project.cpp" />
     <ClCompile Include="TyGL\light.cpp" />
     <ClCompile Include="TyGL\matrix.cpp" />
-    <ClCompile Include="TyGL\misc.cpp" />
     <ClCompile Include="TyGL\msghandling.cpp" />
     <ClCompile Include="TyGL\specbuf.cpp" />
     <ClCompile Include="TyGL\vertex.cpp" />

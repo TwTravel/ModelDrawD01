@@ -2,10 +2,7 @@
 #define __ZMATH__
 #include <string.h>
 /* Matrix & Vertex */
- 
-
-
- 
+  
 
 #define X v[0]
 #define Y v[1]

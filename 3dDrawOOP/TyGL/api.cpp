@@ -24,7 +24,7 @@ void glVertex4f(float x,float y,float z,float w)
 	c->vertex_max <<= 1;	/* just double size */
 	newarray = (GLVertex *)gl_malloc(sizeof(GLVertex) * c->vertex_max);
 	if (!newarray) {
-	    gl_fatal_error("unable to allocate GLVertex array.\n");
+	   exit(0);// gl_fatal_error("unable to allocate GLVertex array.\n");
 	}
 	memcpy(newarray, c->vertex, n * sizeof(GLVertex));
 	gl_free(c->vertex);
@@ -124,7 +124,7 @@ void glVertex4f(float x,float y,float z,float w)
     case GL_POLYGON:
 	break;
     default:
-	gl_fatal_error("glBegin: type %x not handled\n", c->begin_type);
+	 exit(0);//gl_fatal_error("glBegin: type %x not handled\n", c->begin_type);
     }
 
     c->vertex_n = n;
@@ -686,13 +686,13 @@ void glViewport(int x,int y,int width,int height)
 
     if (c->gl_resize_viewport && 
         c->gl_resize_viewport(c,&xsize_req,&ysize_req) != 0) {
-      gl_fatal_error("glViewport: error while resizing display");
+      exit(0);//gl_fatal_error("glViewport: error while resizing display");
     }
 
     xsize=xsize_req-xmin;
     ysize=ysize_req-ymin;
     if (xsize <= 0 || ysize <= 0) {
-      gl_fatal_error("glViewport: size too small");
+    exit(0);//  gl_fatal_error("glViewport: size too small");
     }
 
     //tgl_trace("glViewport: %d %d %d %d\n",
@@ -1098,7 +1098,7 @@ void glTexImage2D( int target, int level, int components,
   if (!(target == GL_TEXTURE_2D && level == 0 && components == 3 && 
         border == 0 && format == GL_RGB &&
         type == GL_UNSIGNED_BYTE)) {
-    gl_fatal_error("glTexImage2D: combinaison of parameters not handled");
+    exit(0);//gl_fatal_error("glTexImage2D: combinaison of parameters not handled");
   }
   
   do_free=0;
