@@ -1,0 +1,4113 @@
+--------------------------------api.cpp--------------------------------
+#include "zgl.h"
+#include <stdio.h>
+/* glVertex */
+void gl_vertex_transform(GLContext * c, GLVertex * v);
+void glopMaterial(GLContext *c,GLParam *p);
+
+void glVertex4f(float x,float y,float z,float w)
+{
+  GLContext *c=gl_get_context(); 
+  GLVertex *v;
+
+    int n, i, cnt;
+
+    assert(c->in_begin != 0);
+
+    n = c->vertex_n;
+    cnt = c->vertex_cnt;
+    cnt++;
+    c->vertex_cnt = cnt;
+
+    /* quick fix to avoid crashes on large polygons */
+    if (n >= c->vertex_max) {
+	GLVertex *newarray;
+	c->vertex_max <<= 1;	/* just double size */
+	newarray = (GLVertex *)gl_malloc(sizeof(GLVertex) * c->vertex_max);
+	if (!newarray) {
+	   exit(0);// gl_fatal_error("unable to allocate GLVertex array.\n");
+	}
+	memcpy(newarray, c->vertex, n * sizeof(GLVertex));
+	gl_free(c->vertex);
+	c->vertex = newarray;
+    }
+    /* new vertex entry */
+    v = &c->vertex[n];
+    n++;
+
+    v->coord.X = x;
+    v->coord.Y = y;
+    v->coord.Z = z;
+    v->coord.W = w;
+
+    gl_vertex_transform(c, v);
+
+    /* color */
+
+    if (c->lighting_enabled) {
+	gl_shade_vertex(c, v);
+    } else {
+	v->color = c->current_color;
+    }
+
+    /* tex coords */
+
+    if (c->texture_2d_enabled) {
+	if (c->apply_texture_matrix) {
+	    M4::gl_M4_MulV4(&v->tex_coord, c->matrix_buffer_ptr[2], &c->current_tex_coord);
+	} else {
+	    v->tex_coord = c->current_tex_coord;
+	}
+    }
+    /* precompute the mapping to the viewport */
+    if (v->clip_code == 0)
+	gl_transform_to_viewport(c, v);
+
+    /* edge flag */
+
+    v->edge_flag = c->current_edge_flag;
+
+    switch (c->begin_type) {
+     
+
+   
+
+    case GL_TRIANGLES:
+	if (n == 3) {
+	    gl_draw_triangle(c, &c->vertex[0], &c->vertex[1], &c->vertex[2]);
+	    n = 0;
+	}
+	break;
+    case GL_TRIANGLE_STRIP:
+	if (cnt >= 3) {
+	    if (n == 3)
+		n = 0;
+            /* needed to respect triangle orientation */
+            switch(cnt & 1) {
+            case 0:
+      		gl_draw_triangle(c,&c->vertex[2],&c->vertex[1],&c->vertex[0]);
+      		break;
+            default:
+            case 1:
+      		gl_draw_triangle(c,&c->vertex[0],&c->vertex[1],&c->vertex[2]);
+      		break;
+            }
+	}
+	break;
+    case GL_TRIANGLE_FAN:
+	if (n == 3) {
+	    gl_draw_triangle(c, &c->vertex[0], &c->vertex[1], &c->vertex[2]);
+	    c->vertex[1] = c->vertex[2];
+	    n = 2;
+	}
+	break;
+
+    case GL_QUADS:
+	if (n == 4) {
+	    c->vertex[2].edge_flag = 0;
+	    gl_draw_triangle(c, &c->vertex[0], &c->vertex[1], &c->vertex[2]);
+	    c->vertex[2].edge_flag = 1;
+	    c->vertex[0].edge_flag = 0;
+	    gl_draw_triangle(c, &c->vertex[0], &c->vertex[2], &c->vertex[3]);
+	    n = 0;
+	}
+	break;
+
+    case GL_QUAD_STRIP:
+	if (n == 4) {
+	    gl_draw_triangle(c, &c->vertex[0], &c->vertex[1], &c->vertex[2]);
+	    gl_draw_triangle(c, &c->vertex[1], &c->vertex[3], &c->vertex[2]);
+	    for (i = 0; i < 2; i++)
+		c->vertex[i] = c->vertex[i + 2];
+	    n = 2;
+	}
+	break;
+    case GL_POLYGON:
+	break;
+    default:
+	 exit(0);//gl_fatal_error("glBegin: type %x not handled\n", c->begin_type);
+    }
+
+    c->vertex_n = n;
+ // glopVertex(GLContext * c, GLParam * p)
+}
+
+void glVertex2f(float x,float y) 
+{
+  glVertex4f(x,y,0,1);
+}
+
+void glVertex3f(float x,float y,float z) 
+{
+  glVertex4f(x,y,z,1);
+}
+
+void glVertex3fv(float *v) 
+{
+  glVertex4f(v[0],v[1],v[2],1);
+}
+
+/* glNormal */
+
+void glNormal3f(float x,float y,float z)
+{
+  GLContext *c=gl_get_context(); 
+  c->current_normal.X = x;
+  c->current_normal.Y = y;
+  c->current_normal.Z = z;
+  c->current_normal.W = 0;
+}
+
+void glNormal3fv(float *v) 
+{
+  glNormal3f(v[0],v[1],v[2]);
+}
+
+/* glColor */
+
+void glColor4f(float r,float g,float b,float a)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[8];
+
+  //p[0].op=OP_Color;
+  p[1].f=r;
+  p[2].f=g;
+  p[3].f=b;
+  p[4].f=a;
+  /* direct convertion to integer to go faster if no shading */
+  p[5].ui = (unsigned int) (r * (ZB_POINT_RED_MAX - ZB_POINT_RED_MIN) + 
+                            ZB_POINT_RED_MIN);
+  p[6].ui = (unsigned int) (g * (ZB_POINT_GREEN_MAX - ZB_POINT_GREEN_MIN) + 
+                            ZB_POINT_GREEN_MIN);
+  p[7].ui = (unsigned int) (b * (ZB_POINT_BLUE_MAX - ZB_POINT_BLUE_MIN) + 
+                            ZB_POINT_BLUE_MIN);
+  c->current_color.X = p[1].f;
+    c->current_color.Y = p[2].f;
+    c->current_color.Z = p[3].f;
+    c->current_color.W = p[4].f;
+    c->longcurrent_color[0] = p[5].ui;
+    c->longcurrent_color[1] = p[6].ui;
+    c->longcurrent_color[2] = p[7].ui;
+
+    if (c->color_material_enabled) {
+	GLParam q[7];
+	//q[0].op = OP_Material;
+	q[1].i = c->current_color_material_mode;
+	q[2].i = c->current_color_material_type;
+	q[3].f = p[1].f;
+	q[4].f = p[2].f;
+	q[5].f = p[3].f;
+	q[6].f = p[4].f;
+	glopMaterial(c, q);
+    }
+}
+
+ 
+
+void glColor3f(float x,float y,float z) 
+{
+  glColor4f(x,y,z,1);
+}
+
+ 
+
+/* TexCoord */
+
+void glTexCoord4f(float s,float t,float r,float q)
+{
+    GLContext *c=gl_get_context(); 
+    c->current_tex_coord.X = s;
+    c->current_tex_coord.Y =  t;
+    c->current_tex_coord.Z = r;
+    c->current_tex_coord.W = q;
+}
+
+void glTexCoord2f(float s,float t)
+{
+  glTexCoord4f(s,t,0,1);
+}
+
+void glTexCoord2fv(float *v)
+{
+  glTexCoord4f(v[0],v[1],0,1);
+}
+
+ 
+void GL_EnableDisable(GLContext *c,GLParam *p)
+{
+  int code=p[1].i;
+  int v=p[2].i;
+
+  switch(code) {
+  case GL_CULL_FACE:
+    c->cull_face_enabled=v;
+    break;
+  case GL_LIGHTING:
+    c->lighting_enabled=v;
+    break;
+  case GL_COLOR_MATERIAL:
+    c->color_material_enabled=v;
+      break;
+  case GL_TEXTURE_2D:
+    c->texture_2d_enabled=v;
+    break;
+  case GL_NORMALIZE:
+    c->normalize_enabled=v;
+    break;
+  case GL_DEPTH_TEST:
+    c->depth_test = v;
+    break;
+  case GL_POLYGON_OFFSET_FILL:
+    if (v) c->offset_states |= TGL_OFFSET_FILL;
+    else c->offset_states &= ~TGL_OFFSET_FILL;
+    break; 
+  case GL_POLYGON_OFFSET_POINT:
+    if (v) c->offset_states |= TGL_OFFSET_POINT;
+    else c->offset_states &= ~TGL_OFFSET_POINT;
+    break; 
+  case GL_POLYGON_OFFSET_LINE:
+    if (v) c->offset_states |= TGL_OFFSET_LINE;
+    else c->offset_states &= ~TGL_OFFSET_LINE;
+    break; 
+  default:
+    if (code>=GL_LIGHT0 && code<GL_LIGHT0+MAX_LIGHTS) {
+      gl_enable_disable_light(c,code - GL_LIGHT0, v);
+    } else {
+      /*
+      fprintf(stderr,"glEnableDisable: 0x%X not supported.\n",code);
+      */
+    }
+    break;
+  }
+}
+   
+
+/* glEnable / glDisable */
+
+void glEnable(int cap)
+{
+  GLParam p[3];
+
+  //p[0].op=OP_EnableDisable;
+  p[1].i=cap;
+  p[2].i=1;
+
+   GLContext *c=gl_get_context(); 
+   GL_EnableDisable( c, p);
+   
+}
+
+void glDisable(int cap)
+{
+  GLParam p[3];
+  //p[0].op=OP_EnableDisable;
+  p[1].i=cap;
+  p[2].i=0;
+  
+  GLContext *c=gl_get_context();
+  GL_EnableDisable( c, p);
+}
+
+/* glBegin / glEnd */
+void gl_eval_viewport(GLContext * c);
+void glBegin(int mode)
+{
+   GLContext *c=gl_get_context(); 
+   
+   int type;
+   M4 tmp;
+
+    assert(c->in_begin == 0);
+
+    type = mode;
+    c->begin_type = type;
+    c->in_begin = 1;
+    c->vertex_n = 0;
+    c->vertex_cnt = 0;
+
+    if (c->matrix_model_projection_updated) {
+
+	if (c->lighting_enabled) {
+	    /* precompute inverse modelview */
+	    M4::gl_M4_Inv(&tmp, c->matrix_buffer_ptr[0]);
+	    M4::gl_M4_Transpose(&c->matrix_model_view_inv, &tmp);
+	} else {
+	    float *m = &c->matrix_model_projection.m[0][0];
+	    /* precompute projection matrix */
+	    M4::gl_M4_Mul(&c->matrix_model_projection,
+		      c->matrix_buffer_ptr[1],
+		      c->matrix_buffer_ptr[0]);
+	    /* test to accelerate computation */
+	    c->matrix_model_projection_no_w_transform = 0;
+	    if (m[12] == 0.0 && m[13] == 0.0 && m[14] == 0.0)
+		c->matrix_model_projection_no_w_transform = 1;
+	}
+
+	/* test if the texture matrix is not Identity */
+	c->apply_texture_matrix = !M4::gl_M4_IsId(c->matrix_buffer_ptr[2]);
+
+	c->matrix_model_projection_updated = 0;
+    }
+    /*  viewport */
+    if (c->viewport.updated) {
+	gl_eval_viewport(c);
+	c->viewport.updated = 0;
+    }
+    /* triangle drawing functions */
+    //if (c->render_mode == GL_SELECT) {
+	//c->draw_triangle_front = gl_draw_triangle_select;
+	//c->draw_triangle_back = gl_draw_triangle_select;
+    //} else 
+	{
+	switch (c->polygon_mode_front) {
+ 
+	default:
+	    c->draw_triangle_front = gl_draw_triangle_fill;
+	    break;
+	}
+
+	switch (c->polygon_mode_back) {
+ 
+	default:
+	    c->draw_triangle_back = gl_draw_triangle_fill;
+	    break;
+	}
+    }
+}
+
+void glEnd(void)
+{
+  GLContext *c=gl_get_context();
+  GLParam p[1];
+
+  //p[0].op=OP_End;
+
+  //glRunFunc(p);
+  // assert(c->in_begin == 1);
+
+    if (c->begin_type == GL_LINE_LOOP) {
+	 
+    } else if (c->begin_type == GL_POLYGON) {
+	int i = c->vertex_cnt;
+	while (i >= 3) {
+	    i--;
+	    gl_draw_triangle(c, &c->vertex[i], &c->vertex[0], &c->vertex[i - 1]);
+	}
+    }
+    c->in_begin = 0;
+}
+
+/* matrix */
+void gl_matrix_update(GLContext *c);
+
+void glMatrixMode(int mode)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[2];
+
+  //p[0].op=OP_MatrixMode;
+  p[1].i=mode;
+
+//  glRunFunc(p);
+  //==================================
+   //int mode=p[1].i;
+  switch(mode) {
+  case GL_MODELVIEW:
+    c->matrix_mode=0;
+    break;
+  case GL_PROJECTION:
+    c->matrix_mode=1;
+    break;
+  case GL_TEXTURE:
+    c->matrix_mode=2;
+    break;
+  default:
+    assert(0);
+  }
+}
+
+void glLoadMatrixf(const float *mm)
+{
+   GLContext *c=gl_get_context(); 
+  GLParam p[17];
+  int i;
+
+  //p[0].op=OP_LoadMatrix;
+  for(i=0;i<16;i++) p[i+1].f=mm[i];
+
+ // glRunFunc(p);
+   M4 *m;
+ 
+  
+  GLParam *q;
+
+  m=c->matrix_buffer_ptr[c->matrix_mode];
+  q=p+1;
+
+  for(i=0;i<4;i++) {
+    m->m[0][i]=q[0].f;
+    m->m[1][i]=q[1].f;
+    m->m[2][i]=q[2].f;
+    m->m[3][i]=q[3].f;
+    q+=4;
+  }
+
+  gl_matrix_update(c);
+}
+
+void glLoadIdentity(void)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[1];
+
+  //p[0].op=OP_LoadIdentity;
+
+  //glRunFunc(p);
+  M4::gl_M4_Id(c->matrix_buffer_ptr[c->matrix_mode]);
+
+  gl_matrix_update(c);
+}
+
+void glMultMatrixf(const float *mm)
+{
+   GLContext *c=gl_get_context(); 
+  GLParam p[17];
+  int i;
+
+  //p[0].op=OP_MultMatrix;
+  for(i=0;i<16;i++) p[i+1].f=mm[i];
+
+  //glRunFunc(p);
+   M4 m;
+ 
+
+  GLParam *q;
+  q=p+1;
+
+  for(i=0;i<4;i++) {
+    m.m[0][i]=q[0].f;
+    m.m[1][i]=q[1].f;
+    m.m[2][i]=q[2].f;
+    m.m[3][i]=q[3].f;
+    q+=4;
+  }
+
+  M4::gl_M4_MulLeft(c->matrix_buffer_ptr[c->matrix_mode],&m);
+
+  gl_matrix_update(c);
+}
+
+void glPushMatrix(void)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[1];
+
+  //p[0].op=OP_PushMatrix;
+
+  //glRunFunc(p);
+  int n=c->matrix_mode;
+  M4 *m;
+
+//  assert( (c->matrix_buffer_ptr[n] - c->matrix_stack[n] + 1 )
+//	   < c->matrix_stack_depth_max[n] );
+
+  m=++c->matrix_buffer_ptr[n];
+  
+  M4::gl_M4_Move(&m[0],&m[-1]);
+
+  gl_matrix_update(c);
+}
+
+void glPopMatrix(void)
+{
+   GLContext *c=gl_get_context(); 
+   GLParam p[1];
+
+  //p[0].op=OP_PopMatrix;
+
+ // glRunFunc(p);
+  int n=c->matrix_mode;
+
+//  assert( c->matrix_buffer_ptr[n] > c->matrix_stack[n] );
+  c->matrix_buffer_ptr[n]--;
+  gl_matrix_update(c);
+}
+
+void glRotatef(float angle,float x,float y,float z)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[5];
+
+  //p[0].op=OP_Rotate;
+  p[1].f=angle;
+  p[2].f=x;
+  p[3].f=y;
+  p[4].f=z;
+
+ // glRunFunc(p);
+
+   M4 m;
+  float u[3];
+//  float angle;
+  int dir_code;
+
+  angle = p[1].f * M_PI / 180.0;
+  u[0]=p[2].f;
+  u[1]=p[3].f;
+  u[2]=p[4].f;
+
+  /* simple case detection */
+  dir_code = ((u[0] != 0)<<2) | ((u[1] != 0)<<1) | (u[2] != 0);
+
+  switch(dir_code) {
+  case 0:
+    M4::gl_M4_Id(&m);
+    break;
+  case 4:
+    if (u[0] < 0) angle=-angle;
+    M4::gl_M4_Rotate(&m,angle,0);
+    break;
+  case 2:
+    if (u[1] < 0) angle=-angle;
+    M4::gl_M4_Rotate(&m,angle,1);
+    break;
+  case 1:
+    if (u[2] < 0) angle=-angle;
+    M4::gl_M4_Rotate(&m,angle,2);
+    break;
+  default:
+    {
+      float cost, sint;
+
+      /* normalize vector */
+      float len = u[0]*u[0]+u[1]*u[1]+u[2]*u[2];
+      if (len == 0.0f) return;
+      len = 1.0f / sqrt(len);
+      u[0] *= len;
+      u[1] *= len;
+      u[2] *= len;
+
+      /* store cos and sin values */
+      cost=cos(angle);
+      sint=sin(angle);
+
+      /* fill in the values */
+      m.m[3][0]=m.m[3][1]=m.m[3][2]=
+        m.m[0][3]=m.m[1][3]=m.m[2][3]=0.0f;
+      m.m[3][3]=1.0f;
+
+      /* do the math */
+      m.m[0][0]=u[0]*u[0]+cost*(1-u[0]*u[0]);
+      m.m[1][0]=u[0]*u[1]*(1-cost)-u[2]*sint;
+      m.m[2][0]=u[2]*u[0]*(1-cost)+u[1]*sint;
+      m.m[0][1]=u[0]*u[1]*(1-cost)+u[2]*sint;
+      m.m[1][1]=u[1]*u[1]+cost*(1-u[1]*u[1]);
+      m.m[2][1]=u[1]*u[2]*(1-cost)-u[0]*sint;
+      m.m[0][2]=u[2]*u[0]*(1-cost)-u[1]*sint;
+      m.m[1][2]=u[1]*u[2]*(1-cost)+u[0]*sint;
+      m.m[2][2]=u[2]*u[2]+cost*(1-u[2]*u[2]);
+    }
+  }
+
+  M4::gl_M4_MulLeft(c->matrix_buffer_ptr[c->matrix_mode],&m);
+
+  gl_matrix_update(c);
+}
+
+void glTranslatef(float x,float y,float z)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[4];
+
+  //p[0].op=OP_Translate;
+  p[1].f=x;
+  p[2].f=y;
+  p[3].f=z;
+
+ // glRunFunc(p);
+   float *m;
+ // float x=p[1].f,y=p[2].f,z=p[3].f;
+
+  m=&c->matrix_buffer_ptr[c->matrix_mode]->m[0][0];
+
+  m[3] = m[0] * x + m[1] * y + m[2]  * z + m[3];
+  m[7] = m[4] * x + m[5] * y + m[6]  * z + m[7];
+  m[11] = m[8] * x + m[9] * y + m[10] * z + m[11];
+  m[15] = m[12] * x + m[13] * y + m[14] * z + m[15];
+
+  gl_matrix_update(c);
+}
+
+void glScalef(float x,float y,float z)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[4];
+
+  //p[0].op=OP_Scale;
+  p[1].f=x;
+  p[2].f=y;
+  p[3].f=z;
+
+  //glRunFunc(p);
+  float *m;
+//  float x=p[1].f,y=p[2].f,z=p[3].f;
+
+  m=&c->matrix_buffer_ptr[c->matrix_mode]->m[0][0];
+
+  m[0] *= x;   m[1] *= y;   m[2]  *= z;
+  m[4] *= x;   m[5] *= y;   m[6]  *= z;
+  m[8] *= x;   m[9] *= y;   m[10] *= z;
+  m[12] *= x;   m[13] *= y;   m[14] *= z;
+  gl_matrix_update(c);
+}
+
+
+void glViewport(int x,int y,int width,int height)
+{
+	GLContext *c=gl_get_context(); 
+   
+  int  xsize_req,ysize_req;
+  
+ // xmin=p[1].i;
+ // ymin=p[2].i;
+  int xmin(x), ymin(y);
+  int xsize=width;
+  int ysize=height;
+
+  /* we may need to resize the zbuffer */
+
+  if (c->viewport.xmin != xmin ||
+      c->viewport.ymin != ymin ||
+      c->viewport.xsize != xsize ||
+      c->viewport.ysize != ysize) {
+
+    xsize_req=xmin+xsize;
+    ysize_req=ymin+ysize;
+
+    if (c->gl_resize_viewport && 
+        c->gl_resize_viewport(c,&xsize_req,&ysize_req) != 0) {
+      exit(0);//gl_fatal_error("glViewport: error while resizing display");
+    }
+
+    xsize=xsize_req-xmin;
+    ysize=ysize_req-ymin;
+    if (xsize <= 0 || ysize <= 0) {
+    exit(0);//  gl_fatal_error("glViewport: size too small");
+    }
+
+    //tgl_trace("glViewport: %d %d %d %d\n",
+     //         xmin, ymin, xsize, ysize);
+    c->viewport.xmin=xmin;
+    c->viewport.ymin=ymin;
+    c->viewport.xsize=xsize;
+    c->viewport.ysize=ysize;
+    
+    c->viewport.updated=1;
+  }
+}
+
+
+void glFrustum(double left,double right,double bottom,double top,
+               double near,double farp)
+{
+  GLContext *c=gl_get_context(); 
+  float *r;
+  M4 m;
+ 
+  float x,y,A,B,C,D;
+
+  x = (2.0*near) / (right-left);
+  y = (2.0*near) / (top-bottom);
+  A = (right+left) / (right-left);
+  B = (top+bottom) / (top-bottom);
+  C = -(farp+near) / ( farp-near);
+  D = -(2.0*farp*near) / (farp-near);
+
+  r=&m.m[0][0];
+  r[0]= x; r[1]=0; r[2]=A; r[3]=0;
+  r[4]= 0; r[5]=y; r[6]=B; r[7]=0;
+  r[8]= 0; r[9]=0; r[10]=C; r[11]=D;
+  r[12]= 0; r[13]=0; r[14]=-1; r[15]=0;
+
+  M4::gl_M4_MulLeft(c->matrix_buffer_ptr[c->matrix_mode],&m);
+
+  gl_matrix_update(c);
+}
+
+void gluPerspective( GLdouble fovy, GLdouble aspect,
+		     GLdouble zNear, GLdouble zFar )
+{
+   GLdouble xmin, xmax, ymin, ymax;
+
+   ymax = zNear * tan( fovy * M_PI / 360.0 );
+   ymin = -ymax;
+
+   xmin = ymin * aspect;
+   xmax = ymax * aspect;
+
+   glFrustum( xmin, xmax, ymin, ymax, zNear, zFar );
+}
+
+/* lightening */
+
+void glMaterialfv(int mode,int type,float *val)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[7];
+  int i,n;
+
+  assert(mode == GL_FRONT  || mode == GL_BACK || mode==GL_FRONT_AND_BACK);
+
+  //p[0].op=OP_Material;
+  p[1].i=mode;
+  p[2].i=type;
+  n=4;
+  if (type == GL_SHININESS) n=1;
+  for(i=0;i<4;i++) p[3+i].f=val[i];
+  for(i=n;i<4;i++) p[3+i].f=0;
+
+  //glRunFunc(p);
+  //int mode=p[1].i;
+  //int type=p[2].i;
+  
+  float vv[4];
+
+  vv[0] = p[3].f;
+  vv[1] = p[4].f;
+  vv[2] = p[5].f;
+  vv[3] = p[6].f; /**/
+   float *v=vv;//&p[3].f;
+ // float *v=&p[3].f;
+//  int i;
+  GLMaterial *m;
+
+  if (mode == GL_FRONT_AND_BACK) {
+    p[1].i=GL_FRONT;
+    glopMaterial(c,p);
+    mode=GL_BACK;
+  }
+  if (mode == GL_FRONT) m=&c->materials[0];
+  else m=&c->materials[1];
+
+  switch(type) {
+  case GL_EMISSION:
+    for(i=0;i<4;i++)
+      m->emission.v[i]=v[i];
+    break;
+  case GL_AMBIENT:
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  case GL_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    break;
+  case GL_SPECULAR:
+    for(i=0;i<4;i++)
+      m->specular.v[i]=v[i];
+    break;
+  case GL_SHININESS:
+    m->shininess=v[0];
+    m->shininess_i = (v[0]/128.0f)*SPECULAR_BUFFER_RESOLUTION;
+    break;
+  case GL_AMBIENT_AND_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  default:
+    assert(0);
+  }
+}
+
+void glMaterialf(int mode,int type,float val)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[7];
+  int i;
+
+  //p[0].op=OP_Material;
+  p[1].i=mode;
+  p[2].i=type;
+  p[3].f=val;
+  for(i=0;i<3;i++) p[4+i].f=0;
+
+  // glRunFunc(p);
+  //  int mode=p[1].i;
+  //  int type=p[2].i;
+  
+  float v[4];
+  v[0] = p[3].f;
+  v[1] = p[4].f;
+  v[2] = p[5].f;
+  v[3] = p[6].f;
+  //float *v=v;//&p[3].f;
+ // float *v=&p[3].f;
+//  int i;
+  GLMaterial *m;
+
+  if (mode == GL_FRONT_AND_BACK) {
+    p[1].i=GL_FRONT;
+    glopMaterial(c,p);
+    mode=GL_BACK;
+  }
+  if (mode == GL_FRONT) m=&c->materials[0];
+  else m=&c->materials[1];
+
+  switch(type) {
+  case GL_EMISSION:
+    for(i=0;i<4;i++)
+      m->emission.v[i]=v[i];
+    break;
+  case GL_AMBIENT:
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  case GL_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    break;
+  case GL_SPECULAR:
+    for(i=0;i<4;i++)
+      m->specular.v[i]=v[i];
+    break;
+  case GL_SHININESS:
+    m->shininess=v[0];
+    m->shininess_i = (v[0]/128.0f)*SPECULAR_BUFFER_RESOLUTION;
+    break;
+  case GL_AMBIENT_AND_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  default:
+    assert(0);
+  }
+}
+
+void glColorMaterial(int mode,int type)
+{
+  GLContext *c=gl_get_context(); 
+  
+  c->current_color_material_mode=mode;
+  c->current_color_material_type=type;
+}
+
+void glLightfv(int light,int type,float *val)
+{ GLContext *c=gl_get_context(); 
+  GLParam p[7];
+  int i;
+
+  //p[0].op=OP_Light;
+  p[1].i=light;
+  p[2].i=type;
+  /* TODO: 3 composants ? */
+  for(i=0;i<4;i++) p[3+i].f=val[i];
+
+ // glRunFunc(p);
+
+ 
+//  GLContext *c=gl_get_context(); 
+  V4 v;
+  GLLight *l;
+//  int i;
+  
+  assert(light >= GL_LIGHT0 && light < GL_LIGHT0+MAX_LIGHTS );
+
+  l=&c->lights[light-GL_LIGHT0];
+
+  for(i=0;i<4;i++) v.v[i]= val[i];//p[3+i].f;
+
+  switch(type) {
+  case GL_AMBIENT:
+    l->ambient=v;
+    break;
+  case GL_DIFFUSE:
+    l->diffuse=v;
+    break;
+  case GL_SPECULAR:
+    l->specular=v;
+    break;
+  case GL_POSITION:
+    {
+      V4 pos;
+      M4::gl_M4_MulV4(&pos,c->matrix_buffer_ptr[0],&v);
+
+      l->position=pos;
+
+      if (l->position.v[3] == 0) {
+        l->norm_position.X=pos.X;
+        l->norm_position.Y=pos.Y;
+        l->norm_position.Z=pos.Z;
+        
+        gl_V3_Norm(&l->norm_position);
+      }
+    }
+    break;
+  case GL_SPOT_DIRECTION:
+    for(i=0;i<3;i++) {
+      l->spot_direction.v[i]=v.v[i];
+      l->norm_spot_direction.v[i]=v.v[i];
+    }
+    gl_V3_Norm(&l->norm_spot_direction);
+    break;
+  case GL_SPOT_EXPONENT:
+    l->spot_exponent=v.v[0];
+    break;
+  case GL_SPOT_CUTOFF:
+    {
+      float a=v.v[0];
+      assert(a == 180 || (a>=0 && a<=90));
+      l->spot_cutoff=a;
+      if (a != 180) l->cos_spot_cutoff=cos(a * M_PI / 180.0);
+    }
+    break;
+  case GL_CONSTANT_ATTENUATION:
+    l->attenuation[0]=v.v[0];
+    break;
+  case GL_LINEAR_ATTENUATION:
+    l->attenuation[1]=v.v[0];
+    break;
+  case GL_QUADRATIC_ATTENUATION:
+    l->attenuation[2]=v.v[0];
+    break;
+  default:
+    assert(0);
+  }
+}
+
+
+void glLightf(int light,int type,float val)
+{ 
+  GLContext *c=gl_get_context(); 
+  V4 v;
+  GLLight *l;
+  int i;
+  
+  assert(light >= GL_LIGHT0 && light < GL_LIGHT0+MAX_LIGHTS );
+
+  l=&c->lights[light-GL_LIGHT0];
+
+  for(i=0;i<4;i++) v.v[i]= val;//p[3+i].f;
+
+  switch(type) {
+  case GL_AMBIENT:
+    l->ambient=v;
+    break;
+  case GL_DIFFUSE:
+    l->diffuse=v;
+    break;
+  case GL_SPECULAR:
+    l->specular=v;
+    break;
+  case GL_POSITION:
+    {
+      V4 pos;
+      M4::gl_M4_MulV4(&pos,c->matrix_buffer_ptr[0],&v);
+
+      l->position=pos;
+
+      if (l->position.v[3] == 0) {
+        l->norm_position.X=pos.X;
+        l->norm_position.Y=pos.Y;
+        l->norm_position.Z=pos.Z;
+        
+        gl_V3_Norm(&l->norm_position);
+      }
+    }
+    break;
+  case GL_SPOT_DIRECTION:
+    for(i=0;i<3;i++) {
+      l->spot_direction.v[i]=v.v[i];
+      l->norm_spot_direction.v[i]=v.v[i];
+    }
+    gl_V3_Norm(&l->norm_spot_direction);
+    break;
+  case GL_SPOT_EXPONENT:
+    l->spot_exponent=v.v[0];
+    break;
+  case GL_SPOT_CUTOFF:
+    {
+      float a=v.v[0];
+      assert(a == 180 || (a>=0 && a<=90));
+      l->spot_cutoff=a;
+      if (a != 180) l->cos_spot_cutoff=cos(a * M_PI / 180.0);
+    }
+    break;
+  case GL_CONSTANT_ATTENUATION:
+    l->attenuation[0]=v.v[0];
+    break;
+  case GL_LINEAR_ATTENUATION:
+    l->attenuation[1]=v.v[0];
+    break;
+  case GL_QUADRATIC_ATTENUATION:
+    l->attenuation[2]=v.v[0];
+    break;
+  default:
+    assert(0);
+  }
+}
+
+void glLightModelfv(int pname,float *param)
+{
+ GLContext *c=gl_get_context(); 
+  
+
+  // int pname=p[1].i;
+  float *v=param;//&p[2].f;
+  int i;
+
+  switch(pname) {
+  case GL_LIGHT_MODEL_AMBIENT:
+    for(i=0;i<4;i++) 
+      c->ambient_light_model.v[i]=v[i];
+    break;
+  case GL_LIGHT_MODEL_LOCAL_VIEWER:
+    c->local_light_model=(int)v[0];
+    break;
+  case GL_LIGHT_MODEL_TWO_SIDE:
+    c->light_model_two_side = (int)v[0];
+    break;
+  default:
+    //tgl_warning("glopLightModel: illegal pname: 0x%x\n", pname);
+    //assert(0);
+    break;
+  }
+}
+
+/* clear */
+
+ 
+
+ 
+/* textures */
+
+void glTexImage2D( int target, int level, int components,
+                   int width, int height, int border,
+                   int format, int type, void *pixels)
+{
+  GLContext *c=gl_get_context(); 
+  
+ 
+  GLImage *im;
+  unsigned char *pixels1;
+  int do_free;
+
+  if (!(target == GL_TEXTURE_2D && level == 0 && components == 3 && 
+        border == 0 && format == GL_RGB &&
+        type == GL_UNSIGNED_BYTE)) {
+    exit(0);//gl_fatal_error("glTexImage2D: combinaison of parameters not handled");
+  }
+  
+  do_free=0;
+  if (width != 256 || height != 256) {
+    pixels1 = (unsigned char*)gl_malloc(256 * 256 * 3);
+    /* no interpolation is done here to respect the original image aliasing ! */
+    gl_resizeImageNoInterpolate(pixels1,256,256,(unsigned char*)pixels,width,height);
+    do_free=1;
+    width=256;
+    height=256;
+  } else {
+    pixels1=(unsigned char*)pixels;
+  }
+
+  im=&c->current_texture->images[level];
+  im->xsize=width;
+  im->ysize=height;
+  if (im->pixmap!=NULL) gl_free(im->pixmap);
+//#if TGL_FEATURE_RENDER_BITS == 24 
+  im->pixmap=gl_malloc(width*height*3);
+  if(im->pixmap) {
+      memcpy(im->pixmap,pixels1,width*height*3);
+  }
+ 
+  if (do_free) gl_free(pixels1);
+}
+
+GLTexture * alloc_texture(GLContext *c,int h)
+{
+  GLTexture *t,**ht;
+  
+  t= (GLTexture *)gl_zalloc(sizeof(GLTexture));
+
+  ht=&c->shared_state.texture_hash_table[h % TEXTURE_HASH_TABLE_SIZE];
+
+  t->next=*ht;
+  t->prev=NULL;
+  if (t->next != NULL) t->next->prev=t;
+  *ht=t;
+
+  t->handle=h;
+  
+  return t;
+}
+ 
+ GLTexture * find_texture(GLContext *c,int h)
+{
+  GLTexture *t;
+
+  t=c->shared_state.texture_hash_table[h % TEXTURE_HASH_TABLE_SIZE];
+  while (t!=NULL) {
+    if (t->handle == h) return t;
+    t=t->next;
+  }
+  return NULL;
+}
+
+void glBindTexture(int target,int texture)
+{
+  GLContext *c=gl_get_context(); 
+  GLParam p[3];
+
+ 
+  GLTexture *t;
+
+  assert(target == GL_TEXTURE_2D && texture >= 0);
+
+  t=find_texture(c,texture);
+  if (t==NULL) {
+    t=alloc_texture(c,texture);
+  }
+  c->current_texture=t;
+}
+
+ 
+
+void glFlush(void)
+{
+  /* nothing to do */
+}
+
+ 
+
+/* Non standard functions */
+
+void glDebug(int mode)
+{
+  GLContext *c=gl_get_context();
+  c->print_flag=mode;
+}
+
+
+--------------------------------clip.cpp--------------------------------
+#include "zgl.h"
+
+/* fill triangle profile */
+/* #define PROFILE */
+
+#define CLIP_XMIN   (1<<0)
+#define CLIP_XMAX   (1<<1)
+#define CLIP_YMIN   (1<<2)
+#define CLIP_YMAX   (1<<3)
+#define CLIP_ZMIN   (1<<4)
+#define CLIP_ZMAX   (1<<5)
+
+/* this clip epsilon is needed to avoid some rounding errors after
+   several clipping stages */
+
+#define CLIP_EPSILON (1E-5)
+
+static inline int gl_clipcode(float x,float y,float z,float w1)
+{
+  float w;
+
+  w=w1 * (1.0 + CLIP_EPSILON);
+  return (x<-w) |
+    ((x>w)<<1) |
+    ((y<-w)<<2) |
+    ((y>w)<<3) |
+    ((z<-w)<<4) | 
+    ((z>w)<<5) ;
+}
+
+void gl_transform_to_viewport(GLContext *c,GLVertex *v)
+{
+  float winv;
+
+  /* coordinates */
+  winv=1.0/v->pc.W;
+  v->zp.x= (int) ( v->pc.X * winv * c->viewport.scale.X 
+                   + c->viewport.trans.X );
+  v->zp.y= (int) ( v->pc.Y * winv * c->viewport.scale.Y 
+                   + c->viewport.trans.Y );
+  v->zp.z= (int) ( v->pc.Z * winv * c->viewport.scale.Z 
+                   + c->viewport.trans.Z );
+  /* color */
+  if (c->lighting_enabled) {
+      v->zp.r=(int)(v->color.v[0] * (ZB_POINT_RED_MAX - ZB_POINT_RED_MIN) 
+                    + ZB_POINT_RED_MIN);
+      v->zp.g=(int)(v->color.v[1] * (ZB_POINT_GREEN_MAX - ZB_POINT_GREEN_MIN) 
+                    + ZB_POINT_GREEN_MIN);
+      v->zp.b=(int)(v->color.v[2] * (ZB_POINT_BLUE_MAX - ZB_POINT_BLUE_MIN) 
+                    + ZB_POINT_BLUE_MIN);
+  } else {
+      /* no need to convert to integer if no lighting : take current color */
+      v->zp.r = c->longcurrent_color[0];
+      v->zp.g = c->longcurrent_color[1];
+      v->zp.b = c->longcurrent_color[2];
+  }
+  
+  /* texture */
+
+  if (c->texture_2d_enabled) {
+    v->zp.s=(int)(v->tex_coord.X * (ZB_POINT_S_MAX - ZB_POINT_S_MIN) 
+                  + ZB_POINT_S_MIN);
+    v->zp.t=(int)(v->tex_coord.Y * (ZB_POINT_T_MAX - ZB_POINT_T_MIN) 
+                  + ZB_POINT_T_MIN);
+  }
+}
+
+/* coords, tranformation , clip code and projection */
+/* TODO : handle all cases */
+ void gl_vertex_transform(GLContext * c, GLVertex * v)
+{
+    float *m;
+    V4 *n;
+
+    if (c->lighting_enabled) {
+	/* eye coordinates needed for lighting */
+
+	m = &c->matrix_buffer_ptr[0]->m[0][0];
+	v->ec.X = (v->coord.X * m[0] + v->coord.Y * m[1] +
+		   v->coord.Z * m[2] + m[3]);
+	v->ec.Y = (v->coord.X * m[4] + v->coord.Y * m[5] +
+		   v->coord.Z * m[6] + m[7]);
+	v->ec.Z = (v->coord.X * m[8] + v->coord.Y * m[9] +
+		   v->coord.Z * m[10] + m[11]);
+	v->ec.W = (v->coord.X * m[12] + v->coord.Y * m[13] +
+		   v->coord.Z * m[14] + m[15]);
+
+	/* projection coordinates */
+	m = &c->matrix_buffer_ptr[1]->m[0][0];
+	v->pc.X = (v->ec.X * m[0] + v->ec.Y * m[1] +
+		   v->ec.Z * m[2] + v->ec.W * m[3]);
+	v->pc.Y = (v->ec.X * m[4] + v->ec.Y * m[5] +
+		   v->ec.Z * m[6] + v->ec.W * m[7]);
+	v->pc.Z = (v->ec.X * m[8] + v->ec.Y * m[9] +
+		   v->ec.Z * m[10] + v->ec.W * m[11]);
+	v->pc.W = (v->ec.X * m[12] + v->ec.Y * m[13] +
+		   v->ec.Z * m[14] + v->ec.W * m[15]);
+
+	m = &c->matrix_model_view_inv.m[0][0];
+	n = &c->current_normal;
+
+	v->normal.X = (n->X * m[0] + n->Y * m[1] + n->Z * m[2]);
+	v->normal.Y = (n->X * m[4] + n->Y * m[5] + n->Z * m[6]);
+	v->normal.Z = (n->X * m[8] + n->Y * m[9] + n->Z * m[10]);
+
+	if (c->normalize_enabled) {
+	    gl_V3_Norm(&v->normal);
+	}
+    } else {
+	/* no eye coordinates needed, no normal */
+	/* NOTE: W = 1 is assumed */
+	m = &c->matrix_model_projection.m[0][0];
+
+	v->pc.X = (v->coord.X * m[0] + v->coord.Y * m[1] +
+		   v->coord.Z * m[2] + m[3]);
+	v->pc.Y = (v->coord.X * m[4] + v->coord.Y * m[5] +
+		   v->coord.Z * m[6] + m[7]);
+	v->pc.Z = (v->coord.X * m[8] + v->coord.Y * m[9] +
+		   v->coord.Z * m[10] + m[11]);
+	if (c->matrix_model_projection_no_w_transform) {
+	    v->pc.W = m[15];
+	} else {
+	    v->pc.W = (v->coord.X * m[12] + v->coord.Y * m[13] +
+		       v->coord.Z * m[14] + m[15]);
+	}
+    }
+
+    v->clip_code = gl_clipcode(v->pc.X, v->pc.Y, v->pc.Z, v->pc.W);
+}
+
+ /* triangle */
+
+/*
+ * Clipping
+ */
+
+/* We clip the segment [a,b] against the 6 planes of the normal volume.
+ * We compute the point 'c' of intersection and the value of the parameter 't'
+ * of the intersection if x=a+t(b-a). 
+ */
+	 
+static float clip_xmin(V4 *c,V4 *a,V4 *b) 
+{ float t,dX,dY,dZ,dW,den;
+ dX = (b->v[0] - a->v[0]);
+ dY = (b->v[1] - a->v[1]);
+ dZ = (b->v[2] - a->v[2]);
+ dW = (b->v[3] - a->v[3]);
+ den = -(- dX) + dW;
+ if (den == 0)
+	 t=0;
+ else 
+	 t = ( - a->v[0] - a->v[3]) / den;
+ c->v[1] = a->v[1] + t * dY;
+ c->v[2] = a->v[2] + t * dZ;
+ c->v[3] = a->v[3] + t * dW;
+ c->v[0] = - c->v[3];
+ return t;
+}
+
+static float clip_xmax(V4 *c,V4 *a,V4 *b) { float t,dX,dY,dZ,dW,den;
+ dX = (b->v[0] - a->v[0]);
+ dY = (b->v[1] - a->v[1]);
+ dZ = (b->v[2] - a->v[2]);
+ dW = (b->v[3] - a->v[3]);
+ den = -(+ dX) + dW;
+ if (den == 0) 
+	 t=0;
+ else 
+	 t = ( + a->v[0] - a->v[3]) / den;
+ c->v[1] = a->v[1] + t * dY;
+ c->v[2] = a->v[2] + t * dZ;
+ c->v[3] = a->v[3] + t * dW;
+ c->v[0] = + c->v[3];
+ return t;
+}
+
+static float clip_ymin(V4 *c,V4 *a,V4 *b) { float t,dX,dY,dZ,dW,den;
+ dX = (b->v[0] - a->v[0]);
+ dY = (b->v[1] - a->v[1]);
+ dZ = (b->v[2] - a->v[2]);
+ dW = (b->v[3] - a->v[3]);
+ den = -(- dY) + dW;
+ if (den == 0) 
+	 t=0;
+ else 
+	 t = ( - a->v[1] - a->v[3]) / den;
+ c->v[0] = a->v[0] + t * dX;
+ c->v[2] = a->v[2] + t * dZ;
+ c->v[3] = a->v[3] + t * dW;
+ c->v[1] = - c->v[3];
+ return t;
+}
+
+static float clip_ymax(V4 *c,V4 *a,V4 *b) { float t,dX,dY,dZ,dW,den;
+ dX = (b->v[0] - a->v[0]);
+ dY = (b->v[1] - a->v[1]);
+ dZ = (b->v[2] - a->v[2]);
+ dW = (b->v[3] - a->v[3]);
+ den = -(+ dY) + dW;
+ if (den == 0) t=0;
+ else t = ( + a->v[1] - a->v[3]) / den;
+ c->v[0] = a->v[0] + t * dX;
+ c->v[2] = a->v[2] + t * dZ;
+ c->v[3] = a->v[3] + t * dW;
+ c->v[1] = + c->v[3];
+ return t;
+}
+
+static float clip_zmin(V4 *c,V4 *a,V4 *b) { float t,dX,dY,dZ,dW,den;
+ dX = (b->v[0] - a->v[0]);
+ dY = (b->v[1] - a->v[1]);
+ dZ = (b->v[2] - a->v[2]);
+ dW = (b->v[3] - a->v[3]);
+ den = -(- dZ) + dW;
+ if (den == 0) t=0;
+ else t = ( - a->v[2] - a->v[3]) / den;
+ c->v[0] = a->v[0] + t * dX;
+ c->v[1] = a->v[1] + t * dY;
+ c->v[3] = a->v[3] + t * dW;
+ c->v[2] = - c->v[3];
+ return t;
+}
+static float clip_zmax(V4 *c,V4 *a,V4 *b) { float t,dX,dY,dZ,dW,den;
+ dX = (b->v[0] - a->v[0]);
+ dY = (b->v[1] - a->v[1]);
+ dZ = (b->v[2] - a->v[2]);
+ dW = (b->v[3] - a->v[3]);
+ den = -(+ dZ) + dW;
+ if (den == 0) t=0;
+ else t = ( + a->v[2] - a->v[3]) / den;
+ c->v[0] = a->v[0] + t * dX;
+ c->v[1] = a->v[1] + t * dY;
+ c->v[3] = a->v[3] + t * dW;
+ c->v[2] = + c->v[3];
+ return t;
+}
+
+
+
+
+float (*clip_proc[6])(V4 *,V4 *,V4 *)=  {
+    clip_xmin,clip_xmax,
+    clip_ymin,clip_ymax,
+    clip_zmin,clip_zmax
+};
+
+static inline void updateTmp(GLContext *c,
+			     GLVertex *q,GLVertex *p0,GLVertex *p1,float t)
+{
+  if (c->current_shade_model == GL_SMOOTH) {
+    q->color.v[0]=p0->color.v[0] + (p1->color.v[0]-p0->color.v[0])*t;
+    q->color.v[1]=p0->color.v[1] + (p1->color.v[1]-p0->color.v[1])*t;
+    q->color.v[2]=p0->color.v[2] + (p1->color.v[2]-p0->color.v[2])*t;
+  } else {
+    q->color.v[0]=p0->color.v[0];
+    q->color.v[1]=p0->color.v[1];
+    q->color.v[2]=p0->color.v[2];
+  }
+
+  if (c->texture_2d_enabled) {
+    q->tex_coord.X=p0->tex_coord.X + (p1->tex_coord.X-p0->tex_coord.X)*t;
+    q->tex_coord.Y=p0->tex_coord.Y + (p1->tex_coord.Y-p0->tex_coord.Y)*t;
+  }
+
+  q->clip_code=gl_clipcode(q->pc.X,q->pc.Y,q->pc.Z,q->pc.W);
+  if (q->clip_code==0)
+    gl_transform_to_viewport(c,q);
+}
+
+static void gl_draw_triangle_clip(GLContext *c,
+                                  GLVertex *p0,GLVertex *p1,GLVertex *p2,int clip_bit);
+
+void gl_draw_triangle(GLContext *c,
+                      GLVertex *p0,GLVertex *p1,GLVertex *p2)
+{
+  int co,c_and,cc[3],front;
+  float norm;
+  
+  cc[0]=p0->clip_code;
+  cc[1]=p1->clip_code;
+  cc[2]=p2->clip_code;
+  
+  co=cc[0] | cc[1] | cc[2];
+
+  /* we handle the non clipped case here to go faster */
+  if (co==0) {
+    
+      norm=(float)(p1->zp.x-p0->zp.x)*(float)(p2->zp.y-p0->zp.y)-
+        (float)(p2->zp.x-p0->zp.x)*(float)(p1->zp.y-p0->zp.y);
+      
+      if (norm == 0) return;
+
+      front = norm < 0.0;
+      front = front ^ c->current_front_face;
+  
+      /* back face culling */
+      if (c->cull_face_enabled) {
+        /* most used case first */
+        if (c->current_cull_face == GL_BACK) {
+          if (front == 0) return;
+          c->draw_triangle_front(c,p0,p1,p2);
+        } else if (c->current_cull_face == GL_FRONT) {
+          if (front != 0) return;
+          c->draw_triangle_back(c,p0,p1,p2);
+        } else {
+          return;
+        }
+      } else {
+        /* no culling */
+        if (front) {
+          c->draw_triangle_front(c,p0,p1,p2);
+        } else {
+          c->draw_triangle_back(c,p0,p1,p2);
+        }
+      }
+  } else {
+    c_and=cc[0] & cc[1] & cc[2];
+    if (c_and==0) {
+      gl_draw_triangle_clip(c,p0,p1,p2,0);
+    }
+  }
+}
+
+static void gl_draw_triangle_clip(GLContext *c,
+                                  GLVertex *p0,GLVertex *p1,GLVertex *p2,int clip_bit)
+{
+  int co,c_and,co1,cc[3],edge_flag_tmp,clip_mask;
+  GLVertex tmp1,tmp2,*q[3];
+  float tt;
+  
+  cc[0]=p0->clip_code;
+  cc[1]=p1->clip_code;
+  cc[2]=p2->clip_code;
+  
+  co=cc[0] | cc[1] | cc[2];
+  if (co == 0) {
+    gl_draw_triangle(c,p0,p1,p2);
+  } else {
+    c_and=cc[0] & cc[1] & cc[2];
+    /* the triangle is completely outside */
+    if (c_and!=0) return;
+
+    /* find the next direction to clip */
+    while (clip_bit < 6 && (co & (1 << clip_bit)) == 0)  {
+      clip_bit++;
+    }
+
+    /* this test can be true only in case of rounding errors */
+    if (clip_bit == 6) {
+#if 0
+      printf("Error:\n");
+      printf("%f %f %f %f\n",p0->pc.X,p0->pc.Y,p0->pc.Z,p0->pc.W);
+      printf("%f %f %f %f\n",p1->pc.X,p1->pc.Y,p1->pc.Z,p1->pc.W);
+      printf("%f %f %f %f\n",p2->pc.X,p2->pc.Y,p2->pc.Z,p2->pc.W);
+#endif
+      return;
+    }
+  
+    clip_mask = 1 << clip_bit;
+    co1=(cc[0] ^ cc[1] ^ cc[2]) & clip_mask;
+    
+    if (co1)  { 
+      /* one point outside */
+
+      if (cc[0] & clip_mask) { q[0]=p0; q[1]=p1; q[2]=p2; }
+      else if (cc[1] & clip_mask) { q[0]=p1; q[1]=p2; q[2]=p0; }
+      else { q[0]=p2; q[1]=p0; q[2]=p1; }
+      
+      tt=clip_proc[clip_bit](&tmp1.pc,&q[0]->pc,&q[1]->pc);
+      updateTmp(c,&tmp1,q[0],q[1],tt);
+
+      tt=clip_proc[clip_bit](&tmp2.pc,&q[0]->pc,&q[2]->pc);
+      updateTmp(c,&tmp2,q[0],q[2],tt);
+
+      tmp1.edge_flag=q[0]->edge_flag;
+      edge_flag_tmp=q[2]->edge_flag;
+      q[2]->edge_flag=0;
+      gl_draw_triangle_clip(c,&tmp1,q[1],q[2],clip_bit+1);
+
+      tmp2.edge_flag=1;
+      tmp1.edge_flag=0;
+      q[2]->edge_flag=edge_flag_tmp;
+      gl_draw_triangle_clip(c,&tmp2,&tmp1,q[2],clip_bit+1);
+    } else {
+      /* two points outside */
+
+      if ((cc[0] & clip_mask)==0) { q[0]=p0; q[1]=p1; q[2]=p2; }
+      else if ((cc[1] & clip_mask)==0) { q[0]=p1; q[1]=p2; q[2]=p0; } 
+      else { q[0]=p2; q[1]=p0; q[2]=p1; }
+      
+      tt=clip_proc[clip_bit](&tmp1.pc,&q[0]->pc,&q[1]->pc);
+      updateTmp(c,&tmp1,q[0],q[1],tt);
+
+      tt=clip_proc[clip_bit](&tmp2.pc,&q[0]->pc,&q[2]->pc);
+      updateTmp(c,&tmp2,q[0],q[2],tt);
+      
+      tmp1.edge_flag=1;
+      tmp2.edge_flag=q[2]->edge_flag;
+      gl_draw_triangle_clip(c,q[0],&tmp1,&tmp2,clip_bit+1);
+    }
+  }
+}
+
+
+ 
+ 
+
+void gl_draw_triangle_fill(GLContext *c,
+                           GLVertex *p0,GLVertex *p1,GLVertex *p2)
+{
+ 
+    
+  if (c->texture_2d_enabled) {
+ 
+    ZB_setTexture(c->zb,(PIXEL *)c->current_texture->images[0].pixmap);
+    ZB_fillTriangleMappingPerspective(c->zb,&p0->zp,&p1->zp,&p2->zp);
+  } else if (c->current_shade_model == GL_SMOOTH) {
+    ZB_fillTriangleSmooth(c->zb,&p0->zp,&p1->zp,&p2->zp);
+  } 
+}
+
+ 
+
+
+
+
+
+--------------------------------glx.cpp--------------------------------
+/* simple glx driver for TinyGL */
+ 
+//#include <sys/ipc.h>
+//#include <sys/shm.h>
+//#include <X11/extensions/XShm.h>
+#include "zgl.h"
+
+#include "c24bitmap.h"
+#include "c256bitmap.h"
+
+
+  
+
+
+void glXSwapBuffers( )
+{
+  GLContext *gl_context;
+ // TinyGLXContext *ctx;
+
+  /* retrieve the current GLXContext */
+  gl_context=gl_get_context();
+ //ctx=(TinyGLXContext *)gl_context->opaque;
+  //  GLContext *gl_context;
+
+
+  C24BitMap  CPic;
+  CPic.FormatF(gl_context->image_w, gl_context->image_h);
+  ZBuffer * zb =  gl_context->zb;
+  for(int i=0;i< gl_context->image_h ;i++)
+     {
+      char* ptr = (char*)zb->pbuf;
+      ptr = &ptr[zb->linesize*i]; 
+      for(int j=0; j<gl_context->image_w;j++)
+      {
+        C24PixVal Pix = get_pix_color(CPic, j, i);
+		//ptr++;
+        *Pix.r = *ptr; ptr++;      
+        *Pix.g = *ptr; ptr++;
+		*Pix.b = *ptr; ptr++;  		
+      }
+     }
+  CPic.Save("img.bmp");
+  return;
+  /* for non 16 bits visuals, a conversion is required */
+  
+}
+
+
+ 
+
+--------------------------------image_util.cpp--------------------------------
+#include "zgl.h"
+
+
+
+#define FRAC_BITS 16
+
+/* resizing with no interlating nor nearest pixel */
+
+void gl_resizeImageNoInterpolate(unsigned char *dest,int xsize_dest,int ysize_dest,
+                                 unsigned char *src,int xsize_src,int ysize_src)
+{
+  unsigned char *pix,*pix_src,*pix1;
+  int x1,y1,x1inc,y1inc;
+  int xi,yi,x,y;
+
+  pix=dest;
+  pix_src=src;
+  
+  x1inc=(int)((float) ((xsize_src)<<FRAC_BITS) / (float) (xsize_dest));
+  y1inc=(int)((float) ((ysize_src)<<FRAC_BITS) / (float) (ysize_dest));
+
+  y1=0;
+  for(y=0;y<ysize_dest;y++) {
+    x1=0;
+    for(x=0;x<xsize_dest;x++) {
+      xi=x1 >> FRAC_BITS;
+      yi=y1 >> FRAC_BITS;
+      pix1=pix_src+(yi*xsize_src+xi)*3;
+
+      pix[0]=pix1[0];
+      pix[1]=pix1[1];
+      pix[2]=pix1[2];
+
+      pix+=3;
+      x1+=x1inc;
+    }
+    y1+=y1inc;
+  }
+}
+
+
+--------------------------------init.cpp--------------------------------
+#include "zgl.h"
+#include "texture.h"
+
+GLContext *gl_ctx(0);
+
+
+void initSharedState(GLContext *c)
+{
+  GLSharedState *s=&c->shared_state;
+  s->lists=(GLList **)gl_zalloc(sizeof(GLList *) * MAX_DISPLAY_LISTS);
+  s->texture_hash_table=
+      (GLTexture **)gl_zalloc(sizeof(GLTexture *) * TEXTURE_HASH_TABLE_SIZE);
+
+  alloc_texture(c,0);
+}
+
+void endSharedState(GLContext *c)
+{
+  GLSharedState *s=&c->shared_state;
+  int i;
+
+  for(i=0;i<MAX_DISPLAY_LISTS;i++) {
+    /* TODO */
+  }
+  gl_free(s->lists);
+
+  gl_free(s->texture_hash_table);
+}
+
+
+void glInit(void *zbuffer1)
+{
+  ZBuffer *zbuffer=(ZBuffer *)zbuffer1;
+  GLContext *c;
+  GLViewport *v;
+  int i;
+
+  c= (GLContext *)gl_zalloc(sizeof(GLContext));
+  gl_ctx=c;
+
+  c->zb=zbuffer;
+
+  /* allocate GLVertex array */
+  c->vertex_max = POLYGON_MAX_VERTEX;
+  c->vertex = (GLVertex *)gl_malloc(POLYGON_MAX_VERTEX*sizeof(GLVertex));
+  
+  /* viewport */
+  v=&c->viewport;
+  v->xmin=0;
+  v->ymin=0;
+  v->xsize=zbuffer->xsize;
+  v->ysize=zbuffer->ysize;
+  v->updated=1;
+
+  /* shared state */
+  initSharedState(c);
+
+  /* lists */
+
+  c->exec_flag=1;
+  c->compile_flag=0;
+  c->print_flag=0;
+
+  c->in_begin=0;
+
+  /* lights */
+  for(i=0;i<MAX_LIGHTS;i++) {
+    GLLight *l=&c->lights[i];
+    l->ambient=gl_V4_New(0,0,0,1);
+    l->diffuse=gl_V4_New(1,1,1,1);
+    l->specular=gl_V4_New(1,1,1,1);
+    l->position=gl_V4_New(0,0,1,0);
+    l->norm_position=gl_V3_New(0,0,1);
+    l->spot_direction=gl_V3_New(0,0,-1);
+    l->norm_spot_direction=gl_V3_New(0,0,-1);
+    l->spot_exponent=0;
+    l->spot_cutoff=180;
+    l->attenuation[0]=1;
+    l->attenuation[1]=0;
+    l->attenuation[2]=0;
+    l->enabled=0;
+  }
+  c->first_light=NULL;
+  c->ambient_light_model=gl_V4_New(0.2,0.2,0.2,1);
+  c->local_light_model=0;
+  c->lighting_enabled=0;
+  c->light_model_two_side = 0;
+
+  /* default materials */
+  for(i=0;i<2;i++) {
+    GLMaterial *m=&c->materials[i];
+    m->emission=gl_V4_New(0,0,0,1);
+    m->ambient=gl_V4_New(0.2,0.2,0.2,1);
+    m->diffuse=gl_V4_New(0.8,0.8,0.8,1);
+    m->specular=gl_V4_New(0,0,0,1);
+    m->shininess=0;
+  }
+  c->current_color_material_mode=GL_FRONT_AND_BACK;
+  c->current_color_material_type=GL_AMBIENT_AND_DIFFUSE;
+  c->color_material_enabled=0;
+
+  /* textures */
+  glInitTextures(c);
+
+  /* default state */
+  c->current_color.X=1.0;
+  c->current_color.Y=1.0;
+  c->current_color.Z=1.0;
+  c->current_color.W=1.0;
+  c->longcurrent_color[0] = 65535;
+  c->longcurrent_color[1] = 65535;
+  c->longcurrent_color[2] = 65535;
+
+  c->current_normal.X=1.0;
+  c->current_normal.Y=0.0;
+  c->current_normal.Z=0.0;
+  c->current_normal.W=0.0;
+
+  c->current_edge_flag=1;
+  
+  c->current_tex_coord.X=0;
+  c->current_tex_coord.Y=0;
+  c->current_tex_coord.Z=0;
+  c->current_tex_coord.W=1;
+
+  c->polygon_mode_front=GL_FILL;
+  c->polygon_mode_back=GL_FILL;
+
+  c->current_front_face=0; /* 0 = GL_CCW  1 = GL_CW */
+  c->current_cull_face=GL_BACK;
+  c->current_shade_model=GL_SMOOTH;
+  c->cull_face_enabled=0;
+  
+  /* clear */
+  c->clear_color.v[0]=0;
+  c->clear_color.v[1]=0;
+  c->clear_color.v[2]=0;
+  c->clear_color.v[3]=0;
+  c->clear_depth=0;
+
+  /* selection */
+  c->render_mode=GL_RENDER;
+  c->select_buffer=NULL;
+  c->name_stack_size=0;
+
+  /* matrix */
+  c->matrix_mode=0;
+  
+  c->matrix_stack_depth_max[0]=MAX_MODELVIEW_STACK_DEPTH;
+  c->matrix_stack_depth_max[1]=MAX_PROJECTION_STACK_DEPTH;
+  c->matrix_stack_depth_max[2]=MAX_TEXTURE_STACK_DEPTH;
+
+ /* for(i=0;i<3;i++) {
+    c->matrix_stack[i]=(M4*)gl_zalloc(c->matrix_stack_depth_max[i] * sizeof(M4));
+    c->matrix_stack_ptr[i]=c->matrix_stack[i];
+  }*/
+
+ /* vector<M4> Matrix_MODELVIEW_Vec;
+  vector<M4> Matrix_PROJECTION_Vec;
+  vector<M4> Matrix_TEXTURE_Vec;
+  M4 *matrix_buffer_ptr[3];*/
+
+   c->Matrix_MODELVIEW_Vec.resize(c->matrix_stack_depth_max[0]);
+   c->Matrix_PROJECTION_Vec.resize(c->matrix_stack_depth_max[1]);
+   c->Matrix_TEXTURE_Vec.resize(c->matrix_stack_depth_max[2]);
+
+  c->matrix_buffer_ptr[0] = &c->Matrix_MODELVIEW_Vec[0];
+  c->matrix_buffer_ptr[1] = &c->Matrix_PROJECTION_Vec[1];
+  c->matrix_buffer_ptr[2] = &c->Matrix_TEXTURE_Vec[2];
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glMatrixMode(GL_TEXTURE);
+  glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  c->matrix_model_projection_updated=1;
+
+  /* opengl 1.1 arrays */
+  c->client_states = 0;
+  
+  /* opengl 1.1 polygon offset */
+  c->offset_states = 0;
+  
+  /* clear the resize callback function pointer */
+  c->gl_resize_viewport = NULL;
+  
+  /* specular buffer */
+  c->specbuf_first = NULL;
+  c->specbuf_used_counter = 0;
+  c->specbuf_num_buffers = 0;
+
+  /* depth test */
+  c->depth_test = 0;
+}
+
+void glClose(void)
+{
+  GLContext *c=gl_get_context();
+  endSharedState(c);
+  gl_free(c);
+}
+
+--------------------------------kh_project.cpp--------------------------------
+ 
+#include <math.h>
+#include "gl.h"
+
+//typedef GLInt  int;
+
+void glMultMatrixf(const float *m);
+
+ 
+static void __gluMakeIdentityf(GLfloat m[16])
+{
+    m[0+4*0] = 1; m[0+4*1] = 0; m[0+4*2] = 0; m[0+4*3] = 0;
+    m[1+4*0] = 0; m[1+4*1] = 1; m[1+4*2] = 0; m[1+4*3] = 0;
+    m[2+4*0] = 0; m[2+4*1] = 0; m[2+4*2] = 1; m[2+4*3] = 0;
+    m[3+4*0] = 0; m[3+4*1] = 0; m[3+4*2] = 0; m[3+4*3] = 1;
+}
+
+ 
+
+#define __glPi 3.14159265358979323846
+
+
+ 
+ 
+static void normalize(float v[3])
+{
+    float r;
+
+    r = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
+    if (r == 0.0) return;
+
+    v[0] /= r;
+    v[1] /= r;
+    v[2] /= r;
+}
+
+static void cross(float v1[3], float v2[3], float result[3])
+{
+    result[0] = v1[1]*v2[2] - v1[2]*v2[1];
+    result[1] = v1[2]*v2[0] - v1[0]*v2[2];
+    result[2] = v1[0]*v2[1] - v1[1]*v2[0];
+}
+
+ 
+
+
+void glTranslated( GLdouble x, GLdouble y, GLdouble z )
+{
+   //Translatef((GLfloat) x, (GLfloat) y, (GLfloat) z);
+   glTranslatef((GLfloat) x, (GLfloat) y, (GLfloat) z);
+}
+
+
+
+void  
+gluLookAt(GLdouble eyex, GLdouble eyey, GLdouble eyez, GLdouble centerx,
+	  GLdouble centery, GLdouble centerz, GLdouble upx, GLdouble upy,
+	  GLdouble upz)
+{
+    float forward[3], side[3], up[3];
+    GLfloat m[4][4];
+
+    forward[0] = centerx - eyex;
+    forward[1] = centery - eyey;
+    forward[2] = centerz - eyez;
+
+    up[0] = upx;
+    up[1] = upy;
+    up[2] = upz;
+
+    normalize(forward);
+
+    /* Side = forward x up */
+    cross(forward, up, side);
+    normalize(side);
+
+    /* Recompute up as: up = side x forward */
+    cross(side, forward, up);
+
+    __gluMakeIdentityf(&m[0][0]);
+    m[0][0] = side[0];
+    m[1][0] = side[1];
+    m[2][0] = side[2];
+
+    m[0][1] = up[0];
+    m[1][1] = up[1];
+    m[2][1] = up[2];
+
+    m[0][2] = -forward[0];
+    m[1][2] = -forward[1];
+    m[2][2] = -forward[2];
+
+    glMultMatrixf((const float *)&m[0][0]);
+    glTranslated(-eyex, -eyey, -eyez);
+}
+
+ 
+
+--------------------------------light.cpp--------------------------------
+#include "zgl.h"
+ 
+
+void glopMaterial(GLContext *c,GLParam *p)
+{
+  int mode=p[1].i;
+  int type=p[2].i;
+  
+  float vv[4];
+  vv[0] = p[3].f;
+  vv[1] = p[4].f;
+  vv[2] = p[5].f;
+  vv[3] = p[6].f;
+  float *v=vv;//&p[3].f;
+ // float *v=&p[3].f;
+  int i;
+  GLMaterial *m;
+
+  if (mode == GL_FRONT_AND_BACK) {
+    p[1].i=GL_FRONT;
+    glopMaterial(c,p);
+    mode=GL_BACK;
+  }
+  if (mode == GL_FRONT) m=&c->materials[0];
+  else m=&c->materials[1];
+
+  switch(type) {
+  case GL_EMISSION:
+    for(i=0;i<4;i++)
+      m->emission.v[i]=v[i];
+    break;
+  case GL_AMBIENT:
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  case GL_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    break;
+  case GL_SPECULAR:
+    for(i=0;i<4;i++)
+      m->specular.v[i]=v[i];
+    break;
+  case GL_SHININESS:
+    m->shininess=v[0];
+    m->shininess_i = (v[0]/128.0f)*SPECULAR_BUFFER_RESOLUTION;
+    break;
+  case GL_AMBIENT_AND_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  default:
+    assert(0);
+  }
+}
+
+
+
+
+static inline float clampf(float a,float min,float max)
+{
+  if (a<min) return min;
+  else if (a>max) return max;
+  else return a;
+}
+
+void gl_enable_disable_light(GLContext *c,int light,int v)
+{
+  GLLight *l=&c->lights[light];
+  if (v && !l->enabled) {
+    l->enabled=1;
+    l->next=c->first_light;
+    c->first_light=l;
+    l->prev=NULL;
+  } else if (!v && l->enabled) {
+    l->enabled=0;
+    if (l->prev == NULL) c->first_light=l->next;
+    else l->prev->next=l->next;
+    if (l->next != NULL) l->next->prev=l->prev;
+  }
+}
+
+/* non optimized lightening model */
+void gl_shade_vertex(GLContext *c,GLVertex *v)
+{
+  float R,G,B,A;
+  GLMaterial *m;
+  GLLight *l;
+  V3 n,s,d;
+  float dist,tmp,att,dot,dot_spot,dot_spec;
+  int twoside = c->light_model_two_side;
+
+  m=&c->materials[0];
+
+  n.X=v->normal.X;
+  n.Y=v->normal.Y;
+  n.Z=v->normal.Z;
+
+  R=m->emission.v[0]+m->ambient.v[0]*c->ambient_light_model.v[0];
+  G=m->emission.v[1]+m->ambient.v[1]*c->ambient_light_model.v[1];
+  B=m->emission.v[2]+m->ambient.v[2]*c->ambient_light_model.v[2];
+  A=clampf(m->diffuse.v[3],0,1);
+
+  for(l=c->first_light;l!=NULL;l=l->next) {
+    float lR,lB,lG;
+    
+    /* ambient */
+    lR=l->ambient.v[0] * m->ambient.v[0];
+    lG=l->ambient.v[1] * m->ambient.v[1];
+    lB=l->ambient.v[2] * m->ambient.v[2];
+
+    if (l->position.v[3] == 0) {
+      /* light at infinity */
+      d.X=l->position.v[0];
+      d.Y=l->position.v[1];
+      d.Z=l->position.v[2];
+      att=1;
+    } else {
+      /* distance attenuation */
+      d.X=l->position.v[0]-v->ec.v[0];
+      d.Y=l->position.v[1]-v->ec.v[1];
+      d.Z=l->position.v[2]-v->ec.v[2];
+      dist=sqrt(d.X*d.X+d.Y*d.Y+d.Z*d.Z);
+      if (dist>1E-3) {
+        tmp=1/dist;
+        d.X*=tmp;
+        d.Y*=tmp;
+        d.Z*=tmp;
+      }
+      att=1.0f/(l->attenuation[0]+dist*(l->attenuation[1]+
+				     dist*l->attenuation[2]));
+    }
+    dot=d.X*n.X+d.Y*n.Y+d.Z*n.Z;
+    if (twoside && dot < 0) dot = -dot;
+    if (dot>0) {
+      /* diffuse light */
+      lR+=dot * l->diffuse.v[0] * m->diffuse.v[0];
+      lG+=dot * l->diffuse.v[1] * m->diffuse.v[1];
+      lB+=dot * l->diffuse.v[2] * m->diffuse.v[2];
+
+      /* spot light */
+      if (l->spot_cutoff != 180) {
+        dot_spot=-(d.X*l->norm_spot_direction.v[0]+
+                   d.Y*l->norm_spot_direction.v[1]+
+                   d.Z*l->norm_spot_direction.v[2]);
+        if (twoside && dot_spot < 0) dot_spot = -dot_spot;
+        if (dot_spot < l->cos_spot_cutoff) {
+          /* no contribution */
+          continue;
+        } else {
+          /* TODO: optimize */
+          if (l->spot_exponent > 0) {
+            att=att*pow(dot_spot,l->spot_exponent);
+          }
+        }
+      }
+
+      /* specular light */
+      
+      if (c->local_light_model) {
+        V3 vcoord;
+        vcoord.X=v->ec.X;
+        vcoord.Y=v->ec.Y;
+        vcoord.Z=v->ec.Z;
+        gl_V3_Norm(&vcoord);
+        s.X=d.X-vcoord.X;
+        s.Y=d.Y-vcoord.X;
+        s.Z=d.Z-vcoord.X;
+      } else {
+        s.X=d.X;
+        s.Y=d.Y;
+        s.Z=d.Z+1.0;
+      }
+      dot_spec=n.X*s.X+n.Y*s.Y+n.Z*s.Z;
+      if (twoside && dot_spec < 0) dot_spec = -dot_spec;
+      if (dot_spec>0) {
+        GLSpecBuf *specbuf;
+        int idx;
+        tmp=sqrt(s.X*s.X+s.Y*s.Y+s.Z*s.Z);
+        if (tmp > 1E-3) {
+          dot_spec=dot_spec / tmp;
+        }
+      
+        /* TODO: optimize */
+        /* testing specular buffer code */
+        /* dot_spec= pow(dot_spec,m->shininess);*/
+        specbuf = specbuf_get_buffer(c, m->shininess_i, m->shininess);
+        idx = (int)(dot_spec*SPECULAR_BUFFER_SIZE);
+        if (idx > SPECULAR_BUFFER_SIZE) idx = SPECULAR_BUFFER_SIZE;
+        dot_spec = specbuf->buf[idx];
+        lR+=dot_spec * l->specular.v[0] * m->specular.v[0];
+        lG+=dot_spec * l->specular.v[1] * m->specular.v[1];
+        lB+=dot_spec * l->specular.v[2] * m->specular.v[2];
+      }
+    }
+
+    R+=att * lR;
+    G+=att * lG;
+    B+=att * lB;
+  }
+
+  v->color.v[0]=clampf(R,0,1);
+  v->color.v[1]=clampf(G,0,1);
+  v->color.v[2]=clampf(B,0,1);
+  v->color.v[3]=A;
+}
+
+
+--------------------------------matrix.cpp--------------------------------
+#include "zgl.h"
+
+void gl_print_matrix( const float *m)
+{
+   int i;
+
+   for (i=0;i<4;i++) {
+      fprintf(stderr,"%f %f %f %f\n", m[i], m[4+i], m[8+i], m[12+i] );
+   }
+}
+
+  void gl_matrix_update(GLContext *c)
+{
+  c->matrix_model_projection_updated=(c->matrix_mode<=1);
+}
+
+
+void glopMatrixMode(GLContext *c,GLParam *p)
+{
+ 
+}
+
+void glopLoadMatrix(GLContext *c,GLParam *p)
+{
+ 
+}
+
+void glopLoadIdentity(GLContext *c,GLParam *p)
+{
+
+  
+}
+
+void glopMultMatrix(GLContext *c,GLParam *p)
+{
+ 
+}
+
+
+void glopPushMatrix(GLContext *c,GLParam *p)
+{
+  
+}
+
+void glopPopMatrix(GLContext *c,GLParam *p)
+{
+  
+}
+
+
+void glopRotate(GLContext *c,GLParam *p)
+{
+ 
+}
+
+void glopScale(GLContext *c,GLParam *p)
+{
+  
+}
+
+void glopTranslate(GLContext *c,GLParam *p)
+{
+ 
+}
+
+
+void glopFrustum(GLContext *c,GLParam *p)
+{
+  
+}
+  
+
+--------------------------------specbuf.cpp--------------------------------
+#include "zgl.h"
+ 
+#include <math.h>
+#include <stdlib.h>
+
+static void calc_buf(GLSpecBuf *buf, const float shininess)
+{
+  int i;
+  float val, inc;
+  val = 0.0f;
+  inc = 1.0f/SPECULAR_BUFFER_SIZE;
+  for (i = 0; i <= SPECULAR_BUFFER_SIZE; i++) {
+    buf->buf[i] = pow(val, shininess);
+    val += inc;
+  }
+}
+
+GLSpecBuf *
+specbuf_get_buffer(GLContext *c, const int shininess_i, 
+                   const float shininess)
+{
+  GLSpecBuf *found, *oldest;
+  found = oldest = c->specbuf_first;
+  while (found && found->shininess_i != shininess_i) {
+    if (found->last_used < oldest->last_used) {
+      oldest = found;
+    }
+    found = found->next; 
+  }
+  if (found) { /* hey, found one! */
+    found->last_used = c->specbuf_used_counter++;
+    return found;
+  }
+  if (oldest == NULL || c->specbuf_num_buffers < MAX_SPECULAR_BUFFERS) {
+    /* create new buffer */
+    GLSpecBuf *buf = (GLSpecBuf *)gl_malloc(sizeof(GLSpecBuf));
+    if (!buf) 
+		exit(0);
+		//gl_fatal_error("could not allocate specular buffer");
+    c->specbuf_num_buffers++;
+    buf->next = c->specbuf_first;
+    c->specbuf_first = buf;
+    buf->last_used = c->specbuf_used_counter++;
+    buf->shininess_i = shininess_i;
+    calc_buf(buf, shininess);
+    return buf;     
+  }
+  /* overwrite the lru buffer */
+  /*tgl_trace("overwriting spec buffer :(\n");*/
+  oldest->shininess_i = shininess_i;
+  oldest->last_used = c->specbuf_used_counter++;
+  calc_buf(oldest, shininess);
+  return oldest;
+}
+
+--------------------------------specbuf.h--------------------------------
+#ifndef _tgl_specbuf_h_
+#define _tgl_specbuf_h_
+
+/* Max # of specular light pow buffers */
+#define MAX_SPECULAR_BUFFERS 8
+/* # of entries in specular buffer */
+#define SPECULAR_BUFFER_SIZE 1024
+/* specular buffer granularity */
+#define SPECULAR_BUFFER_RESOLUTION 1024
+
+typedef struct GLSpecBuf {
+  int shininess_i;
+  int last_used;
+  float buf[SPECULAR_BUFFER_SIZE+1];
+  struct GLSpecBuf *next;
+} GLSpecBuf;
+
+GLSpecBuf *specbuf_get_buffer(GLContext *c, const int shininess_i, 
+                              const float shininess);
+void specbuf_cleanup(GLContext *c); /* free all memory used */
+
+#endif /* _tgl_specbuf_h_ */
+--------------------------------texture.h--------------------------------
+/*
+ * Texture Manager
+ */
+#ifndef TEXTURE_HEAD_H
+#define TEXTURE_HEAD_H
+
+#include "zgl.h"
+#include <string.h>
+
+
+
+  GLTexture * find_texture(GLContext *c,int h);
+ 
+static inline void free_texture(GLContext *c,int h)
+{
+  GLTexture *t,**ht;
+  GLImage *im;
+  int i;
+
+  t=find_texture(c,h);
+  if (t->prev==NULL) {
+    ht=&c->shared_state.texture_hash_table
+      [t->handle % TEXTURE_HASH_TABLE_SIZE];
+    *ht=t->next;
+  } else {
+    t->prev->next=t->next;
+  }
+  if (t->next!=NULL) t->next->prev=t->prev;
+
+  for(i=0;i<MAX_TEXTURE_LEVELS;i++) {
+    im=&t->images[i];
+    if (im->pixmap != NULL) gl_free(im->pixmap);
+  }
+
+  gl_free(t);
+}
+
+GLTexture  *alloc_texture(GLContext *c,int h);
+ 
+
+
+inline void  glInitTextures(GLContext *c)
+{
+  /* textures */
+
+  c->texture_2d_enabled=0;
+  c->current_texture=find_texture(c,0);
+}
+
+  inline  void glGenTextures(int n, unsigned int *textures)
+{
+  GLContext *c=gl_get_context();
+  int max,i;
+  GLTexture *t;
+
+  max=0;
+  for(i=0;i<TEXTURE_HASH_TABLE_SIZE;i++) {
+    t=c->shared_state.texture_hash_table[i];
+    while (t!=NULL) {
+      if (t->handle>max) max=t->handle;
+      t=t->next;
+    }
+
+  }
+  for(i=0;i<n;i++) {
+    textures[i]=max+i+1;
+  }
+}
+
+
+inline void  glDeleteTextures(int n, const unsigned int *textures)
+{
+  GLContext *c=gl_get_context();
+  int i;
+  GLTexture *t;
+
+  for(i=0;i<n;i++) {
+    t=find_texture(c,textures[i]);
+    if (t!=NULL && t!=0) {
+      if (t==c->current_texture) {
+	glBindTexture(GL_TEXTURE_2D,0);
+      }
+      free_texture(c,textures[i]);
+    }
+  }
+}
+
+
+  
+#endif
+--------------------------------ui.h--------------------------------
+/*
+ * tk like ui
+ */
+void draw( void );
+void idle( void );
+GLenum key(int k, GLenum mask);
+void reshape( int width, int height );
+void init( void );
+int ui_loop(int argc, char **argv, const char *name);
+void tkSwapBuffers(void);
+
+#define KEY_UP     0xe000
+#define KEY_DOWN   0xe001
+#define KEY_LEFT   0xe002
+#define KEY_RIGHT  0xe003
+#define KEY_ESCAPE 0xe004
+
+
+--------------------------------vertex.cpp--------------------------------
+#include "zgl.h"
+#include "string.h"
+
+void glopNormal(GLContext * c, GLParam * p)
+{
+  
+}
+
+void glopTexCoord(GLContext * c, GLParam * p)
+{
+ 
+}
+
+/*void glopEdgeFlag(GLContext * c, GLParam * p)
+{
+    c->current_edge_flag = p[1].i;
+}*/
+
+void glopColor(GLContext * c, GLParam * p)
+{
+
+    
+}
+
+
+void gl_eval_viewport(GLContext * c)
+{
+    GLViewport *v;
+    float zsize = (1 << (ZB_Z_BITS + ZB_POINT_Z_FRAC_BITS));
+	int dgbzsize = zsize;
+
+    v = &c->viewport;
+
+    v->trans.X = ((v->xsize - 0.5) / 2.0) + v->xmin;
+    v->trans.Y = ((v->ysize - 0.5) / 2.0) + v->ymin;
+    v->trans.Z = ((zsize - 0.5) / 2.0) + ((1 << ZB_POINT_Z_FRAC_BITS)) / 2;
+
+    v->scale.X = (v->xsize - 0.5) / 2.0;
+    v->scale.Y = -(v->ysize - 0.5) / 2.0;
+    v->scale.Z = -((zsize - 0.5) / 2.0);
+}
+
+void glopBegin(GLContext * c, GLParam * p)
+{
+   
+}
+
+void gl_vertex_transform(GLContext * c, GLVertex * v);
+
+void glopVertex(GLContext * c, GLParam * p)
+{
+   
+}
+
+void glopEnd(GLContext * c, GLParam * param)
+{
+   
+}
+
+--------------------------------x11imp.h--------------------------------
+#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+ 
+#include "gl.h"
+#include "ui.h"
+
+ 
+
+#include "zgl.h"
+
+
+#ifndef M_PI
+#  define M_PI 3.14159265
+#endif
+
+ 
+void glXSwapBuffers( );
+
+void tkSwapBuffers()
+{
+    glXSwapBuffers();
+}
+
+ bool glXMakeDrawOk(  int width, int height)
+{
+  
+  
+ GLContext * gl_context=gl_get_context();
+   
+  ZBuffer *zb;
+  
+  
+  if ( gl_context == NULL) {
+    int mode(0);
+   // int mode(0),bpp;
+        // RGB 16/24/32 
+    // bpp = 24;//bits_per_pixel(ctx->display,&ctx->visual_info);
+ 
+        zb=ZB_open(width,height,mode,0,NULL,NULL,NULL);
+        if (zb == NULL) {
+            fprintf(stderr, "Error while initializing Z buffer\n");
+            exit(1);
+        }
+      
+    glInit(zb);
+
+	gl_context=gl_get_context();
+    gl_context->image_w = width;
+	gl_context->image_h = height;
+    gl_context->gl_resize_viewport= NULL;  
+    gl_context->viewport.xsize=-1;
+    gl_context->viewport.ysize=-1;
+
+    glViewport(0, 0, width,height);
+  }
+
+  return true;
+}
+
+ 
+int ui_loop(int argc, char **argv, const char *name)
+{
+ 
+  int k, width, height;
+  char buf[80];
+   
+   
+  width  = 1600;
+  height = 1600;
+   
+  
+   glXMakeDrawOk(   width,  height);
+
+   init();
+   reshape(width, height);
+  
+  return 1;
+  
+   
+}
+
+
+
+--------------------------------zbuffer.cpp--------------------------------
+/*
+
+ * Z buffer: 16 bits Z / 16 bits color
+ * 
+ */
+#include <stdlib.h>
+#include <stdio.h>
+#include <assert.h>
+#include <string.h>
+#include "zbuffer.h"
+
+ZBuffer *ZB_open(int xsize, int ysize, int mode,
+		 int nb_colors,
+		 unsigned char *color_indexes,
+		 int *color_table,
+		 void *frame_buffer)
+{
+    ZBuffer *zb;
+    int size;
+
+    zb = (ZBuffer *)gl_malloc(sizeof(ZBuffer));
+    if (zb == NULL)
+	return NULL;
+
+    zb->xsize = xsize;
+    zb->ysize = ysize;
+    zb->mode = mode;
+    zb->linesize = (xsize * PSZB + 3) & ~3;
+
+ 
+    zb->nb_colors = 0;
+ 
+
+    size = zb->xsize * zb->ysize * sizeof(double);//sizeof(unsigned short);
+
+    zb->zbuf = (double *)gl_malloc(size);
+    if (zb->zbuf == NULL)
+	goto error;
+
+    if (frame_buffer == NULL) {
+	zb->pbuf = (PIXEL *)gl_malloc(zb->ysize * zb->linesize);
+	if (zb->pbuf == NULL) {
+	    gl_free(zb->zbuf);
+	    goto error;
+	}
+	zb->frame_buffer_allocated = 1;
+    } else {
+	zb->frame_buffer_allocated = 0;
+	zb->pbuf = (PIXEL *)frame_buffer;
+    }
+
+    zb->current_texture = NULL;
+
+    return zb;
+  error:
+    gl_free(zb);
+    return NULL;
+}
+
+void ZB_close(ZBuffer * zb)
+{
+
+    if (zb->frame_buffer_allocated)
+	gl_free(zb->pbuf);
+
+    gl_free(zb->zbuf);
+    gl_free(zb);
+}
+
+ 
+
+--------------------------------zbuffer.h--------------------------------
+#ifndef _tgl_zbuffer_h_
+#define _tgl_zbuffer_h_
+
+/*
+ * Z buffer
+ */
+
+ 
+
+#define ZB_Z_BITS 16
+
+#define ZB_POINT_Z_FRAC_BITS 14
+
+#define ZB_POINT_S_MIN ( (1<<13) )
+#define ZB_POINT_S_MAX ( (1<<22)-(1<<13) )
+#define ZB_POINT_T_MIN ( (1<<21) )
+#define ZB_POINT_T_MAX ( (1<<30)-(1<<21) )
+
+ 
+
+#define ZB_POINT_RED_MIN ( (1<<9) )
+#define ZB_POINT_RED_MAX ( (1<<16)-(1<<9) )
+#define ZB_POINT_GREEN_MIN ( (1<<9) )
+#define ZB_POINT_GREEN_MAX ( (1<<16)-(1<<9) )
+#define ZB_POINT_BLUE_MIN ( (1<<9) )
+#define ZB_POINT_BLUE_MAX ( (1<<16)-(1<<9) )
+
+ 
+ 
+
+//#elif TGL_FEATURE_RENDER_BITS == 24
+
+#define RGB_TO_PIXEL(r,g,b) \
+  ((((r) << 8) & 0xff0000) | ((g) & 0xff00) | ((b) >> 8))
+typedef unsigned char PIXEL;
+#define PSZB 3
+#define PSZSH 5
+
+ 
+
+typedef struct {
+    int xsize,ysize;
+    int linesize; /* line size, in bytes */
+    int mode;
+    
+    double *zbuf;
+    PIXEL *pbuf;
+    int frame_buffer_allocated;
+    
+    int nb_colors;
+    unsigned char *dctable;
+    int *ctable;
+    PIXEL *current_texture;
+} ZBuffer;
+
+typedef struct {
+  int x,y,z;     /* integer coordinates in the zbuffer */
+  int s,t;       /* coordinates for the mapping */
+  int r,g,b;     /* color indexes */
+  
+  float sz,tz;   /* temporary coordinates for mapping */
+} ZBufferPoint;
+
+/* zbuffer.c */
+
+ZBuffer *ZB_open(int xsize,int ysize,int mode,
+		 int nb_colors,
+		 unsigned char *color_indexes,
+		 int *color_table,
+		 void *frame_buffer);
+
+
+void ZB_close(ZBuffer *zb);
+
+void ZB_resize(ZBuffer *zb,void *frame_buffer,int xsize,int ysize);
+void ZB_clear(ZBuffer *zb,int clear_z,int z,
+	      int clear_color,int r,int g,int b);
+/* linesize is in BYTES */
+void ZB_copyFrameBuffer(ZBuffer *zb,void *buf,int linesize);
+
+/* zdither.c */
+
+void ZB_initDither(ZBuffer *zb,int nb_colors,
+		   unsigned char *color_indexes,int *color_table);
+//void ZB_closeDither(ZBuffer *zb);
+void ZB_ditherFrameBuffer(ZBuffer *zb,unsigned char *dest,
+			  int linesize);
+
+/* zline.c */
+
+void ZB_plot(ZBuffer *zb,ZBufferPoint *p);
+void ZB_line(ZBuffer *zb,ZBufferPoint *p1,ZBufferPoint *p2);
+void ZB_line_z(ZBuffer * zb, ZBufferPoint * p1, ZBufferPoint * p2);
+
+/* ztriangle.c */
+
+void ZB_setTexture(ZBuffer *zb, PIXEL *texture);
+
+void ZB_fillTriangleFlat(ZBuffer *zb,
+		 ZBufferPoint *p1,ZBufferPoint *p2,ZBufferPoint *p3);
+
+void ZB_fillTriangleSmooth(ZBuffer *zb,
+		   ZBufferPoint *p1,ZBufferPoint *p2,ZBufferPoint *p3);
+
+void ZB_fillTriangleMapping(ZBuffer *zb,
+		    ZBufferPoint *p1,ZBufferPoint *p2,ZBufferPoint *p3);
+
+void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
+                    ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2);
+
+
+typedef void (*ZB_fillTriangleFunc)(ZBuffer  *,
+	    ZBufferPoint *,ZBufferPoint *,ZBufferPoint *);
+
+/* memory.c */
+void gl_free(void *p);
+void *gl_malloc(int size);
+void *gl_zalloc(int size);
+
+#endif /* _tgl_zbuffer_h_ */
+
+--------------------------------zgl.h--------------------------------
+#ifndef _tgl_zgl_h_
+#define _tgl_zgl_h_
+
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+#include "gl.h"
+#include "zbuffer.h"
+#include "zmath.h"
+ 
+#include <vector>
+
+using namespace std;
+#define DEBUG
+
+ 
+/* initially # of allocated GLVertexes (will grow when necessary) */
+#define POLYGON_MAX_VERTEX 16
+
+/* Max # of specular light pow buffers */
+#define MAX_SPECULAR_BUFFERS 8
+/* # of entries in specular buffer */
+#define SPECULAR_BUFFER_SIZE 1024
+/* specular buffer granularity */
+#define SPECULAR_BUFFER_RESOLUTION 1024
+
+
+#define MAX_MODELVIEW_STACK_DEPTH  32
+#define MAX_PROJECTION_STACK_DEPTH 8
+#define MAX_TEXTURE_STACK_DEPTH    8
+#define MAX_NAME_STACK_DEPTH       64
+#define MAX_TEXTURE_LEVELS         11
+#define MAX_LIGHTS                 16
+
+#define VERTEX_HASH_SIZE 1031
+
+#define MAX_DISPLAY_LISTS 1024
+#define OP_BUFFER_MAX_SIZE 512
+
+#define TGL_OFFSET_FILL    0x1
+#define TGL_OFFSET_LINE    0x2
+#define TGL_OFFSET_POINT   0x4
+
+typedef struct GLSpecBuf {
+  int shininess_i;
+  int last_used;
+  float buf[SPECULAR_BUFFER_SIZE+1];
+  struct GLSpecBuf *next;
+} GLSpecBuf;
+
+typedef struct GLLight {
+  V4 ambient;
+  V4 diffuse;
+  V4 specular;
+  V4 position;	
+  V3 spot_direction;
+  float spot_exponent;
+  float spot_cutoff;
+  float attenuation[3];
+  /* precomputed values */
+  float cos_spot_cutoff;
+  V3 norm_spot_direction;
+  V3 norm_position;
+  /* we use a linked list to know which are the enabled lights */
+  int enabled;
+  struct GLLight *next,*prev;
+} GLLight;
+
+typedef struct GLMaterial {
+  V4 emission;
+  V4 ambient;
+  V4 diffuse;
+  V4 specular;
+  float shininess;
+
+  /* computed values */
+  int shininess_i;
+  int do_specular;  
+} GLMaterial;
+
+
+typedef struct GLViewport {
+  int xmin,ymin,xsize,ysize;
+  V3 scale;
+  V3 trans;
+  int updated;
+} GLViewport;
+
+typedef union {
+  int op;
+  float f;
+  int i;
+  unsigned int ui;
+  void *p;
+} GLParam;
+
+typedef struct GLParamBuffer {
+  GLParam ops[OP_BUFFER_MAX_SIZE];
+  struct GLParamBuffer *next;
+} GLParamBuffer;
+
+typedef struct GLList {
+  GLParamBuffer *first_op_buffer;
+  /* TODO: extensions for an hash table or a better allocating scheme */
+} GLList;
+
+typedef struct GLVertex {
+  int edge_flag;
+  V3 normal;
+  V4 coord;
+  V4 tex_coord;
+  V4 color;
+  
+  /* computed values */
+  V4 ec;                /* eye coordinates */
+  V4 pc;                /* coordinates in the normalized volume */
+  int clip_code;        /* clip code */
+  ZBufferPoint zp;      /* integer coordinates for the rasterization */
+} GLVertex;
+
+typedef struct GLImage {
+  void *pixmap;
+  int xsize,ysize;
+} GLImage;
+
+
+//=========================================================
+/* textures */
+
+#define TEXTURE_HASH_TABLE_SIZE 256
+
+typedef struct GLTexture {
+  GLImage images[MAX_TEXTURE_LEVELS];
+  int handle;
+  struct GLTexture *next,*prev;
+} GLTexture;
+
+typedef struct GLSharedState {
+  GLList **lists;
+  GLTexture **texture_hash_table;
+} GLSharedState;
+
+
+struct GLContext;
+
+typedef void (*gl_draw_triangle_func)(struct GLContext *c,
+                                      GLVertex *p0,GLVertex *p1,GLVertex *p2);
+
+/* display context */
+
+typedef struct GLContext {
+  /* Z buffer */
+  ZBuffer *zb;
+  int image_w,  image_h;
+  /* lights */
+  GLLight lights[MAX_LIGHTS];
+  GLLight *first_light;
+  V4 ambient_light_model;
+  int local_light_model;
+  int lighting_enabled;
+  int light_model_two_side;
+
+  /* materials */
+  GLMaterial materials[2];
+  int color_material_enabled;
+  int current_color_material_mode;
+  int current_color_material_type;
+
+  /* textures */
+  GLTexture *current_texture;
+  int texture_2d_enabled;
+
+  /* shared state */
+  GLSharedState shared_state;
+
+  /* current list */
+  GLParamBuffer *current_op_buffer;
+  int current_op_buffer_index;
+  int exec_flag,compile_flag,print_flag;
+
+  /* matrix */
+
+  int matrix_mode;
+  /*
+    c->matrix_stack_depth_max[0]=MAX_MODELVIEW_STACK_DEPTH;
+  c->matrix_stack_depth_max[1]=MAX_PROJECTION_STACK_DEPTH;
+  c->matrix_stack_depth_max[2]=MAX_TEXTURE_STACK_DEPTH;
+  */
+  //M4 *matrix_stack[3];
+  vector<M4> Matrix_MODELVIEW_Vec;
+  vector<M4> Matrix_PROJECTION_Vec;
+  vector<M4> Matrix_TEXTURE_Vec;
+
+  M4 *matrix_buffer_ptr[3];
+
+  int matrix_stack_depth_max[3];
+
+  M4 matrix_model_view_inv;
+  M4 matrix_model_projection;
+  int matrix_model_projection_updated;
+  int matrix_model_projection_no_w_transform; 
+  int apply_texture_matrix;
+
+  /* viewport */
+  GLViewport viewport;
+
+  /* current state */
+  int polygon_mode_back;
+  int polygon_mode_front;
+
+  int current_front_face;
+  int current_shade_model;
+  int current_cull_face;
+  int cull_face_enabled;
+  int normalize_enabled;
+  gl_draw_triangle_func draw_triangle_front,draw_triangle_back;
+
+  /* selection */
+  int render_mode;
+  unsigned int *select_buffer;
+  int select_size;
+  unsigned int *select_ptr,*select_hit;
+  int select_overflow;
+  int select_hits;
+
+  /* names */
+  unsigned int name_stack[MAX_NAME_STACK_DEPTH];
+  int name_stack_size;
+
+  /* clear */
+  float clear_depth;
+  V4 clear_color;
+
+  /* current vertex state */
+  V4 current_color;
+  unsigned int longcurrent_color[3]; /* precomputed integer color */
+  V4 current_normal;
+  V4 current_tex_coord;
+  int current_edge_flag;
+
+  /* glBegin / glEnd */
+  int in_begin;
+  int begin_type;
+  int vertex_n,vertex_cnt;
+  int vertex_max;
+  GLVertex *vertex;
+
+  /* opengl 1.1 arrays  */
+  float *vertex_array;
+  int vertex_array_size;
+  int vertex_array_stride;
+  float *normal_array;
+  int normal_array_stride;
+  float *color_array;
+  int color_array_size;
+  int color_array_stride;
+  float *texcoord_array;
+  int texcoord_array_size;
+  int texcoord_array_stride;
+  int client_states;
+  
+  /* opengl 1.1 polygon offset */
+  float offset_factor;
+  float offset_units;
+  int offset_states;
+  
+  /* specular buffer. could probably be shared between contexts, 
+    but that wouldn't be 100% thread safe */
+  GLSpecBuf *specbuf_first;
+  int specbuf_used_counter;
+  int specbuf_num_buffers;
+
+  /* opaque structure for user's use */
+  void *opaque;
+  /* resize viewport function */
+  int (*gl_resize_viewport)(struct GLContext *c,int *xsize,int *ysize);
+
+  /* depth test */
+  int depth_test;
+} GLContext;
+
+extern GLContext *gl_ctx;
+
+//void glRunFunc(GLParam *p);
+
+/* clip.c */
+void gl_transform_to_viewport(GLContext *c,GLVertex *v);
+void gl_draw_triangle(GLContext *c,GLVertex *p0,GLVertex *p1,GLVertex *p2);
+void gl_draw_line(GLContext *c,GLVertex *p0,GLVertex *p1);
+void gl_draw_point(GLContext *c,GLVertex *p0);
+
+void gl_draw_triangle_point(GLContext *c,
+                            GLVertex *p0,GLVertex *p1,GLVertex *p2);
+//void gl_draw_triangle_line(GLContext *c,
+ //                          GLVertex *p0,GLVertex *p1,GLVertex *p2);
+void gl_draw_triangle_fill(GLContext *c,
+                           GLVertex *p0,GLVertex *p1,GLVertex *p2);
+void gl_draw_triangle_select(GLContext *c,
+                             GLVertex *p0,GLVertex *p1,GLVertex *p2);
+
+/* matrix.c */
+void gl_print_matrix(const float *m);
+/*
+void glopLoadIdentity(GLContext *c,GLParam *p);
+void glopTranslate(GLContext *c,GLParam *p);*/
+
+/* light.c */
+void gl_add_select(GLContext *c,unsigned int zmin,unsigned int zmax);
+void gl_enable_disable_light(GLContext *c,int light,int v);
+void gl_shade_vertex(GLContext *c,GLVertex *v);
+
+void glInitTextures(GLContext *c);
+void glEndTextures(GLContext *c);
+//GLTexture *alloc_texture(GLContext *c,int h);
+
+/* image_util.c */
+void gl_convertRGB_to_5R6G5B(unsigned short *pixmap,unsigned char *rgb,
+                             int xsize,int ysize);
+void gl_convertRGB_to_8A8R8G8B(unsigned int *pixmap, unsigned char *rgb,
+                               int xsize, int ysize);
+void gl_resizeImage(unsigned char *dest,int xsize_dest,int ysize_dest,
+                    unsigned char *src,int xsize_src,int ysize_src);
+void gl_resizeImageNoInterpolate(unsigned char *dest,int xsize_dest,int ysize_dest,
+                                 unsigned char *src,int xsize_src,int ysize_src);
+
+GLContext *gl_get_context(void);
+
+void gl_fatal_error(char *format, ...);
+
+
+/* specular buffer "api" */
+GLSpecBuf *specbuf_get_buffer(GLContext *c, const int shininess_i, 
+                              const float shininess);
+
+ 
+
+//===================================
+//#include "glx.h"
+ 
+
+ inline GLContext*gl_get_context(void)
+{
+  return gl_ctx;
+}
+
+ 
+
+
+ void inline gl_free(void *p)
+{
+    free(p);
+}
+
+void inline *gl_malloc(int size)
+{
+	void * pt = malloc(size);
+	memset(pt, 0, size);
+    return pt;//malloc(size);
+}
+
+void inline *gl_zalloc(int size)
+{
+    return calloc(1, size);
+}
+
+#endif /* _tgl_zgl_h_ */
+
+--------------------------------zmath.h--------------------------------
+#ifndef __ZMATH__
+#define __ZMATH__
+#include <string.h>
+/* Matrix & Vertex */
+  
+
+#define X v[0]
+#define Y v[1]
+#define Z v[2]
+#define W v[3]
+
+typedef struct {
+	 float v[3];
+} V3;
+
+typedef struct {
+	 float v[4];
+} V4;
+	
+void gl_MoveV3(V3 *a,V3 *b);
+//void gl_MulM3V3(V3 *a,M4 *b,V3 *c);
+int  gl_V3_Norm(V3 *a);
+V3 gl_V3_New(float x,float y,float z);
+V4 gl_V4_New(float x,float y,float z,float w);
+
+
+class M4
+{
+
+public:
+
+M4(){};
+float m[4][4];
+
+static inline void gl_M4_Id(M4 *a);
+static inline int gl_M4_IsId(M4 *a);
+static inline void gl_M4_Move(M4 *a,M4 *b);
+static inline void gl_MulM4V3(V3 *a,M4 *b,V3 *c);
+static inline void gl_M4_MulV4(V4 * a,M4 *b,V4 * c);
+static inline void gl_M4_InvOrtho(M4 *a,M4 b);
+static inline void gl_M4_Inv(M4 *a,M4 *b);
+static inline void gl_M4_Mul(M4 *c,M4 *a,M4 *b);
+static inline void gl_M4_MulLeft(M4 *c,M4 *a);
+static inline void gl_M4_Transpose(M4 *a,M4 *b);
+static inline void gl_M4_Rotate(M4 *c,float t,int u);
+//void gl_MulM4V3(V3 *a,M4 *b,V3 *c);
+//void gl_M4_MulV4(V4 *a,M4 *b,V4 *c);
+} ;
+
+void inline gl_MoveV3(V3 *a,V3 *b)
+{
+	memcpy(a,b,sizeof(V3));
+}
+
+int inline gl_V3_Norm(V3 *a)
+{
+	float n;
+	n=sqrt(a->X*a->X+a->Y*a->Y+a->Z*a->Z);
+	if (n==0) return 1;
+	a->X/=n;
+	a->Y/=n;
+	a->Z/=n;
+	return 0;
+}
+
+V3  inline gl_V3_New(float x,float y,float z)
+{
+	 V3 a;
+	 a.X=x;
+	 a.Y=y;
+	 a.Z=z;
+	 return a;
+}
+
+V4 inline gl_V4_New(float x,float y,float z,float w)
+{
+  V4 a;
+  a.X=x;
+  a.Y=y;
+  a.Z=z;
+  a.W=w;
+  return a;
+}
+
+//int gl_Matrix_Inv(float *r,float *m,int n);
+
+
+/* ******* Gestion des matrices 4x4 ****** */
+
+void M4::gl_M4_Id(M4 *a)
+{
+	int i,j;
+	for(i=0;i<4;i++)
+	for(j=0;j<4;j++) 
+	if (i==j) a->m[i][j]=1.0; else a->m[i][j]=0.0;
+}
+
+int M4::gl_M4_IsId(M4 *a)
+{
+	int i,j;
+	for(i=0;i<4;i++)
+    for(j=0;j<4;j++) {
+      if (i==j) { 
+        if (a->m[i][j] != 1.0) return 0;
+      } else if (a->m[i][j] != 0.0) return 0;
+    }
+  return 1;
+}
+
+void M4::gl_M4_Mul(M4 *c,M4 *a,M4 *b)
+{
+  int i,j,k;
+  float s;
+  for(i=0;i<4;i++)
+    for(j=0;j<4;j++) {
+      s=0.0;
+      for(k=0;k<4;k++) s+=a->m[i][k]*b->m[k][j];
+      c->m[i][j]=s;
+    }
+}
+
+/* c=c*a */
+void M4::gl_M4_MulLeft(M4 *c,M4 *b)
+{
+  int i,j,k;
+  float s;
+  M4 a;
+
+  /*memcpy(&a, c, 16*sizeof(float));
+  */
+  a=*c;
+
+  for(i=0;i<4;i++)
+    for(j=0;j<4;j++) {
+      s=0.0;
+      for(k=0;k<4;k++) s+=a.m[i][k]*b->m[k][j];
+      c->m[i][j]=s;
+    }
+}
+
+void M4::gl_M4_Move(M4 *a,M4 *b)
+{
+	memcpy(a,b,sizeof(M4));
+}
+
+
+void M4::gl_MulM4V3(V3 *a,M4 *b,V3 *c)
+{
+	 a->X=b->m[0][0]*c->X+b->m[0][1]*c->Y+b->m[0][2]*c->Z+b->m[0][3];
+	 a->Y=b->m[1][0]*c->X+b->m[1][1]*c->Y+b->m[1][2]*c->Z+b->m[1][3];
+	 a->Z=b->m[2][0]*c->X+b->m[2][1]*c->Y+b->m[2][2]*c->Z+b->m[2][3];
+}
+
+ 
+
+void M4::gl_M4_MulV4(V4 *a,M4 *b,V4 *c)
+{
+	 a->X=b->m[0][0]*c->X+b->m[0][1]*c->Y+b->m[0][2]*c->Z+b->m[0][3]*c->W;
+	 a->Y=b->m[1][0]*c->X+b->m[1][1]*c->Y+b->m[1][2]*c->Z+b->m[1][3]*c->W;
+	 a->Z=b->m[2][0]*c->X+b->m[2][1]*c->Y+b->m[2][2]*c->Z+b->m[2][3]*c->W;
+	 a->W=b->m[3][0]*c->X+b->m[3][1]*c->Y+b->m[3][2]*c->Z+b->m[3][3]*c->W;
+}
+	
+/* transposition of a 4x4 matrix */
+void M4::gl_M4_Transpose(M4 *a,M4 *b)
+{
+  a->m[0][0]=b->m[0][0]; 
+  a->m[0][1]=b->m[1][0]; 
+  a->m[0][2]=b->m[2][0]; 
+  a->m[0][3]=b->m[3][0]; 
+
+  a->m[1][0]=b->m[0][1]; 
+  a->m[1][1]=b->m[1][1]; 
+  a->m[1][2]=b->m[2][1]; 
+  a->m[1][3]=b->m[3][1]; 
+
+  a->m[2][0]=b->m[0][2]; 
+  a->m[2][1]=b->m[1][2]; 
+  a->m[2][2]=b->m[2][2]; 
+  a->m[2][3]=b->m[3][2]; 
+
+  a->m[3][0]=b->m[0][3]; 
+  a->m[3][1]=b->m[1][3]; 
+  a->m[3][2]=b->m[2][3]; 
+  a->m[3][3]=b->m[3][3]; 
+}
+
+/* inversion of an orthogonal matrix of type Y=M.X+P */ 
+void M4::gl_M4_InvOrtho(M4 *a,M4 b)
+{
+	int i,j;
+	float s;
+	for(i=0;i<3;i++)
+	for(j=0;j<3;j++) a->m[i][j]=b.m[j][i];
+	a->m[3][0]=0.0; a->m[3][1]=0.0; a->m[3][2]=0.0; a->m[3][3]=1.0;
+	for(i=0;i<3;i++) {
+		s=0;
+		for(j=0;j<3;j++) s-=b.m[j][i]*b.m[j][3];
+		a->m[i][3]=s;
+	}
+}
+
+/* Inversion of a general nxn matrix.
+   Note : m is destroyed */
+
+int inline Matrix_Inv(float *r,float *m,int n)
+{
+	 int i,j,k,l;
+	 float max,tmp,t;
+
+	 /* identitée dans r */
+	 for(i=0;i<n*n;i++) r[i]=0;
+	 for(i=0;i<n;i++) r[i*n+i]=1;
+	 
+	 for(j=0;j<n;j++) {
+			
+			/* recherche du nombre de plus grand module sur la colonne j */
+			max=m[j*n+j];
+			k=j;
+			for(i=j+1;i<n;i++)
+				if (fabs(m[i*n+j])>fabs(max)) {
+					 k=i;
+					 max=m[i*n+j];
+				}
+
+      /* non intersible matrix */
+      if (max==0) return 1;
+
+			
+			/* permutation des lignes j et k */
+			if (k!=j) {
+				 for(i=0;i<n;i++) {
+						tmp=m[j*n+i];
+						m[j*n+i]=m[k*n+i];
+						m[k*n+i]=tmp;
+						
+						tmp=r[j*n+i];
+						r[j*n+i]=r[k*n+i];
+						r[k*n+i]=tmp;
+				 }
+			}
+			
+			/* multiplication de la ligne j par 1/max */
+			max=1/max;
+			for(i=0;i<n;i++) {
+				 m[j*n+i]*=max;
+				 r[j*n+i]*=max;
+			}
+			
+			
+			for(l=0;l<n;l++) if (l!=j) {
+				 t=m[l*n+j];
+				 for(i=0;i<n;i++) {
+						m[l*n+i]-=m[j*n+i]*t;
+						r[l*n+i]-=r[j*n+i]*t;
+				 }
+			}
+	 }
+
+	 return 0;
+}
+
+
+/* inversion of a 4x4 matrix */
+
+void M4::gl_M4_Inv(M4 *a,M4 *b)
+{
+  M4 tmp;
+  memcpy(&tmp, b, 16*sizeof(float));
+  /*tmp=*b;*/
+  Matrix_Inv(&a->m[0][0],&tmp.m[0][0],4);
+}
+
+void M4::gl_M4_Rotate(M4 *a,float t,int u)
+{
+	 float s,c;
+	 int v,w;
+   if ((v=u+1)>2) v=0;
+	 if ((w=v+1)>2) w=0;
+	 s=sin(t);
+	 c=cos(t);
+	 gl_M4_Id(a);
+	 a->m[v][v]=c;	a->m[v][w]=-s;
+	 a->m[w][v]=s;	a->m[w][w]=c;
+}
+	
+																										
+/* vector arithmetic */
+
+
+
+#endif  __ZMATH__
+
+--------------------------------ztriangle.cpp--------------------------------
+#include <stdlib.h>
+#include "zbuffer.h"
+
+#define ZCMP(z,zpix) ((z) >= (zpix))
+
+ 
+
+/*
+ * Smooth filled triangle.
+ * The code below is very tricky :)
+ */
+void inline PUT_PIXELK(int _a, double &z, double &zz, register PIXEL *pp,double *pz,
+                       register unsigned int&or1,register unsigned int&og1,register unsigned int&ob1,
+					   int &dgdx,int&drdx,int&dbdx,int&dzdx)	
+{
+	 						 
+    zz = z / 16384 ;//z >> ZB_POINT_Z_FRAC_BITS;		 
+    if (ZCMP(zz,pz[_a])) {				 
+      pp[3 * _a]=or1 >> 8; 
+      pp[3 * _a + 1]=og1 >> 8; 
+      pp[3 * _a + 2]=ob1 >> 8; 
+      pz[_a]=zz;				 
+    } 
+    z+=dzdx;					 
+    og1+=dgdx;					 
+    or1+=drdx;					 
+    ob1+=dbdx;					 
+}
+void ZB_fillTriangleSmooth(ZBuffer *zb,
+			   ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
+{
+
+
+
+ZBufferPoint *t,*pr1,*pr2,*l1,*l2;
+  float fdx1, fdx2, fdy1, fdy2, fz, d1, d2;
+  double *pz1;
+  PIXEL *pp1;
+  int part,update_left,update_right;
+
+  int nb_lines,dx1,dy1,tmp,dx2,dy2;
+
+  int error,derror;
+  int x1,dxdy_min,dxdy_max;
+/* warning: x2 is multiplied by 2^16 */
+  int x2,dx2dy2;  
+
+// INTERP_RGB INTERP_Z
+  int z1,dzdx,dzdy,dzdl_min,dzdl_max;
+ 
+  int r1,drdx,drdy,drdl_min,drdl_max;
+  int g1,dgdx,dgdy,dgdl_min,dgdl_max;
+  int b1,dbdx,dbdy,dbdl_min,dbdl_max;
+ 
+ 
+
+  /* we sort the vertex with increasing y */
+  if (p1->y < p0->y) {
+    t = p0;
+    p0 = p1;
+    p1 = t;
+  }
+  if (p2->y < p0->y) {
+    t = p2;
+    p2 = p1;
+    p1 = p0;
+    p0 = t;
+  } else if (p2->y < p1->y) {
+    t = p1;
+    p1 = p2;
+    p2 = t;
+  }
+
+  /* we compute dXdx and dXdy for all interpolated values */
+  
+  fdx1 = p1->x - p0->x;
+  fdy1 = p1->y - p0->y;
+
+  fdx2 = p2->x - p0->x;
+  fdy2 = p2->y - p0->y;
+
+  fz = fdx1 * fdy2 - fdx2 * fdy1;
+  if (fz == 0)
+    return;
+  fz = 1.0 / fz;
+
+  fdx1 *= fz;
+  fdy1 *= fz;
+  fdx2 *= fz;
+  fdy2 *= fz;
+
+// INTERP_RGB INTERP_Z
+  d1 = p1->z - p0->z;
+  d2 = p2->z - p0->z;
+  dzdx = (int) (fdy2 * d1 - fdy1 * d2);
+  dzdy = (int) (fdx1 * d2 - fdx2 * d1);
+ 
+  d1 = p1->r - p0->r;
+  d2 = p2->r - p0->r;
+  drdx = (int) (fdy2 * d1 - fdy1 * d2);
+  drdy = (int) (fdx1 * d2 - fdx2 * d1);
+
+  d1 = p1->g - p0->g;
+  d2 = p2->g - p0->g;
+  dgdx = (int) (fdy2 * d1 - fdy1 * d2);
+  dgdy = (int) (fdx1 * d2 - fdx2 * d1);
+
+  d1 = p1->b - p0->b;
+  d2 = p2->b - p0->b;
+  dbdx = (int) (fdy2 * d1 - fdy1 * d2);
+  dbdy = (int) (fdx1 * d2 - fdx2 * d1);
+
+
+  /* screen coordinates */
+
+  pp1 = (PIXEL *) ((char *) zb->pbuf + zb->linesize * p0->y);
+  pz1 = zb->zbuf + p0->y * zb->xsize;
+
+  //DRAW_INIT();
+
+  for(part=0;part<2;part++) {
+    if (part == 0) {
+      if (fz > 0) {
+	update_left=1;
+	update_right=1;
+	l1=p0;
+	l2=p2;
+	pr1=p0;
+	pr2=p1;
+      } else {
+	update_left=1;
+	update_right=1;
+	l1=p0;
+	l2=p1;
+	pr1=p0;
+	pr2=p2;
+      }
+      nb_lines = p1->y - p0->y;
+    } else {
+      /* second part */
+      if (fz > 0) {
+	update_left=0;
+	update_right=1;
+	pr1=p1;
+	pr2=p2;
+      } else {
+	update_left=1;
+	update_right=0;
+	l1=p1; 
+	l2=p2;
+      }
+      nb_lines = p2->y - p1->y + 1;
+    }
+
+    /* compute the values for the left edge */
+
+    if (update_left) {
+      dy1 = l2->y - l1->y;
+      dx1 = l2->x - l1->x;
+      if (dy1 > 0) 
+	tmp = (dx1 << 16) / dy1;
+      else
+	tmp = 0;
+      x1 = l1->x;
+      error = 0;
+      derror = tmp & 0x0000ffff;
+      dxdy_min = tmp >> 16;
+      dxdy_max = dxdy_min + 1; 
+// INTERP_RGB INTERP_Z
+      z1=l1->z;
+      dzdl_min=(dzdy + dzdx * dxdy_min); 
+      dzdl_max=dzdl_min + dzdx;
+ 
+      r1=l1->r;
+      drdl_min=(drdy + drdx * dxdy_min);
+      drdl_max=drdl_min + drdx;
+      
+      g1=l1->g;
+      dgdl_min=(dgdy + dgdx * dxdy_min);
+      dgdl_max=dgdl_min + dgdx;
+      
+      b1=l1->b;
+      dbdl_min=(dbdy + dbdx * dxdy_min);
+      dbdl_max=dbdl_min + dbdx;
+ 
+ 
+    }
+
+    /* compute values for the right edge */
+
+    if (update_right) {
+      dx2 = (pr2->x - pr1->x);
+      dy2 = (pr2->y - pr1->y);
+      if (dy2>0) 
+	dx2dy2 = ( dx2 << 16) / dy2;
+      else
+	dx2dy2 = 0;
+      x2 = pr1->x << 16;
+    }
+
+    /* we draw all the scan line of the part */
+
+    while (nb_lines>0) {
+      nb_lines--;
+ 
+      {
+          register PIXEL *pp;
+          register int n;
+ 
+          double *pz;
+          double z,zz;
+          register unsigned int or1,og1,ob1;
+
+          n=(x2 >> 16) - x1;
+          pp=(PIXEL *)((char *)pp1 + x1 * PSZB);
+// INTERP_RGB INTERP_Z
+          pz=pz1+x1;
+          z=z1;
+ 
+          or1 = r1;
+          og1 = g1;
+          ob1 = b1;
+ 
+          
+          while (n>=0) {
+              PUT_PIXELK(0,z, zz, pp, pz, or1, og1, ob1,  dgdx, drdx, dbdx, dzdx);
+//#ifdef INTERP_Z
+              pz++;//=1;
+			  
+              pp=(PIXEL *)((char *)pp + PSZB);
+              n-=1;
+          }
+      }
+ 
+      error+=derror;
+      if (error > 0) {
+	error-=0x10000;
+	x1+=dxdy_max;
+// INTERP_RGB INTERP_Z
+	z1+=dzdl_max;
+   
+	r1+=drdl_max;
+	g1+=dgdl_max;
+	b1+=dbdl_max;
+ 
+ 
+      } else {
+	x1+=dxdy_min;
+// INTERP_RGB INTERP_Z
+	z1+=dzdl_min;
+ 
+	r1+=drdl_min;
+	g1+=dgdl_min;
+	b1+=dbdl_min;
+ 
+ 
+      } 
+      
+      /* right edge */
+      x2+=dx2dy2;
+
+      /* screen coordinates */
+      pp1=(PIXEL *)((char *)pp1 + zb->linesize);
+      pz1+=zb->xsize;
+    }
+  }
+  
+ 
+}
+
+void ZB_setTexture(ZBuffer *zb,PIXEL *texture)
+{
+    zb->current_texture=texture;
+}
+
+ 
+
+/*
+ * Texture mapping with perspective correction.
+ * We use the gradient method to make less divisions.
+ * TODO: pipeline the division
+ */
+ 
+
+ void inline PUT_PIXEL_TEX(int _a, PIXEL *texture, double &z,
+ double  &zz, register PIXEL *pp,double  *pz,
+   register unsigned int&s, register unsigned int&t,
+   int &dsdx,int&dtdx,int&dzdx)
+{						 
+   unsigned char *ptr; 
+   zz = z /16384;//>> ZB_POINT_Z_FRAC_BITS;		 
+     if (ZCMP(zz,pz[_a])) {				 
+       ptr = texture + (((t & 0x3FC00000) | (s & 0x003FC000)) >> 14) * 3; 
+       pp[3 * _a]= ptr[0]; 
+       pp[3 * _a + 1]= ptr[1]; 
+       pp[3 * _a + 2]= ptr[2]; 
+       pz[_a]=zz;				 
+    }						 
+    z+=dzdx;					 
+    s+=dsdx;					 
+    t+=dtdx;					 
+}
+
+
+void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
+                            ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
+{
+    PIXEL *texture;
+    float fdzdx,fndzdx,ndszdx,ndtzdx;
+
+  
+
+#define NB_INTERP 8
+
+
+ 
+  
+ZBufferPoint *t,*pr1,*pr2,*l1,*l2;
+  float fdx1, fdx2, fdy1, fdy2, fz, d1, d2;
+  double *pz1;
+  PIXEL *pp1;
+  int part,update_left,update_right;
+
+  int nb_lines,dx1,dy1,tmp,dx2,dy2;
+
+  int error,derror;
+  int x1,dxdy_min,dxdy_max;
+/* warning: x2 is multiplied by 2^16 */
+  int x2,dx2dy2;  
+
+// INTERP_Z
+
+  int z1,dzdx,dzdy,dzdl_min,dzdl_max;
+ 
+// INTERP_RGB
+  int r1,drdx,drdy,drdl_min,drdl_max;
+  int g1,dgdx,dgdy,dgdl_min,dgdl_max;
+  int b1,dbdx,dbdy,dbdl_min,dbdl_max;
+ 
+// INTERP_ST
+  int s1,dsdx,dsdy,dsdl_min,dsdl_max;
+  int t1,dtdx,dtdy,dtdl_min,dtdl_max;
+ 
+//#ifdef INTERP_STZ
+  float sz1,dszdx,dszdy,dszdl_min,dszdl_max;
+  float tz1,dtzdx,dtzdy,dtzdl_min,dtzdl_max;
+ 
+
+  /* we sort the vertex with increasing y */
+  if (p1->y < p0->y) {
+    t = p0;
+    p0 = p1;
+    p1 = t;
+  }
+  if (p2->y < p0->y) {
+    t = p2;
+    p2 = p1;
+    p1 = p0;
+    p0 = t;
+  } else if (p2->y < p1->y) {
+    t = p1;
+    p1 = p2;
+    p2 = t;
+  }
+
+  /* we compute dXdx and dXdy for all interpolated values */
+  
+  fdx1 = p1->x - p0->x;
+  fdy1 = p1->y - p0->y;
+
+  fdx2 = p2->x - p0->x;
+  fdy2 = p2->y - p0->y;
+
+  fz = fdx1 * fdy2 - fdx2 * fdy1;
+  if (fz == 0)
+    return;
+  fz = 1.0 / fz;
+
+  fdx1 *= fz;
+  fdy1 *= fz;
+  fdx2 *= fz;
+  fdy2 *= fz;
+
+ 
+  d1 = p1->z - p0->z;
+  d2 = p2->z - p0->z;
+  dzdx = (int) (fdy2 * d1 - fdy1 * d2);
+  dzdy = (int) (fdx1 * d2 - fdx2 * d1);
+ 
+
+ 
+
+//  INTERP_STZ
+  {
+    float zz;
+    zz=(float) p0->z;
+    p0->sz= (float) p0->s * zz;
+    p0->tz= (float) p0->t * zz;
+    zz=(float) p1->z;
+    p1->sz= (float) p1->s * zz;
+    p1->tz= (float) p1->t * zz;
+    zz=(float) p2->z;
+    p2->sz= (float) p2->s * zz;
+    p2->tz= (float) p2->t * zz;
+
+    d1 = p1->sz - p0->sz;
+    d2 = p2->sz - p0->sz;
+    dszdx = (fdy2 * d1 - fdy1 * d2);
+    dszdy = (fdx1 * d2 - fdx2 * d1);
+    
+    d1 = p1->tz - p0->tz;
+    d2 = p2->tz - p0->tz;
+    dtzdx = (fdy2 * d1 - fdy1 * d2);
+    dtzdy = (fdx1 * d2 - fdx2 * d1);
+  }
+
+  /* screen coordinates */
+
+  pp1 = (PIXEL *) ((char *) zb->pbuf + zb->linesize * p0->y);
+  pz1 = zb->zbuf + p0->y * zb->xsize;
+
+  //DRAW_INIT();
+ 
+ {						 
+    texture=zb->current_texture; 
+    fdzdx=(float)dzdx; 
+    fndzdx=NB_INTERP * fdzdx; 
+    ndszdx=NB_INTERP * dszdx; 
+    ndtzdx=NB_INTERP * dtzdx; 
+  }
+  
+  
+  //===================================
+  for(part=0;part<2;part++) {
+    if (part == 0) {
+      if (fz > 0) {
+	update_left=1;
+	update_right=1;
+	l1=p0;
+	l2=p2;
+	pr1=p0;
+	pr2=p1;
+      } else {
+	update_left=1;
+	update_right=1;
+	l1=p0;
+	l2=p1;
+	pr1=p0;
+	pr2=p2;
+      }
+      nb_lines = p1->y - p0->y;
+    } else {
+      /* second part */
+      if (fz > 0) {
+	update_left=0;
+	update_right=1;
+	pr1=p1;
+	pr2=p2;
+      } else {
+	update_left=1;
+	update_right=0;
+	l1=p1; 
+	l2=p2;
+      }
+      nb_lines = p2->y - p1->y + 1;
+    }
+
+    /* compute the values for the left edge */
+
+    if (update_left) {
+      dy1 = l2->y - l1->y;
+      dx1 = l2->x - l1->x;
+      if (dy1 > 0) 
+	tmp = (dx1 << 16) / dy1;
+      else
+	tmp = 0;
+      x1 = l1->x;
+      error = 0;
+      derror = tmp & 0x0000ffff;
+      dxdy_min = tmp >> 16;
+      dxdy_max = dxdy_min + 1;
+      
+//#ifdef INTERP_Z
+      z1=l1->z;
+      dzdl_min=(dzdy + dzdx * dxdy_min); 
+      dzdl_max=dzdl_min + dzdx;
+ 
+ 
+// INTERP_STZ
+      sz1=l1->sz;
+      dszdl_min=(dszdy + dszdx * dxdy_min);
+      dszdl_max=dszdl_min + dszdx;
+      
+      tz1=l1->tz;
+      dtzdl_min=(dtzdy + dtzdx * dxdy_min);
+      dtzdl_max=dtzdl_min + dtzdx;
+ 
+    }
+
+    /* compute values for the right edge */
+
+    if (update_right) {
+      dx2 = (pr2->x - pr1->x);
+      dy2 = (pr2->y - pr1->y);
+      if (dy2>0) 
+	dx2dy2 = ( dx2 << 16) / dy2;
+      else
+	dx2dy2 = 0;
+      x2 = pr1->x << 16;
+    }
+
+    /* we draw all the scan line of the part */
+
+    while (nb_lines>0) {
+      nb_lines--;
+ 
+      //////////////////////DRAW_LINE();
+	  double *pz;		 
+  register PIXEL *pp;		 
+  double  z,zz;	 
+  unsigned int s,t;
+  register int n,dsdx,dtdx;		 
+  float sz,tz,fz,zinv;  
+  n=(x2>>16)-x1;                              
+  fz=(float)z1; 
+  zinv=1.0 / fz; 
+  pp=(PIXEL *)((char *)pp1 + x1 * PSZB);  
+  pz=pz1+x1;					 
+  z=z1;						 
+  sz=sz1; 
+  tz=tz1; 
+  while (n>=(NB_INTERP-1)) {						    
+    { 
+      float ss,tt; 
+      ss=(sz * zinv); 
+      tt=(tz * zinv); 
+      s=(int) ss; 
+      t=(int) tt; 
+      dsdx= (int)( (dszdx - ss*fdzdx)*zinv ); 
+      dtdx= (int)( (dtzdx - tt*fdzdx)*zinv ); 
+      fz+=fndzdx; 
+      zinv=1.0 / fz; 
+    } 
+    PUT_PIXEL_TEX(0, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);						    
+    PUT_PIXEL_TEX(1, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    PUT_PIXEL_TEX(2, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    PUT_PIXEL_TEX(3, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    PUT_PIXEL_TEX(4, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    PUT_PIXEL_TEX(5, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    PUT_PIXEL_TEX(6, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    PUT_PIXEL_TEX(7, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);								    
+    pz+=NB_INTERP;							    
+    pp=(PIXEL *)((char *)pp + NB_INTERP * PSZB); 
+    n-=NB_INTERP;							    
+    sz+=ndszdx; 
+    tz+=ndtzdx; 
+  }									    
+    { 
+      float ss,tt; 
+      ss=(sz * zinv); 
+      tt=(tz * zinv); 
+      s=(int) ss;
+      t=(int) tt;
+      dsdx= (int)( (dszdx - ss*fdzdx)*zinv );
+      dtdx= (int)( (dtzdx - tt*fdzdx)*zinv );
+    } 
+  while (n>=0) {							   
+    PUT_PIXEL_TEX(0, texture,  z, zz, pp, pz, s,t, dsdx, dtdx, dzdx	);							   
+    pz+=1;								   
+    pp=(PIXEL *)((char *)pp + PSZB);
+    n-=1;								   
+  }									   
+ 
+      //////////////////////////////////
+      /* left edge */
+      error+=derror;
+      if (error > 0) {
+	error-=0x10000;
+	x1+=dxdy_max;
+//  INTERP_Z
+	z1+=dzdl_max;
+      
+ 
+//#ifdef INTERP_STZ
+	sz1+=dszdl_max;
+	tz1+=dtzdl_max;
+ 
+      } else {
+	x1+=dxdy_min;
+//#ifdef INTERP_Z
+	z1+=dzdl_min;
+       
+ 
+//#ifdef INTERP_STZ
+	sz1+=dszdl_min;
+	tz1+=dtzdl_min;
+ 
+      } 
+      
+      /* right edge */
+      x2+=dx2dy2;
+
+      /* screen coordinates */
+      pp1=(PIXEL *)((char *)pp1 + zb->linesize);
+      pz1+=zb->xsize;
+    }
+  }
+  
+ 
+}
+
+ 
+
+ 
+
