@@ -14,60 +14,8 @@
 
 using namespace std;
 #define DEBUG
-/* #define NDEBUG */
-
-enum {
-
-//#define ADD_OP(a,b,c) OP_ ## a ,
-/*
-#include "opinfo.h"*/
-//#define ADD_OP(a,b,c) glop ## a ,
-
-OP_Color, 
-OP_TexCoord, 
-//OP_EdgeFlag, 
-OP_Normal, 
-
-OP_Begin, 
-OP_Vertex, 
-OP_End, 
-
-OP_EnableDisable, 
-
-OP_MatrixMode, 
-OP_LoadMatrix, 
-OP_LoadIdentity, 
-OP_MultMatrix, 
-OP_PushMatrix, 
-OP_PopMatrix, 
-OP_Rotate, 
-OP_Translate, 
-OP_Scale, 
-
-OP_Viewport, 
-OP_Frustum, 
-
-OP_Material, 
-OP_ColorMaterial, 
-OP_Light, 
-OP_LightModel, 
 
  
-//OP_InitNames, 
- 
-
-OP_TexImage2D, 
-OP_BindTexture, 
-OP_TexEnv, 
-OP_TexParameter, 
-OP_PixelStore, 
-
-
- 
-
-
-};/**/
-
 /* initially # of allocated GLVertexes (will grow when necessary) */
 #define POLYGON_MAX_VERTEX 16
 
@@ -395,33 +343,10 @@ void gl_fatal_error(char *format, ...);
 GLSpecBuf *specbuf_get_buffer(GLContext *c, const int shininess_i, 
                               const float shininess);
 
-#ifdef __BEOS__
-void dprintf(const char *, ...);
-
-#else /* !BEOS */
-
-#ifdef DEBUG
-
-//#define dprintf(format, args...)  \
-//  fprintf(stderr,"In '%s': " format "\n",__FUNCTION__, ##args);
-
-#else
-
-#define dprintf(format, args...)
-
-#endif
-#endif /* !BEOS */
-
-/* glopXXX functions */
-
-#define ADD_OP(a,b,c) void glop ## a (GLContext *,GLParam *);
-#include "opinfo.h"
-
-
-
+ 
 
 //===================================
-#include "glx.h"
+//#include "glx.h"
  
 
  inline GLContext*gl_get_context(void)

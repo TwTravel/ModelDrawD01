@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2018-12-25 18:09:25</td>
+            <td class="headerValue">2018-12-26 03:13:02</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">2</td>
@@ -78,20 +78,20 @@
 <span class="lineNum">      16 </span><span class="lineCov">          1 : }</span>
 <a name="17"><span class="lineNum">      17 </span>            : </a>
 <span class="lineNum">      18 </span>            : GLSpecBuf *
-<span class="lineNum">      19 </span><span class="lineCov">     428518 : specbuf_get_buffer(GLContext *c, const int shininess_i, </span>
+<span class="lineNum">      19 </span><span class="lineCov">     387060 : specbuf_get_buffer(GLContext *c, const int shininess_i, </span>
 <span class="lineNum">      20 </span>            :                    const float shininess)
 <span class="lineNum">      21 </span>            : {
 <span class="lineNum">      22 </span>            :   GLSpecBuf *found, *oldest;
-<span class="lineNum">      23 </span><span class="lineCov">     428518 :   found = oldest = c-&gt;specbuf_first;</span>
-<span class="lineNum">      24 </span><span class="lineCov">     428518 :   while (found &amp;&amp; found-&gt;shininess_i != shininess_i) {</span>
+<span class="lineNum">      23 </span><span class="lineCov">     387060 :   found = oldest = c-&gt;specbuf_first;</span>
+<span class="lineNum">      24 </span><span class="lineCov">     387060 :   while (found &amp;&amp; found-&gt;shininess_i != shininess_i) {</span>
 <span class="lineNum">      25 </span><span class="lineNoCov">          0 :     if (found-&gt;last_used &lt; oldest-&gt;last_used) {</span>
 <span class="lineNum">      26 </span><span class="lineNoCov">          0 :       oldest = found;</span>
 <span class="lineNum">      27 </span>            :     }
 <span class="lineNum">      28 </span><span class="lineNoCov">          0 :     found = found-&gt;next; </span>
 <span class="lineNum">      29 </span>            :   }
-<span class="lineNum">      30 </span><span class="lineCov">     428518 :   if (found) { /* hey, found one! */</span>
-<span class="lineNum">      31 </span><span class="lineCov">     428517 :     found-&gt;last_used = c-&gt;specbuf_used_counter++;</span>
-<span class="lineNum">      32 </span><span class="lineCov">     428517 :     return found;</span>
+<span class="lineNum">      30 </span><span class="lineCov">     387060 :   if (found) { /* hey, found one! */</span>
+<span class="lineNum">      31 </span><span class="lineCov">     387059 :     found-&gt;last_used = c-&gt;specbuf_used_counter++;</span>
+<span class="lineNum">      32 </span><span class="lineCov">     387059 :     return found;</span>
 <span class="lineNum">      33 </span>            :   }
 <span class="lineNum">      34 </span><span class="lineCov">          1 :   if (oldest == NULL || c-&gt;specbuf_num_buffers &lt; MAX_SPECULAR_BUFFERS) {</span>
 <span class="lineNum">      35 </span>            :     /* create new buffer */

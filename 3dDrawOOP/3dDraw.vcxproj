@@ -73,7 +73,6 @@
     <ClInclude Include="include\glx.h" />
     <ClInclude Include="include\msghandling.h" />
     <ClInclude Include="include\nglx.h" />
-    <ClInclude Include="include\opinfo.h" />
     <ClInclude Include="include\oscontext.h" />
     <ClInclude Include="include\specbuf.h" />
     <ClInclude Include="include\texture.h" />

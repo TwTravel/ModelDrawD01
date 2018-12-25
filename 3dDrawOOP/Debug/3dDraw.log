@@ -1,4 +1,4 @@
-﻿生成启动时间为 2018/12/26 1:44:38。
+﻿生成启动时间为 2018/12/26 3:11:37。
 项目“E:\graphdev\ModelDrawD01\3dDrawOOP\3dDraw.vcxproj”在节点 2 上(rebuild 个目标)。
 _PrepareForClean:
   正在删除文件“Debug\3dDraw.lastbuildstate”。
@@ -131,20 +131,24 @@ e:\graphdev\modeldrawd01\3ddrawoop\include\c256bitmap.h(107): warning C4996: 'fo
 e:\graphdev\modeldrawd01\3ddrawoop\tygl\clip.cpp(22): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
 e:\graphdev\modeldrawd01\3ddrawoop\tygl\clip.cpp(36): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
   api.cpp
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(366): warning C4065: switch 语句包含“default”但是未包含“case”标签
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(373): warning C4065: switch 语句包含“default”但是未包含“case”标签
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(553): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(726): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(727): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(728): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(729): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(730): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(731): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(818): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(884): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(980): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(1052): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(1185): warning C4101: “p”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(367): warning C4065: switch 语句包含“default”但是未包含“case”标签
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(374): warning C4065: switch 语句包含“default”但是未包含“case”标签
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(381): warning C4101: “p”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(461): warning C4101: “p”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(503): warning C4101: “p”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(524): warning C4101: “p”: 未引用的局部变量
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(554): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(719): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(720): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(721): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(722): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(723): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(724): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(811): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(877): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(964): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(1036): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+e:\graphdev\modeldrawd01\3ddrawoop\tygl\api.cpp(1162): warning C4101: “p”: 未引用的局部变量
   main.cpp
 e:\graphdev\modeldrawd01\3ddrawoop\main.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 e:\graphdev\modeldrawd01\3ddrawoop\c24bitmap.h(207): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
@@ -248,4 +252,4 @@ FinalizeBuildStatus:
 
 生成成功。
 
-已用时间 00:00:18.75
+已用时间 00:00:16.60

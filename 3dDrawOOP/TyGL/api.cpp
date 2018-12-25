@@ -1,7 +1,8 @@
 #include "zgl.h"
 #include <stdio.h>
 /* glVertex */
- void gl_vertex_transform(GLContext * c, GLVertex * v);
+void gl_vertex_transform(GLContext * c, GLVertex * v);
+void glopMaterial(GLContext *c,GLParam *p);
 
 void glVertex4f(float x,float y,float z,float w)
 {
@@ -168,7 +169,7 @@ void glColor4f(float r,float g,float b,float a)
   GLContext *c=gl_get_context(); 
   GLParam p[8];
 
-  p[0].op=OP_Color;
+  //p[0].op=OP_Color;
   p[1].f=r;
   p[2].f=g;
   p[3].f=b;
@@ -190,7 +191,7 @@ void glColor4f(float r,float g,float b,float a)
 
     if (c->color_material_enabled) {
 	GLParam q[7];
-	q[0].op = OP_Material;
+	//q[0].op = OP_Material;
 	q[1].i = c->current_color_material_mode;
 	q[2].i = c->current_color_material_type;
 	q[3].f = p[1].f;
@@ -287,7 +288,7 @@ void glEnable(int cap)
 {
   GLParam p[3];
 
-  p[0].op=OP_EnableDisable;
+  //p[0].op=OP_EnableDisable;
   p[1].i=cap;
   p[2].i=1;
 
@@ -299,7 +300,7 @@ void glEnable(int cap)
 void glDisable(int cap)
 {
   GLParam p[3];
-  p[0].op=OP_EnableDisable;
+  //p[0].op=OP_EnableDisable;
   p[1].i=cap;
   p[2].i=0;
   
@@ -379,7 +380,7 @@ void glEnd(void)
   GLContext *c=gl_get_context();
   GLParam p[1];
 
-  p[0].op=OP_End;
+  //p[0].op=OP_End;
 
   //glRunFunc(p);
   // assert(c->in_begin == 1);
@@ -404,7 +405,7 @@ void glMatrixMode(int mode)
   GLContext *c=gl_get_context(); 
   GLParam p[2];
 
-  p[0].op=OP_MatrixMode;
+  //p[0].op=OP_MatrixMode;
   p[1].i=mode;
 
 //  glRunFunc(p);
@@ -431,7 +432,7 @@ void glLoadMatrixf(const float *mm)
   GLParam p[17];
   int i;
 
-  p[0].op=OP_LoadMatrix;
+  //p[0].op=OP_LoadMatrix;
   for(i=0;i<16;i++) p[i+1].f=mm[i];
 
  // glRunFunc(p);
@@ -459,7 +460,7 @@ void glLoadIdentity(void)
   GLContext *c=gl_get_context(); 
   GLParam p[1];
 
-  p[0].op=OP_LoadIdentity;
+  //p[0].op=OP_LoadIdentity;
 
   //glRunFunc(p);
   M4::gl_M4_Id(c->matrix_buffer_ptr[c->matrix_mode]);
@@ -473,7 +474,7 @@ void glMultMatrixf(const float *mm)
   GLParam p[17];
   int i;
 
-  p[0].op=OP_MultMatrix;
+  //p[0].op=OP_MultMatrix;
   for(i=0;i<16;i++) p[i+1].f=mm[i];
 
   //glRunFunc(p);
@@ -501,7 +502,7 @@ void glPushMatrix(void)
   GLContext *c=gl_get_context(); 
   GLParam p[1];
 
-  p[0].op=OP_PushMatrix;
+  //p[0].op=OP_PushMatrix;
 
   //glRunFunc(p);
   int n=c->matrix_mode;
@@ -522,7 +523,7 @@ void glPopMatrix(void)
    GLContext *c=gl_get_context(); 
    GLParam p[1];
 
-  p[0].op=OP_PopMatrix;
+  //p[0].op=OP_PopMatrix;
 
  // glRunFunc(p);
   int n=c->matrix_mode;
@@ -537,7 +538,7 @@ void glRotatef(float angle,float x,float y,float z)
   GLContext *c=gl_get_context(); 
   GLParam p[5];
 
-  p[0].op=OP_Rotate;
+  //p[0].op=OP_Rotate;
   p[1].f=angle;
   p[2].f=x;
   p[3].f=y;
@@ -618,7 +619,7 @@ void glTranslatef(float x,float y,float z)
   GLContext *c=gl_get_context(); 
   GLParam p[4];
 
-  p[0].op=OP_Translate;
+  //p[0].op=OP_Translate;
   p[1].f=x;
   p[2].f=y;
   p[3].f=z;
@@ -642,7 +643,7 @@ void glScalef(float x,float y,float z)
   GLContext *c=gl_get_context(); 
   GLParam p[4];
 
-  p[0].op=OP_Scale;
+  //p[0].op=OP_Scale;
   p[1].f=x;
   p[2].f=y;
   p[3].f=z;
@@ -664,15 +665,7 @@ void glScalef(float x,float y,float z)
 void glViewport(int x,int y,int width,int height)
 {
 	GLContext *c=gl_get_context(); 
-  /*GLParam p[5];
-
-  p[0].op=OP_Viewport;
-  p[1].i=x;
-  p[2].i=y;
-  p[3].i=width;
-  p[4].i=height;
-
-  glRunFunc(p);*/
+   
   int  xsize_req,ysize_req;
   
  // xmin=p[1].i;
@@ -765,7 +758,7 @@ void glMaterialfv(int mode,int type,float *val)
 
   assert(mode == GL_FRONT  || mode == GL_BACK || mode==GL_FRONT_AND_BACK);
 
-  p[0].op=OP_Material;
+  //p[0].op=OP_Material;
   p[1].i=mode;
   p[2].i=type;
   n=4;
@@ -834,7 +827,7 @@ void glMaterialf(int mode,int type,float val)
   GLParam p[7];
   int i;
 
-  p[0].op=OP_Material;
+  //p[0].op=OP_Material;
   p[1].i=mode;
   p[2].i=type;
   p[3].f=val;
@@ -897,16 +890,7 @@ void glMaterialf(int mode,int type,float val)
 void glColorMaterial(int mode,int type)
 {
   GLContext *c=gl_get_context(); 
-  GLParam p[3];
-
-  p[0].op=OP_ColorMaterial;
-  p[1].i=mode;
-  p[2].i=type;
-
-  //glRunFunc(p);
-//   int mode=p[1].i;
-//  int type=p[2].i;
-
+  
   c->current_color_material_mode=mode;
   c->current_color_material_type=type;
 }
@@ -916,7 +900,7 @@ void glLightfv(int light,int type,float *val)
   GLParam p[7];
   int i;
 
-  p[0].op=OP_Light;
+  //p[0].op=OP_Light;
   p[1].i=light;
   p[2].i=type;
   /* TODO: 3 composants ? */
@@ -1068,15 +1052,8 @@ void glLightf(int light,int type,float val)
 
 void glLightModelfv(int pname,float *param)
 {
-	  GLContext *c=gl_get_context(); 
- /* GLParam p[6];
-  int i;
-
-  p[0].op=OP_LightModel;
-  p[1].i=pname;
-  for(i=0;i<4;i++) p[2+i].f=param[i];
-
-  glRunFunc(p);*/
+ GLContext *c=gl_get_context(); 
+  
 
   // int pname=p[1].i;
   float *v=param;//&p[2].f;
@@ -1184,14 +1161,7 @@ void glBindTexture(int target,int texture)
   GLContext *c=gl_get_context(); 
   GLParam p[3];
 
-  //p[0].op=OP_BindTexture;
-  //p[1].i=target;
-  //p[2].i=texture;
-
-  //glRunFunc(p);
-
-  //target =p[1].i;
-  //texture=p[2].i;
+ 
   GLTexture *t;
 
   assert(target == GL_TEXTURE_2D && texture >= 0);
@@ -1203,64 +1173,7 @@ void glBindTexture(int target,int texture)
   c->current_texture=t;
 }
 
-/*void glTexEnvi(int target,int pname,int param)
-{
-  GLParam p[8];
-  
-  p[0].op=OP_TexEnv;
-  p[1].i=target;
-  p[2].i=pname;
-  p[3].i=param;
-  p[4].f=0;
-  p[5].f=0;
-  p[6].f=0;
-  p[7].f=0;
-
-  glRunFunc(p);
-}
-
-void glTexParameteri(int target,int pname,int param)
-{
-  GLParam p[8];
-  
-  p[0].op=OP_TexParameter;
-  p[1].i=target;
-  p[2].i=pname;
-  p[3].i=param;
-  p[4].f=0;
-  p[5].f=0;
-  p[6].f=0;
-  p[7].f=0;
-
-  glRunFunc(p);
-}
-
-void glPixelStorei(int pname,int param)
-{
-  GLParam p[3];
-
-  p[0].op=OP_PixelStore;
-  p[1].i=pname;
-  p[2].i=param;
-
-  glRunFunc(p);
-}
-*/
-/* selection */
-
-
-
-/* Special Functions */
-
-/*void glCallList(unsigned int list)
-{
-  GLParam p[2];
-
-  p[0].op=OP_CallList;
-  p[1].i=list;
-
-  glRunFunc(p);
-}*/
+ 
 
 void glFlush(void)
 {

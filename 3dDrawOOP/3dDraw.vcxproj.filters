@@ -45,9 +45,6 @@
     <ClInclude Include="include\nglx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\opinfo.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\oscontext.h">
       <Filter>头文件</Filter>
     </ClInclude>
