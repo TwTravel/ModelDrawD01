@@ -376,11 +376,24 @@ void glBegin(int mode)
 
 void glEnd(void)
 {
+  GLContext *c=gl_get_context();
   GLParam p[1];
 
   p[0].op=OP_End;
 
-  glRunFunc(p);
+  //glRunFunc(p);
+  // assert(c->in_begin == 1);
+
+    if (c->begin_type == GL_LINE_LOOP) {
+	 
+    } else if (c->begin_type == GL_POLYGON) {
+	int i = c->vertex_cnt;
+	while (i >= 3) {
+	    i--;
+	    gl_draw_triangle(c, &c->vertex[i], &c->vertex[0], &c->vertex[i - 1]);
+	}
+    }
+    c->in_begin = 0;
 }
 
 /* matrix */
@@ -744,8 +757,9 @@ void gluPerspective( GLdouble fovy, GLdouble aspect,
 
 /* lightening */
 
-void glMaterialfv(int mode,int type,float *v)
+void glMaterialfv(int mode,int type,float *val)
 {
+  GLContext *c=gl_get_context(); 
   GLParam p[7];
   int i,n;
 
@@ -756,35 +770,145 @@ void glMaterialfv(int mode,int type,float *v)
   p[2].i=type;
   n=4;
   if (type == GL_SHININESS) n=1;
-  for(i=0;i<4;i++) p[3+i].f=v[i];
+  for(i=0;i<4;i++) p[3+i].f=val[i];
   for(i=n;i<4;i++) p[3+i].f=0;
 
-  glRunFunc(p);
+  //glRunFunc(p);
+  //int mode=p[1].i;
+  //int type=p[2].i;
+  
+  float vv[4];
+
+  vv[0] = p[3].f;
+  vv[1] = p[4].f;
+  vv[2] = p[5].f;
+  vv[3] = p[6].f; /**/
+   float *v=vv;//&p[3].f;
+ // float *v=&p[3].f;
+//  int i;
+  GLMaterial *m;
+
+  if (mode == GL_FRONT_AND_BACK) {
+    p[1].i=GL_FRONT;
+    glopMaterial(c,p);
+    mode=GL_BACK;
+  }
+  if (mode == GL_FRONT) m=&c->materials[0];
+  else m=&c->materials[1];
+
+  switch(type) {
+  case GL_EMISSION:
+    for(i=0;i<4;i++)
+      m->emission.v[i]=v[i];
+    break;
+  case GL_AMBIENT:
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  case GL_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    break;
+  case GL_SPECULAR:
+    for(i=0;i<4;i++)
+      m->specular.v[i]=v[i];
+    break;
+  case GL_SHININESS:
+    m->shininess=v[0];
+    m->shininess_i = (v[0]/128.0f)*SPECULAR_BUFFER_RESOLUTION;
+    break;
+  case GL_AMBIENT_AND_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  default:
+    assert(0);
+  }
 }
 
-void glMaterialf(int mode,int type,float v)
+void glMaterialf(int mode,int type,float val)
 {
+  GLContext *c=gl_get_context(); 
   GLParam p[7];
   int i;
 
   p[0].op=OP_Material;
   p[1].i=mode;
   p[2].i=type;
-  p[3].f=v;
+  p[3].f=val;
   for(i=0;i<3;i++) p[4+i].f=0;
 
-  glRunFunc(p);
+  // glRunFunc(p);
+  //  int mode=p[1].i;
+  //  int type=p[2].i;
+  
+  float v[4];
+  v[0] = p[3].f;
+  v[1] = p[4].f;
+  v[2] = p[5].f;
+  v[3] = p[6].f;
+  //float *v=v;//&p[3].f;
+ // float *v=&p[3].f;
+//  int i;
+  GLMaterial *m;
+
+  if (mode == GL_FRONT_AND_BACK) {
+    p[1].i=GL_FRONT;
+    glopMaterial(c,p);
+    mode=GL_BACK;
+  }
+  if (mode == GL_FRONT) m=&c->materials[0];
+  else m=&c->materials[1];
+
+  switch(type) {
+  case GL_EMISSION:
+    for(i=0;i<4;i++)
+      m->emission.v[i]=v[i];
+    break;
+  case GL_AMBIENT:
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  case GL_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    break;
+  case GL_SPECULAR:
+    for(i=0;i<4;i++)
+      m->specular.v[i]=v[i];
+    break;
+  case GL_SHININESS:
+    m->shininess=v[0];
+    m->shininess_i = (v[0]/128.0f)*SPECULAR_BUFFER_RESOLUTION;
+    break;
+  case GL_AMBIENT_AND_DIFFUSE:
+    for(i=0;i<4;i++)
+      m->diffuse.v[i]=v[i];
+    for(i=0;i<4;i++)
+      m->ambient.v[i]=v[i];
+    break;
+  default:
+    assert(0);
+  }
 }
 
 void glColorMaterial(int mode,int type)
 {
+  GLContext *c=gl_get_context(); 
   GLParam p[3];
 
   p[0].op=OP_ColorMaterial;
   p[1].i=mode;
   p[2].i=type;
 
-  glRunFunc(p);
+  //glRunFunc(p);
+//   int mode=p[1].i;
+//  int type=p[2].i;
+
+  c->current_color_material_mode=mode;
+  c->current_color_material_type=type;
 }
 
 void glLightfv(int light,int type,float *v)

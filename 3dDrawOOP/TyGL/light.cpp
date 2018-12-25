@@ -3,66 +3,12 @@
 
 void glopMaterial(GLContext *c,GLParam *p)
 {
-  int mode=p[1].i;
-  int type=p[2].i;
   
-  float vv[4];
-  vv[0] = p[3].f;
-  vv[1] = p[4].f;
-  vv[2] = p[5].f;
-  vv[3] = p[6].f;
-  float *v=vv;//&p[3].f;
- // float *v=&p[3].f;
-  int i;
-  GLMaterial *m;
-
-  if (mode == GL_FRONT_AND_BACK) {
-    p[1].i=GL_FRONT;
-    glopMaterial(c,p);
-    mode=GL_BACK;
-  }
-  if (mode == GL_FRONT) m=&c->materials[0];
-  else m=&c->materials[1];
-
-  switch(type) {
-  case GL_EMISSION:
-    for(i=0;i<4;i++)
-      m->emission.v[i]=v[i];
-    break;
-  case GL_AMBIENT:
-    for(i=0;i<4;i++)
-      m->ambient.v[i]=v[i];
-    break;
-  case GL_DIFFUSE:
-    for(i=0;i<4;i++)
-      m->diffuse.v[i]=v[i];
-    break;
-  case GL_SPECULAR:
-    for(i=0;i<4;i++)
-      m->specular.v[i]=v[i];
-    break;
-  case GL_SHININESS:
-    m->shininess=v[0];
-    m->shininess_i = (v[0]/128.0f)*SPECULAR_BUFFER_RESOLUTION;
-    break;
-  case GL_AMBIENT_AND_DIFFUSE:
-    for(i=0;i<4;i++)
-      m->diffuse.v[i]=v[i];
-    for(i=0;i<4;i++)
-      m->ambient.v[i]=v[i];
-    break;
-  default:
-    assert(0);
-  }
 }
 
 void glopColorMaterial(GLContext *c,GLParam *p)
 {
-  int mode=p[1].i;
-  int type=p[2].i;
-
-  c->current_color_material_mode=mode;
-  c->current_color_material_type=type;
+ 
 }
 
 void glopLight(GLContext *c,GLParam *p)
