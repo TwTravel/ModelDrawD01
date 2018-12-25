@@ -97,7 +97,7 @@ void inline  glopTexImage2D(GLContext *c,GLParam *p)
 }
 
 
-/* TODO: not all tests are done */
+/* TODO: not all tests are done *//*
 inline void  glopTexEnv(GLContext *c,GLParam *p)
 {
   int target=p[1].i;
@@ -114,7 +114,8 @@ inline void  glopTexEnv(GLContext *c,GLParam *p)
   if (param != GL_DECAL) goto error;
 }
 
-/* TODO: not all tests are done */
+ TODO: not all tests are done  
+/*
 inline void  glopTexParameter(GLContext *c,GLParam *p)
 {
   int target=p[1].i;
@@ -144,5 +145,5 @@ inline void  glopPixelStore(GLContext *c,GLParam *p)
     gl_fatal_error("glPixelStore: unsupported option");
   }
 }
-
+*/
 #endif

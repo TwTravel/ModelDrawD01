@@ -44,7 +44,7 @@ void CreateTexture(UINT textureArray[], char* strFileName, int textureID)
 	glGenTextures(1, &textureArray[textureID]);
 
 	// 设置像素对齐格式
-	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+//	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 
 	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
 
@@ -58,10 +58,10 @@ void CreateTexture(UINT textureArray[], char* strFileName, int textureID)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);*/
 	
 	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);//
+//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
 	//	GL_BGR_EXT, GL_UNSIGNED_BYTE, pixels);
@@ -179,6 +179,7 @@ void reshape(int width, int height)
 #define WindowTitle  "OpenGL纹理测试"
 
 //void model_init()
+void CreateTexture(UINT textureArray[], char* strFileName, int textureID);
 void init()
 {
 

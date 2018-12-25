@@ -764,9 +764,9 @@ void glBindTexture(int target,int texture);
 void glTexImage2D( int target, int level, int components,
 		    int width, int height, int border,
                     int format, int type, void *pixels);
-void glTexEnvi(int target,int pname,int param);
-void glTexParameteri(int target,int pname,int param);
-void glPixelStorei(int pname,int param);
+//void glTexEnvi(int target,int pname,int param);
+//void glTexParameteri(int target,int pname,int param);
+//void glPixelStorei(int pname,int param);
 
 /* lighting */
 

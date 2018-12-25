@@ -911,8 +911,8 @@ void glColorMaterial(int mode,int type)
   c->current_color_material_type=type;
 }
 
-void glLightfv(int light,int type,float *v)
-{
+void glLightfv(int light,int type,float *val)
+{ GLContext *c=gl_get_context(); 
   GLParam p[7];
   int i;
 
@@ -920,9 +920,78 @@ void glLightfv(int light,int type,float *v)
   p[1].i=light;
   p[2].i=type;
   /* TODO: 3 composants ? */
-  for(i=0;i<4;i++) p[3+i].f=v[i];
+  for(i=0;i<4;i++) p[3+i].f=val[i];
 
-  glRunFunc(p);
+ // glRunFunc(p);
+
+ 
+//  GLContext *c=gl_get_context(); 
+  V4 v;
+  GLLight *l;
+//  int i;
+  
+  assert(light >= GL_LIGHT0 && light < GL_LIGHT0+MAX_LIGHTS );
+
+  l=&c->lights[light-GL_LIGHT0];
+
+  for(i=0;i<4;i++) v.v[i]= val[i];//p[3+i].f;
+
+  switch(type) {
+  case GL_AMBIENT:
+    l->ambient=v;
+    break;
+  case GL_DIFFUSE:
+    l->diffuse=v;
+    break;
+  case GL_SPECULAR:
+    l->specular=v;
+    break;
+  case GL_POSITION:
+    {
+      V4 pos;
+      M4::gl_M4_MulV4(&pos,c->matrix_buffer_ptr[0],&v);
+
+      l->position=pos;
+
+      if (l->position.v[3] == 0) {
+        l->norm_position.X=pos.X;
+        l->norm_position.Y=pos.Y;
+        l->norm_position.Z=pos.Z;
+        
+        gl_V3_Norm(&l->norm_position);
+      }
+    }
+    break;
+  case GL_SPOT_DIRECTION:
+    for(i=0;i<3;i++) {
+      l->spot_direction.v[i]=v.v[i];
+      l->norm_spot_direction.v[i]=v.v[i];
+    }
+    gl_V3_Norm(&l->norm_spot_direction);
+    break;
+  case GL_SPOT_EXPONENT:
+    l->spot_exponent=v.v[0];
+    break;
+  case GL_SPOT_CUTOFF:
+    {
+      float a=v.v[0];
+      assert(a == 180 || (a>=0 && a<=90));
+      l->spot_cutoff=a;
+      if (a != 180) l->cos_spot_cutoff=cos(a * M_PI / 180.0);
+    }
+    break;
+  case GL_CONSTANT_ATTENUATION:
+    l->attenuation[0]=v.v[0];
+    break;
+  case GL_LINEAR_ATTENUATION:
+    l->attenuation[1]=v.v[0];
+    break;
+  case GL_QUADRATIC_ATTENUATION:
+    l->attenuation[2]=v.v[0];
+    break;
+  default:
+    assert(0);
+  }
 }
 
 
@@ -1134,7 +1203,7 @@ void glBindTexture(int target,int texture)
   c->current_texture=t;
 }
 
-void glTexEnvi(int target,int pname,int param)
+/*void glTexEnvi(int target,int pname,int param)
 {
   GLParam p[8];
   
@@ -1176,7 +1245,7 @@ void glPixelStorei(int pname,int param)
 
   glRunFunc(p);
 }
-
+*/
 /* selection */
 
 

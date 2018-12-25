@@ -66,7 +66,7 @@ OP_PixelStore,
  
 
 
-};
+};/**/
 
 /* initially # of allocated GLVertexes (will grow when necessary) */
 #define POLYGON_MAX_VERTEX 16
@@ -344,7 +344,7 @@ typedef struct GLContext {
 
 extern GLContext *gl_ctx;
 
-void glRunFunc(GLParam *p);
+//void glRunFunc(GLParam *p);
 
 /* clip.c */
 void gl_transform_to_viewport(GLContext *c,GLVertex *v);
@@ -422,73 +422,7 @@ void dprintf(const char *, ...);
 
 //===================================
 #include "glx.h"
-//#include <sys/ipc.h>
-//#include <sys/shm.h>
-//#include <X11/extensions/XShm.h>
-
-/*typedef struct {
-  GLContext *gl_context;
-  //Display *display;
-  //XVisualInfo visual_info;
-  int xsize,ysize;
-  //XImage *ximage;
-  int image_w, image_h;
-  
-  //GC gc;
-  //Colormap cmap;
-  //Drawable drawable;
-  int do_convert; // true if must do convertion to X11 format 
  
-  int shm_use;
-  //XShmSegmentInfo *shm_info;
-  int CompletionType;
-} TinyGLXContext;*/
-
-static void (*op_table_func[])(GLContext *,GLParam *)=
-{
-//#define ADD_OP(a,b,c) glop ## a ,
-
-glopColor, 
-glopTexCoord, 
-//glopEdgeFlag, 
-glopNormal, 
-
-glopBegin, 
-glopVertex, 
-glopEnd, 
-
-glopEnableDisable, 
-
-glopMatrixMode, 
-glopLoadMatrix, 
-glopLoadIdentity, 
-glopMultMatrix, 
-glopPushMatrix, 
-glopPopMatrix, 
-glopRotate, 
-glopTranslate, 
-glopScale, 
-
-glopViewport, 
-glopFrustum, 
-
-glopMaterial, 
-glopColorMaterial, 
-glopLight, 
-glopLightModel, 
-
- 
-
-glopTexImage2D, 
-glopBindTexture, 
-glopTexEnv, 
-glopTexParameter, 
-glopPixelStore, 
-
-};
-
- 
-
 
  inline GLContext*gl_get_context(void)
 {
@@ -497,14 +431,6 @@ glopPixelStore,
 
  
 
- inline void glRunFunc(GLParam *p)
-{
-  GLContext *c=gl_get_context();
-  int op;
-
-  op=p[0].op;
-  op_table_func[op](c,p);
-}
 
  void inline gl_free(void *p)
 {
