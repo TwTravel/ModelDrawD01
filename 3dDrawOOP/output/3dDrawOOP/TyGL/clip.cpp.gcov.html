@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2018-12-25 06:05:57</td>
+            <td class="headerValue">2018-12-25 14:51:46</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">11</td>
@@ -350,13 +350,13 @@
 <span class="lineNum">     288 </span><span class="lineCov">      72750 :       norm=(float)(p1-&gt;zp.x-p0-&gt;zp.x)*(float)(p2-&gt;zp.y-p0-&gt;zp.y)-</span>
 <span class="lineNum">     289 </span><span class="lineCov">      72750 :         (float)(p2-&gt;zp.x-p0-&gt;zp.x)*(float)(p1-&gt;zp.y-p0-&gt;zp.y);</span>
 <span class="lineNum">     290 </span>            :       
-<span class="lineNum">     291 </span><span class="lineCov">      77943 :       if (norm == 0) return;</span>
+<span class="lineNum">     291 </span><span class="lineCov">      77941 :       if (norm == 0) return;</span>
 <span class="lineNum">     292 </span>            : 
-<span class="lineNum">     293 </span><span class="lineCov">      67557 :       front = norm &lt; 0.0;</span>
-<span class="lineNum">     294 </span><span class="lineCov">      67557 :       front = front ^ c-&gt;current_front_face;</span>
+<span class="lineNum">     293 </span><span class="lineCov">      67559 :       front = norm &lt; 0.0;</span>
+<span class="lineNum">     294 </span><span class="lineCov">      67559 :       front = front ^ c-&gt;current_front_face;</span>
 <span class="lineNum">     295 </span>            :   
 <span class="lineNum">     296 </span>            :       /* back face culling */
-<span class="lineNum">     297 </span><span class="lineCov">      67557 :       if (c-&gt;cull_face_enabled) {</span>
+<span class="lineNum">     297 </span><span class="lineCov">      67559 :       if (c-&gt;cull_face_enabled) {</span>
 <span class="lineNum">     298 </span>            :         /* most used case first */
 <span class="lineNum">     299 </span><span class="lineNoCov">          0 :         if (c-&gt;current_cull_face == GL_BACK) {</span>
 <span class="lineNum">     300 </span><span class="lineNoCov">          0 :           if (front == 0) return;</span>
@@ -369,8 +369,8 @@
 <span class="lineNum">     307 </span>            :         }
 <span class="lineNum">     308 </span>            :       } else {
 <span class="lineNum">     309 </span>            :         /* no culling */
-<span class="lineNum">     310 </span><span class="lineCov">      67557 :         if (front) {</span>
-<span class="lineNum">     311 </span><span class="lineCov">      34301 :           c-&gt;draw_triangle_front(c,p0,p1,p2);</span>
+<span class="lineNum">     310 </span><span class="lineCov">      67559 :         if (front) {</span>
+<span class="lineNum">     311 </span><span class="lineCov">      34303 :           c-&gt;draw_triangle_front(c,p0,p1,p2);</span>
 <span class="lineNum">     312 </span>            :         } else {
 <span class="lineNum">     313 </span><span class="lineCov">      33256 :           c-&gt;draw_triangle_back(c,p0,p1,p2);</span>
 <span class="lineNum">     314 </span>            :         }
@@ -467,19 +467,19 @@
 <span class="lineNum">     405 </span>            :  
 <a name="406"><span class="lineNum">     406 </span>            :  </a>
 <span class="lineNum">     407 </span>            : 
-<span class="lineNum">     408 </span><span class="lineCov">      67557 : void gl_draw_triangle_fill(GLContext *c,</span>
+<span class="lineNum">     408 </span><span class="lineCov">      67559 : void gl_draw_triangle_fill(GLContext *c,</span>
 <span class="lineNum">     409 </span>            :                            GLVertex *p0,GLVertex *p1,GLVertex *p2)
 <span class="lineNum">     410 </span>            : {
 <span class="lineNum">     411 </span>            :  
 <span class="lineNum">     412 </span>            :     
-<span class="lineNum">     413 </span><span class="lineCov">      67557 :   if (c-&gt;texture_2d_enabled) {</span>
+<span class="lineNum">     413 </span><span class="lineCov">      67559 :   if (c-&gt;texture_2d_enabled) {</span>
 <span class="lineNum">     414 </span>            :  
 <span class="lineNum">     415 </span><span class="lineCov">       3179 :     ZB_setTexture(c-&gt;zb,(PIXEL *)c-&gt;current_texture-&gt;images[0].pixmap);</span>
 <span class="lineNum">     416 </span><span class="lineCov">       3179 :     ZB_fillTriangleMappingPerspective(c-&gt;zb,&amp;p0-&gt;zp,&amp;p1-&gt;zp,&amp;p2-&gt;zp);</span>
-<span class="lineNum">     417 </span><span class="lineCov">      64378 :   } else if (c-&gt;current_shade_model == GL_SMOOTH) {</span>
-<span class="lineNum">     418 </span><span class="lineCov">      64378 :     ZB_fillTriangleSmooth(c-&gt;zb,&amp;p0-&gt;zp,&amp;p1-&gt;zp,&amp;p2-&gt;zp);</span>
+<span class="lineNum">     417 </span><span class="lineCov">      64380 :   } else if (c-&gt;current_shade_model == GL_SMOOTH) {</span>
+<span class="lineNum">     418 </span><span class="lineCov">      64380 :     ZB_fillTriangleSmooth(c-&gt;zb,&amp;p0-&gt;zp,&amp;p1-&gt;zp,&amp;p2-&gt;zp);</span>
 <span class="lineNum">     419 </span>            :   } 
-<span class="lineNum">     420 </span><span class="lineCov">      67557 : }</span>
+<span class="lineNum">     420 </span><span class="lineCov">      67559 : }</span>
 <span class="lineNum">     421 </span>            : 
 <span class="lineNum">     422 </span>            :  
 <span class="lineNum">     423 </span>            : 

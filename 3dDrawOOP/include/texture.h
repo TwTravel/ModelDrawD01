@@ -9,18 +9,8 @@
 
 
 
-static inline GLTexture *find_texture(GLContext *c,int h)
-{
-  GLTexture *t;
-
-  t=c->shared_state.texture_hash_table[h % TEXTURE_HASH_TABLE_SIZE];
-  while (t!=NULL) {
-    if (t->handle == h) return t;
-    t=t->next;
-  }
-  return NULL;
-}
-
+  GLTexture * find_texture(GLContext *c,int h);
+ 
 static inline void free_texture(GLContext *c,int h)
 {
   GLTexture *t,**ht;
@@ -45,23 +35,8 @@ static inline void free_texture(GLContext *c,int h)
   gl_free(t);
 }
 
-GLTexture inline *alloc_texture(GLContext *c,int h)
-{
-  GLTexture *t,**ht;
-  
-  t= (GLTexture *)gl_zalloc(sizeof(GLTexture));
-
-  ht=&c->shared_state.texture_hash_table[h % TEXTURE_HASH_TABLE_SIZE];
-
-  t->next=*ht;
-  t->prev=NULL;
-  if (t->next != NULL) t->next->prev=t;
-  *ht=t;
-
-  t->handle=h;
-  
-  return t;
-}
+GLTexture  *alloc_texture(GLContext *c,int h);
+ 
 
 
 inline void  glInitTextures(GLContext *c)
@@ -113,63 +88,12 @@ inline void  glDeleteTextures(int n, const unsigned int *textures)
 
 inline void  glopBindTexture(GLContext *c,GLParam *p)
 {
-  int target=p[1].i;
-  int texture=p[2].i;
-  GLTexture *t;
-
-  assert(target == GL_TEXTURE_2D && texture >= 0);
-
-  t=find_texture(c,texture);
-  if (t==NULL) {
-    t=alloc_texture(c,texture);
-  }
-  c->current_texture=t;
+  
 }
 
 void inline  glopTexImage2D(GLContext *c,GLParam *p)
 {
-  int target=p[1].i;
-  int level=p[2].i;
-  int components=p[3].i;
-  int width=p[4].i;
-  int height=p[5].i;
-  int border=p[6].i;
-  int format=p[7].i;
-  int type=p[8].i;
-  void *pixels=p[9].p;
-  GLImage *im;
-  unsigned char *pixels1;
-  int do_free;
-
-  if (!(target == GL_TEXTURE_2D && level == 0 && components == 3 && 
-        border == 0 && format == GL_RGB &&
-        type == GL_UNSIGNED_BYTE)) {
-    gl_fatal_error("glTexImage2D: combinaison of parameters not handled");
-  }
-  
-  do_free=0;
-  if (width != 256 || height != 256) {
-    pixels1 = (unsigned char*)gl_malloc(256 * 256 * 3);
-    /* no interpolation is done here to respect the original image aliasing ! */
-    gl_resizeImageNoInterpolate(pixels1,256,256,(unsigned char*)pixels,width,height);
-    do_free=1;
-    width=256;
-    height=256;
-  } else {
-    pixels1=(unsigned char*)pixels;
-  }
-
-  im=&c->current_texture->images[level];
-  im->xsize=width;
-  im->ysize=height;
-  if (im->pixmap!=NULL) gl_free(im->pixmap);
-//#if TGL_FEATURE_RENDER_BITS == 24 
-  im->pixmap=gl_malloc(width*height*3);
-  if(im->pixmap) {
-      memcpy(im->pixmap,pixels1,width*height*3);
-  }
  
-  if (do_free) gl_free(pixels1);
 }
 
 

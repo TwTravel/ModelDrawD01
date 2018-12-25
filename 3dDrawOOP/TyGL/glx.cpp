@@ -9,32 +9,7 @@
 #include "c256bitmap.h"
 
 
- 
-
-//Bool glXQueryExtension( Display *dpy, int *errorb, int *event )
-//{
-//    return True;
-//}
-
-
-
-
-
-/*GLXContext glXCreateContext( //Display *dpy, XVisualInfo *vis,
-                             GLXContext shareList, bool direct )
-{
-  TinyGLXContext *ctx;
-
-  if (shareList != NULL) {
-    gl_fatal_error("No sharing available in TinyGL");
-  }
-  ctx=(TinyGLXContext *)gl_malloc(sizeof(TinyGLXContext));
-  ctx->gl_context=NULL;
-  //khdev ctx->visual_info=*vis;
-  return (GLXContext) ctx;
-}*/
-
-
+  
 
 
 void glXSwapBuffers( )
